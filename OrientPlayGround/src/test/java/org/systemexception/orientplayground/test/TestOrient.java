@@ -24,7 +24,7 @@ public class TestOrient {
 	private final Logger log = Logger.getLogger(TestOrient.class);
 	OrientGraphFactory orientGraphFactory;
 	OrientGraph orientGraph;
-	private final String dbPath = "target/orientdb";
+	private final String dbPath = "target/orientdb_test_database";
 	private final File dbFolder = new File(dbPath);
 
 	@Before
@@ -63,6 +63,5 @@ public class TestOrient {
 		while (vertexIterator.hasNext()) {
 			assertTrue(person.getName() == vertexIterator.next().getProperty("name"));
 		}
-
 	}
 }
