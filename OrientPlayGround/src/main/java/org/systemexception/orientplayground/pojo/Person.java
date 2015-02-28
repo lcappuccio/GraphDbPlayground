@@ -7,7 +7,6 @@
 package org.systemexception.orientplayground.pojo;
 
 import java.util.Objects;
-import java.util.Properties;
 
 public class Person {
 
