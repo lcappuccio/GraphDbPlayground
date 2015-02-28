@@ -11,7 +11,6 @@ import com.tinkerpop.blueprints.impls.orient.OrientGraphFactory;
 import java.io.File;
 import java.io.IOException;
 import org.apache.log4j.Logger;
-import org.apache.tools.ant.util.FileUtils;
 import org.junit.After;
 import static org.junit.Assert.assertTrue;
 import org.junit.Before;
