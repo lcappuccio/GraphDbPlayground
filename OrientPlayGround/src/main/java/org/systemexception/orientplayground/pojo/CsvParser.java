@@ -15,18 +15,22 @@ import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVRecord;
 import org.systemexception.orientplayground.exception.CsvParserException;
 
 public class CsvParser {
 
-	private CSVParser csvParser = null;
-	private List records = null;
+	private CSVParser csvParser;
+	private CSVFormat csvFormat;
+	private List<CSVRecord> records;
+	private final String[] headerMapping = new String[]{"PARENT_ID", "NODE_ID", "DESCRIPTION", "TYPE"};
 
 	public CsvParser(String fileName) throws CsvParserException {
+		csvFormat = CSVFormat.RFC4180.withHeader(headerMapping);
 		try {
-			URL url = new File(fileName).toURI().toURL();
-			Reader reader = new InputStreamReader(url.openStream(), "UTF-8");
-			csvParser = new CSVParser(reader, CSVFormat.RFC4180);
+			URL csvUrl = new File(fileName).toURI().toURL();
+			Reader csvReader = new InputStreamReader(csvUrl.openStream(), "UTF-8");
+			csvParser = new CSVParser(csvReader, csvFormat);
 			records = csvParser.getRecords();
 		} catch (IOException ex) {
 			throw new CsvParserException("Malformed URL\n" + ex.getMessage());
@@ -35,6 +39,10 @@ public class CsvParser {
 
 	public List readCsvLine() {
 		return records;
+	}
+
+	public String[] getMapping() {
+		return headerMapping;
 	}
 
 }
