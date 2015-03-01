@@ -12,7 +12,7 @@ import org.junit.Test;
 import org.systemexception.orientplayground.exception.CsvParserException;
 import org.systemexception.orientplayground.pojo.CsvParser;
 
-public class TestCsvFiles {
+public class TestCsvParser {
 
 	private CsvParser sut;
 	private static final String testFile = "src/test/resources/test_territories.csv";
