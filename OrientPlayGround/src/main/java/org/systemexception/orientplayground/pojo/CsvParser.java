@@ -36,7 +36,7 @@ public class CsvParser {
 		}
 	}
 
-	public List readCsvLine() {
+	public List readCsvContents() {
 		return records;
 	}
 
