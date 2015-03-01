@@ -14,22 +14,21 @@ import com.tinkerpop.blueprints.impls.orient.OrientGraphNoTx;
 import java.io.File;
 import java.io.IOException;
 import java.util.Iterator;
-import org.apache.log4j.Logger;
-import org.junit.After;
+import org.junit.AfterClass;
 import static org.junit.Assert.assertTrue;
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.systemexception.orientplayground.pojo.Person;
 
 public class TestOrient {
 
-	OrientGraphFactory orientGraphFactory;
-	OrientGraphNoTx orientGraph;
-	private final String dbPath = "target/orientdb_test_database";
-	private final File dbFolder = new File(dbPath);
+	private static OrientGraphFactory orientGraphFactory;
+	private static OrientGraphNoTx orientGraph;
+	private static final String dbPath = "target/orientdb_test_database";
+	private static final File dbFolder = new File(dbPath);
 
-	@Before
-	public void setUp() throws IOException {
+	@BeforeClass
+	public static void setUp() throws IOException {
 		if (dbFolder.exists()) {
 			System.out.println("Deleting previous database folder");
 			dbFolder.delete();
@@ -38,8 +37,8 @@ public class TestOrient {
 		orientGraph = orientGraphFactory.getNoTx();
 	}
 
-	@After
-	public void tearDown() {
+	@AfterClass
+	public static void tearDown() {
 		orientGraph.drop();
 		orientGraph.shutdown();
 		orientGraphFactory.close();
@@ -87,6 +86,7 @@ public class TestOrient {
 		vperson.setProperty("name", person.getName());
 		vperson.setProperty("surname", person.getSurname());
 		vperson.setProperty("age", person.getAge());
+		System.out.println("Added vertex: " + person.getName());
 		return vperson;
 	}
 }
