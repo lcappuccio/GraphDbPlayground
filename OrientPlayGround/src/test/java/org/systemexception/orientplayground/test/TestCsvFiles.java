@@ -31,5 +31,6 @@ public class TestCsvFiles {
 	@Test
 	public void parse_test_territories() throws CsvParserException {
 		sut = new CsvParser(testFile);
+		assertTrue(sut.readCsvLine().size() > 0);
 	}
 }
