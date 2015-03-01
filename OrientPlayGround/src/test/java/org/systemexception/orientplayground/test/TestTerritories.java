@@ -45,11 +45,11 @@ public class TestTerritories {
 	@Test
 	public void create_all_entries_in_csv_file() throws TerritoriesException {
 		sut = new Territories();
-		for (int i = 0; i < csvRecords.size(); i++) {
-			String parentId = csvRecords.get(i).get("PARENT_ID");
-			String nodeId = csvRecords.get(i).get("NODE_ID");
-			String description = csvRecords.get(i).get("DESCRIPTION");
-			String nodeType = csvRecords.get(i).get("TYPE");
+		for (CSVRecord csvRecord : csvRecords) {
+			String parentId = csvRecord.get("PARENT_ID");
+			String nodeId = csvRecord.get("NODE_ID");
+			String description = csvRecord.get("DESCRIPTION");
+			String nodeType = csvRecord.get("TYPE");
 			Territory territory = new Territory(parentId, nodeId, description, nodeType);
 			sut.addTerritory(territory);
 		}
