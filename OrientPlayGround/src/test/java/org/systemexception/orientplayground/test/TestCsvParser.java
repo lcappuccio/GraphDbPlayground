@@ -8,6 +8,7 @@ package org.systemexception.orientplayground.test;
 
 import java.io.File;
 import java.util.List;
+import java.util.Locale;
 import org.apache.commons.csv.CSVRecord;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;
@@ -41,7 +42,7 @@ public class TestCsvParser {
 		sut = new CsvParser(testFile);
 		List<CSVRecord> records = sut.readCsvLine();
 		for (CSVRecord territory : records) {
-			if (territory.get("DESCRIPTION").toLowerCase().equals("luino")) {
+			if (territory.get("DESCRIPTION").toLowerCase(Locale.getDefault()).equals("luino")) {
 				assertTrue(territory.get("DESCRIPTION").equals("Luino"));
 				assertTrue(territory.get("NODE_ID").equals("6540157"));
 			}
