@@ -18,7 +18,7 @@ import org.junit.AfterClass;
 import static org.junit.Assert.assertTrue;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.systemexception.orientplayground.pojo.Person;
+import org.systemexception.orientplayground.test.classes.Person;
 
 public class TestOrient {
 
