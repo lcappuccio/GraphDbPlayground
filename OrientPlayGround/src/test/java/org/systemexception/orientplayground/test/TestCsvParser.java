@@ -34,13 +34,13 @@ public class TestCsvParser {
 	@Test
 	public void reads_territories_test_file() throws CsvParserException {
 		sut = new CsvParser(testFile);
-		assertTrue(sut.readCsvLine().size() > 0);
+		assertTrue(sut.readCsvContents().size() > 0);
 	}
 
 	@Test
 	public void parse_correctly_luino_record() throws CsvParserException {
 		sut = new CsvParser(testFile);
-		List<CSVRecord> records = sut.readCsvLine();
+		List<CSVRecord> records = sut.readCsvContents();
 		for (CSVRecord territory : records) {
 			if (territory.get("DESCRIPTION").toLowerCase(Locale.getDefault()).equals("luino")) {
 				assertTrue(territory.get("DESCRIPTION").equals("Luino"));
