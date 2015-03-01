@@ -40,8 +40,7 @@ public class TestCsvParser {
 	public void parse_correctly_luino_record() throws CsvParserException {
 		sut = new CsvParser(testFile);
 		List<CSVRecord> records = sut.readCsvLine();
-		for (int i = 0; i < records.size(); i++) {
-			CSVRecord territory = records.get(i);
+		for (CSVRecord territory : records) {
 			if (territory.get("DESCRIPTION").toLowerCase().equals("luino")) {
 				assertTrue(territory.get("DESCRIPTION").equals("Luino"));
 				assertTrue(territory.get("NODE_ID").equals("6540157"));
