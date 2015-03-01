@@ -58,7 +58,7 @@ public class TestOrient {
 		System.out.println("Added record " + vperson.getId());
 		Iterator<Vertex> vertexIterator = orientGraph.getVertices("name", "John").iterator();
 		while (vertexIterator.hasNext()) {
-			assertTrue(person.getName() == vertexIterator.next().getProperty("name"));
+			assertTrue(person.getName().equals(vertexIterator.next().getProperty("name")));
 		}
 	}
 
