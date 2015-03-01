@@ -8,6 +8,7 @@ package org.systemexception.orientplayground.test;
 
 import java.util.List;
 import org.apache.commons.csv.CSVRecord;
+import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 import org.systemexception.orientplayground.exception.CsvParserException;
@@ -39,6 +40,20 @@ public class TestTerritories {
 		Territory territory2 = new Territory(parentId, nodeId, description, nodeType);
 		sut.addTerritory(territory1);
 		sut.addTerritory(territory2);
+	}
+
+	@Test
+	public void create_all_entries_in_csv_file() throws TerritoriesException {
+		sut = new Territories();
+		for (int i = 0; i < csvRecords.size(); i++) {
+			String parentId = csvRecords.get(i).get("PARENT_ID");
+			String nodeId = csvRecords.get(i).get("NODE_ID");
+			String description = csvRecords.get(i).get("DESCRIPTION");
+			String nodeType = csvRecords.get(i).get("TYPE");
+			Territory territory = new Territory(parentId, nodeId, description, nodeType);
+			sut.addTerritory(territory);
+		}
+		assertTrue(csvRecords.size() == sut.getTerritories().size());
 	}
 
 }
