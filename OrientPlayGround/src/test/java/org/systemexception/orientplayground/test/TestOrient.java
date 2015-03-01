@@ -31,7 +31,10 @@ public class TestOrient {
 	public static void setUp() throws IOException {
 		if (dbFolder.exists()) {
 			System.out.println("Deleting previous database folder");
-			dbFolder.delete();
+			boolean deleted = dbFolder.delete();
+			if (!deleted) {
+				System.out.println("Not found");
+			}
 		}
 		orientGraphFactory = new OrientGraphFactory("plocal:" + dbPath, "admin", "admin");
 		orientGraph = orientGraphFactory.getNoTx();
@@ -43,7 +46,10 @@ public class TestOrient {
 		orientGraph.shutdown();
 		orientGraphFactory.close();
 		System.out.println("Deleting test database");
-		dbFolder.delete();
+		boolean deleted = dbFolder.delete();
+		if (!deleted) {
+			System.out.println("Not found");
+		}
 	}
 
 	@Test

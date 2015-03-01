@@ -41,7 +41,8 @@ public class CsvParser {
 	}
 
 	public String[] getMapping() {
-		return headerMapping;
+		String[] tempArray = headerMapping;
+		return tempArray;
 	}
 
 }
