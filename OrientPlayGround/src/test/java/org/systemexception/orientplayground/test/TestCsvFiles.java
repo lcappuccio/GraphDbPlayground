@@ -9,27 +9,27 @@ package org.systemexception.orientplayground.test;
 import java.io.File;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;
+import org.systemexception.orientplayground.exception.CsvParserException;
+import org.systemexception.orientplayground.pojo.CsvParser;
 
 public class TestCsvFiles {
 
-	private static final String testPath = "target/territories/";
+	private CsvParser sut;
+	private static final String testFile = "src/test/resources/test_territories.csv";
 
 	@Test
-	public void findTerritoriesIT() {
-		File territoriesIT = new File(testPath + "geonames_it.csv");
-		assertTrue(territoriesIT.exists());
+	public void open_test_territories_file() {
+		File testTerritories = new File(testFile);
+		assertTrue(testTerritories.exists());
+	}
+
+	@Test(expected = CsvParserException.class)
+	public void throw_exception_for_nonexisting_file() throws CsvParserException {
+		sut = new CsvParser("nonexistingfile.txt");
 	}
 
 	@Test
-	public void findTerritoriesCH() {
-		File territoriesIT = new File(testPath + "geonames_ch.csv");
-		assertTrue(territoriesIT.exists());
+	public void parse_test_territories() throws CsvParserException {
+		sut = new CsvParser(testFile);
 	}
-
-	@Test
-	public void findTerritoriesES() {
-		File territoriesIT = new File(testPath + "geonames_es.csv");
-		assertTrue(territoriesIT.exists());
-	}
-
 }
