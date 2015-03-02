@@ -25,7 +25,7 @@ public class CsvParser {
 	private final String[] headerMapping = new String[]{"PARENT_ID", "NODE_ID", "DESCRIPTION", "TYPE"};
 
 	public CsvParser(String fileName) throws CsvParserException {
-		csvFormat = CSVFormat.RFC4180.withHeader(headerMapping);
+		csvFormat = CSVFormat.RFC4180.withHeader(headerMapping).withSkipHeaderRecord(true);
 		try {
 			URL csvUrl = new File(fileName).toURI().toURL();
 			Reader csvReader = new InputStreamReader(csvUrl.openStream(), "UTF-8");
