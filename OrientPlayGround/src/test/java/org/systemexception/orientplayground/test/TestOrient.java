@@ -14,6 +14,7 @@ import com.tinkerpop.blueprints.impls.orient.OrientGraphNoTx;
 import java.io.File;
 import java.io.IOException;
 import java.util.Iterator;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.junit.AfterClass;
 import static org.junit.Assert.assertTrue;
@@ -63,7 +64,7 @@ public class TestOrient {
 	public void add_vertex() {
 		Person person = new Person("John", "Doe", 40);
 		Vertex vperson = addPersonVertex(person);
-		log.info("Added record " + vperson.getId());
+		log.log(Level.INFO, "Added record {0}", vperson.getId());
 		Iterator<Vertex> vertexIterator = orientGraph.getVertices("name", "John").iterator();
 		while (vertexIterator.hasNext()) {
 			assertTrue(person.getName().equals(vertexIterator.next().getProperty("name")));
@@ -74,10 +75,10 @@ public class TestOrient {
 	public void create_edge_for_vertex() {
 		Person person1 = new Person("Foo", "Wombat", 35);
 		Vertex vperson1 = addPersonVertex(person1);
-		log.info("Added record " + vperson1.getId());
+		log.log(Level.INFO, "Added record {0}", vperson1.getId());
 		Person person2 = new Person("Faa", "Wombat", 30);
 		Vertex vperson2 = addPersonVertex(person2);
-		log.info("Added record " + vperson2.getId());
+		log.log(Level.INFO, "Added record {0}", vperson2.getId());
 		Edge edge = addPersonEdge(vperson1, vperson2);
 		for (Edge e : orientGraph.getEdges()) {
 			System.out.println(e.getProperty("type").toString());
@@ -96,7 +97,7 @@ public class TestOrient {
 		vperson.setProperty("name", person.getName());
 		vperson.setProperty("surname", person.getSurname());
 		vperson.setProperty("age", person.getAge());
-		log.info("Added vertex: " + person.getName());
+		log.log(Level.INFO, "Added vertex: {0}", person.getName());
 		return vperson;
 	}
 
@@ -112,7 +113,7 @@ public class TestOrient {
 		// Add a property to the edge, otherwise it will not be created. Nice feature.
 		// see: https://github.com/orientechnologies/orientdb/wiki/Graph-Database-Tinkerpop
 		edge.setProperty("type", "relation");
-		log.info("Added edge " + edge.getId());
+		log.log(Level.INFO, "Added edge {0}", edge.getId());
 		return edge;
 	}
 }
