@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.systemexception</groupId>
 	<artifactId>OrientPlayGround</artifactId>
-	<version>0.1</version>
+	<version>0.2</version>
 	<packaging>jar</packaging>
 	<dependencies>
 		<dependency>
@@ -18,40 +18,25 @@
 			<version>2.0.3</version>
 		</dependency>
 		<dependency>
-			<groupId>com.tinkerpop.blueprints</groupId>
-			<artifactId>blueprints-core</artifactId>
-			<version>2.6.0</version>
-		</dependency>
-		<dependency>
 			<groupId>com.orientechnologies</groupId>
 			<artifactId>orientdb-graphdb</artifactId>
 			<version>2.0.3</version>
-		</dependency>
-		<dependency>
-			<groupId>com.tinkerpop</groupId>
-			<artifactId>pipes</artifactId>
-			<version>2.6.0</version>
-		</dependency>
-		<dependency>
-			<groupId>com.tinkerpop.gremlin</groupId>
-			<artifactId>gremlin-java</artifactId>
-			<version>2.6.0</version>
-		</dependency>
-		<dependency>
-			<groupId>com.tinkerpop</groupId>
-			<artifactId>gremlin-groovy</artifactId>
-			<version>3.0.0.M7</version>
 		</dependency>
 		<dependency>
 			<groupId>org.codehaus.groovy</groupId>
 			<artifactId>groovy-all</artifactId>
 			<version>2.4.1</version>
 		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-csv</artifactId>
+			<version>1.1</version>
+		</dependency>
 	</dependencies>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<maven.compiler.source>1.8</maven.compiler.source>
-		<maven.compiler.target>1.8</maven.compiler.target>
+		<maven.compiler.source>1.7</maven.compiler.source>
+		<maven.compiler.target>1.7</maven.compiler.target>
 	</properties>
 
 	<reporting>

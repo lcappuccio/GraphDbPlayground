@@ -4,10 +4,9 @@
  * @date 28/02/2015 21:25
  *
  */
-package org.systemexception.orientplayground.pojo;
+package org.systemexception.orientplayground.test.classes;
 
 import java.util.Objects;
-import java.util.Properties;
 
 public class Person {
 

@@ -6,44 +6,56 @@
  */
 package org.systemexception.orientplayground.test;
 
+import com.tinkerpop.blueprints.Direction;
+import com.tinkerpop.blueprints.Edge;
 import com.tinkerpop.blueprints.Vertex;
-import com.tinkerpop.blueprints.impls.orient.OrientGraph;
 import com.tinkerpop.blueprints.impls.orient.OrientGraphFactory;
+import com.tinkerpop.blueprints.impls.orient.OrientGraphNoTx;
 import java.io.File;
 import java.io.IOException;
 import java.util.Iterator;
-import org.apache.log4j.Logger;
-import org.junit.After;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.junit.AfterClass;
 import static org.junit.Assert.assertTrue;
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
-import org.systemexception.orientplayground.pojo.Person;
+import org.systemexception.orientplayground.test.classes.Person;
 
 public class TestOrient {
 
-	private final Logger log = Logger.getLogger(TestOrient.class);
-	OrientGraphFactory orientGraphFactory;
-	OrientGraph orientGraph;
-	private final String dbPath = "target/orientdb";
-	private final File dbFolder = new File(dbPath);
+	private final static Logger log = Logger.getLogger(TestOrient.class.getCanonicalName());
+	private static OrientGraphFactory orientGraphFactory;
+	private static OrientGraphNoTx orientGraph;
+	private static final String dbPath = "target/orientdb_test_database";
+	private static final File dbFolder = new File(dbPath);
 
-	@Before
-	public void setUp() throws IOException {
+	@BeforeClass
+	public static void setUp() throws IOException {
 		if (dbFolder.exists()) {
 			log.info("Deleting previous database folder");
-			dbFolder.delete();
+			boolean deleted = dbFolder.delete();
+			if (!deleted) {
+				log.info("Not found");
+			}
 		}
 		orientGraphFactory = new OrientGraphFactory("plocal:" + dbPath, "admin", "admin");
-		orientGraph = orientGraphFactory.getTx();
+		orientGraph = orientGraphFactory.getNoTx();
 	}
 
-	@After
-	public void tearDown() {
+	@AfterClass
+	public static void tearDown() {
 		orientGraph.drop();
 		orientGraph.shutdown();
 		orientGraphFactory.close();
-		log.info("Deleting test database");
-		dbFolder.delete();
+		log.log(Level.INFO, "Deleting test database");
+		if (dbFolder.exists()) {
+			log.info("Found database folder");
+		}
+		boolean deleted = dbFolder.delete();
+		if (!deleted) {
+			log.info("Wasn't able to delete");
+		}
 	}
 
 	@Test
@@ -53,16 +65,55 @@ public class TestOrient {
 
 	@Test
 	public void add_vertex() {
-		Person person = new Person("John", "Doe", 30);
-		Vertex vperson = orientGraph.addVertex("class:Person");
+		Person person = new Person("John", "Doe", 40);
+		Vertex vperson = addPersonVertex(person);
+		log.log(Level.INFO, "Added record {0}", vperson.getId());
+		Iterator<Vertex> vertexIterator = orientGraph.getVertices("name", "John").iterator();
+		while (vertexIterator.hasNext()) {
+			assertTrue(person.getName().equals(vertexIterator.next().getProperty("name")));
+		}
+	}
+
+	@Test
+	public void create_edge_for_vertex() {
+		Person person1 = new Person("Foo", "Wombat", 35);
+		Vertex vperson1 = addPersonVertex(person1);
+		log.log(Level.INFO, "Added record {0}", vperson1.getId());
+		Person person2 = new Person("Faa", "Wombat", 30);
+		Vertex vperson2 = addPersonVertex(person2);
+		log.log(Level.INFO, "Added record {0}", vperson2.getId());
+		Edge edge = addPersonEdge(vperson1, vperson2);
+		assertTrue(edge.getVertex(Direction.IN).equals(vperson2) && edge.getVertex(Direction.OUT).equals(vperson1));
+	}
+
+	/**
+	 * Creates a vertex for a Person
+	 *
+	 * @param person
+	 * @return
+	 */
+	private Vertex addPersonVertex(Person person) {
+		Vertex vperson = orientGraph.addVertex(null);
 		vperson.setProperty("name", person.getName());
 		vperson.setProperty("surname", person.getSurname());
 		vperson.setProperty("age", person.getAge());
+		log.log(Level.INFO, "Added vertex: {0}", person.getName());
+		return vperson;
+	}
 
-		Iterator<Vertex> vertexIterator = orientGraph.getVertices("name", "John").iterator();
-		while (vertexIterator.hasNext()) {
-			assertTrue(person.getName() == vertexIterator.next().getProperty("name"));
-		}
-
+	/**
+	 * Creates an edge from vperson1 to vperson2
+	 *
+	 * @param vperson1
+	 * @param vperson2
+	 * @return
+	 */
+	private Edge addPersonEdge(Vertex vperson1, Vertex vperson2) {
+		Edge edge = orientGraph.addEdge(null, vperson1, vperson2, "brothers");
+		// Add a property to the edge, otherwise it will not be created. Nice feature.
+		// see: https://github.com/orientechnologies/orientdb/wiki/Graph-Database-Tinkerpop
+		edge.setProperty("type", "relation");
+		log.log(Level.INFO, "Added edge {0}", edge.getId());
+		return edge;
 	}
 }
