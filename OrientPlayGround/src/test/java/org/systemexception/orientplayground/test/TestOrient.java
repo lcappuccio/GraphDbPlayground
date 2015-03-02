@@ -49,9 +49,12 @@ public class TestOrient {
 		orientGraph.shutdown();
 		orientGraphFactory.close();
 		System.out.println("Deleting test database");
+		if (dbFolder.exists()) {
+			log.info("Found database folder");
+		}
 		boolean deleted = dbFolder.delete();
 		if (!deleted) {
-			log.info("Not found");
+			log.info("Wasn't able to delete");
 		}
 	}
 
