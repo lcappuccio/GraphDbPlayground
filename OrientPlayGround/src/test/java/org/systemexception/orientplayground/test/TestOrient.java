@@ -14,6 +14,7 @@ import com.tinkerpop.blueprints.impls.orient.OrientGraphNoTx;
 import java.io.File;
 import java.io.IOException;
 import java.util.Iterator;
+import java.util.logging.Logger;
 import org.junit.AfterClass;
 import static org.junit.Assert.assertTrue;
 import org.junit.BeforeClass;
@@ -22,6 +23,7 @@ import org.systemexception.orientplayground.test.classes.Person;
 
 public class TestOrient {
 
+	private final static Logger log = Logger.getLogger(TestOrient.class.getCanonicalName());
 	private static OrientGraphFactory orientGraphFactory;
 	private static OrientGraphNoTx orientGraph;
 	private static final String dbPath = "target/orientdb_test_database";
@@ -30,10 +32,10 @@ public class TestOrient {
 	@BeforeClass
 	public static void setUp() throws IOException {
 		if (dbFolder.exists()) {
-			System.out.println("Deleting previous database folder");
+			log.info("Deleting previous database folder");
 			boolean deleted = dbFolder.delete();
 			if (!deleted) {
-				System.out.println("Not found");
+				log.info("Not found");
 			}
 		}
 		orientGraphFactory = new OrientGraphFactory("plocal:" + dbPath, "admin", "admin");
@@ -48,7 +50,7 @@ public class TestOrient {
 		System.out.println("Deleting test database");
 		boolean deleted = dbFolder.delete();
 		if (!deleted) {
-			System.out.println("Not found");
+			log.info("Not found");
 		}
 	}
 
@@ -61,7 +63,7 @@ public class TestOrient {
 	public void add_vertex() {
 		Person person = new Person("John", "Doe", 40);
 		Vertex vperson = addPersonVertex(person);
-		System.out.println("Added record " + vperson.getId());
+		log.info("Added record " + vperson.getId());
 		Iterator<Vertex> vertexIterator = orientGraph.getVertices("name", "John").iterator();
 		while (vertexIterator.hasNext()) {
 			assertTrue(person.getName().equals(vertexIterator.next().getProperty("name")));
@@ -72,10 +74,10 @@ public class TestOrient {
 	public void create_edge_for_vertex() {
 		Person person1 = new Person("Foo", "Wombat", 35);
 		Vertex vperson1 = addPersonVertex(person1);
-		System.out.println("Added record " + vperson1.getId());
+		log.info("Added record " + vperson1.getId());
 		Person person2 = new Person("Faa", "Wombat", 30);
 		Vertex vperson2 = addPersonVertex(person2);
-		System.out.println("Added record " + vperson2.getId());
+		log.info("Added record " + vperson2.getId());
 		Edge edge = addPersonEdge(vperson1, vperson2);
 		for (Edge e : orientGraph.getEdges()) {
 			System.out.println(e.getProperty("type").toString());
@@ -94,7 +96,7 @@ public class TestOrient {
 		vperson.setProperty("name", person.getName());
 		vperson.setProperty("surname", person.getSurname());
 		vperson.setProperty("age", person.getAge());
-		System.out.println("Added vertex: " + person.getName());
+		log.info("Added vertex: " + person.getName());
 		return vperson;
 	}
 
@@ -110,7 +112,7 @@ public class TestOrient {
 		// Add a property to the edge, otherwise it will not be created. Nice feature.
 		// see: https://github.com/orientechnologies/orientdb/wiki/Graph-Database-Tinkerpop
 		edge.setProperty("type", "relation");
-		System.out.println("Added edge " + edge.getId());
+		log.info("Added edge " + edge.getId());
 		return edge;
 	}
 }
