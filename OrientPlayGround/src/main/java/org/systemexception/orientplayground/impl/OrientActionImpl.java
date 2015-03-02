@@ -40,7 +40,7 @@ public class OrientActionImpl implements Action {
 		File dbFolder = new File(dbPath);
 		deleteFolder(dbFolder);
 		orientGraphFactory = new OrientGraphFactory("plocal:" + dbPath, "admin", "admin");
-		graph = orientGraphFactory.getTx();
+		graph = orientGraphFactory.getNoTx();
 		index = graph.createIndex("vertexIndex", Vertex.class);
 	}
 
