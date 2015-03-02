@@ -6,9 +6,12 @@
  */
 package org.systemexception.orientplayground.impl;
 
+import com.tinkerpop.blueprints.Edge;
+import com.tinkerpop.blueprints.Parameter;
 import com.tinkerpop.blueprints.Vertex;
+import com.tinkerpop.blueprints.impls.orient.OrientGraph;
 import com.tinkerpop.blueprints.impls.orient.OrientGraphFactory;
-import com.tinkerpop.blueprints.impls.orient.OrientGraphNoTx;
+import com.tinkerpop.blueprints.impls.orient.OrientVertexType;
 import java.io.File;
 import java.util.List;
 import java.util.logging.Level;
@@ -27,7 +30,7 @@ public class OrientActionImpl implements Action {
 	private String dbPath;
 	private CsvParser csvParser;
 	private OrientGraphFactory orientGraphFactory;
-	private OrientGraphNoTx orientGraph;
+	private OrientGraph orientGraph;
 	private Territories territories;
 
 	@Override
@@ -36,7 +39,10 @@ public class OrientActionImpl implements Action {
 		File dbFolder = new File(dbPath);
 		deleteFolder(dbFolder);
 		orientGraphFactory = new OrientGraphFactory("plocal:" + dbPath, "admin", "admin");
-		orientGraph = orientGraphFactory.getNoTx();
+		orientGraph = orientGraphFactory.getTx();
+		OrientVertexType territoryVertexType = orientGraph.createVertexType("Territory");
+//		territoryVertexType.createProperty("nodeId", OType.LONG).setNotNull(true);
+		orientGraph.createKeyIndex("id", Vertex.class, new Parameter("nodeId", "UNIQUE"));
 	}
 
 	@Override
@@ -44,11 +50,23 @@ public class OrientActionImpl implements Action {
 		readCsvTerritories(fileName);
 		// Create all nodes
 		for (Territory territory : territories.getTerritories()) {
-			Vertex territoryVertex = orientGraph.addVertex(null);
+			Vertex territoryVertex = orientGraph.addVertex("class:Territory");
 			territoryVertex.setProperty("nodeId", territory.getNodeId());
 			territoryVertex.setProperty("nodeDesc", territory.getNodeDescr());
 			territoryVertex.setProperty("nodeType", territory.getNodeType());
 			log.log(Level.INFO, "Adding territory: {0}, {1}", new Object[]{territory.getNodeId(), territory.getNodeDescr()});
+		}
+		// Add edges
+		for (Territory territory : territories.getTerritories()) {
+			Vertex sourceVertex = orientGraph.getVertexByKey("id", territory.getNodeId());
+			Vertex destinationVertex = orientGraph.getVertexByKey("id", territory.getParentId());
+			if (sourceVertex == null || destinationVertex == null) {
+				throw new RuntimeException();
+			}
+			Edge reportingEdge = orientGraph.addEdge("class:Territory", sourceVertex, destinationVertex, "reportsTo");
+			// add a property otherwise you'll get no edge, check orient docs
+			reportingEdge.setProperty("type", "containedIn");
+			log.log(Level.INFO, "Added edge from{0} to {1}", new Object[]{territory.getNodeId(), territory.getParentId()});
 		}
 	}
 
