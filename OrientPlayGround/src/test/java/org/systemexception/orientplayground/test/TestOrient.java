@@ -48,7 +48,7 @@ public class TestOrient {
 		orientGraph.drop();
 		orientGraph.shutdown();
 		orientGraphFactory.close();
-		System.out.println("Deleting test database");
+		log.log(Level.INFO, "Deleting test database");
 		if (dbFolder.exists()) {
 			log.info("Found database folder");
 		}
@@ -83,9 +83,6 @@ public class TestOrient {
 		Vertex vperson2 = addPersonVertex(person2);
 		log.log(Level.INFO, "Added record {0}", vperson2.getId());
 		Edge edge = addPersonEdge(vperson1, vperson2);
-		for (Edge e : orientGraph.getEdges()) {
-			System.out.println(e.getProperty("type").toString());
-		}
 		assertTrue(edge.getVertex(Direction.IN).equals(vperson2) && edge.getVertex(Direction.OUT).equals(vperson1));
 	}
 
