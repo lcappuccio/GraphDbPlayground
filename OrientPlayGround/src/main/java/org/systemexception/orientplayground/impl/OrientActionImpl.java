@@ -11,6 +11,7 @@ import com.tinkerpop.blueprints.impls.orient.OrientGraphFactory;
 import com.tinkerpop.blueprints.impls.orient.OrientGraphNoTx;
 import java.io.File;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.csv.CSVRecord;
 import org.systemexception.orientplayground.api.Action;
@@ -22,7 +23,7 @@ import org.systemexception.orientplayground.pojo.Territory;
 
 public class OrientActionImpl implements Action {
 
-	private final Logger log = Logger.getLogger(OrientActionImpl.class.getCanonicalName());
+	private static final Logger log = Logger.getLogger(OrientActionImpl.class.getCanonicalName());
 	private String dbPath;
 	private CsvParser csvParser;
 	private OrientGraphFactory orientGraphFactory;
@@ -41,12 +42,13 @@ public class OrientActionImpl implements Action {
 	@Override
 	public void addTerritories(String fileName) throws CsvParserException, TerritoriesException {
 		readCsvTerritories(fileName);
+		// Create all nodes
 		for (Territory territory : territories.getTerritories()) {
 			Vertex territoryVertex = orientGraph.addVertex(null);
 			territoryVertex.setProperty("nodeId", territory.getNodeId());
 			territoryVertex.setProperty("nodeDesc", territory.getNodeDescr());
 			territoryVertex.setProperty("nodeType", territory.getNodeType());
-			log.info("Adding territory: " + territory.getNodeId() + ", " + territory.getNodeDescr());
+			log.log(Level.INFO, "Adding territory: {0}, {1}", new Object[]{territory.getNodeId(), territory.getNodeDescr()});
 		}
 	}
 
