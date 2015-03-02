@@ -15,19 +15,13 @@ import org.systemexception.orientplayground.impl.OrientActionImpl;
 public class TestItalyTerritory {
 
 	private Action sut;
-	private final String dbName = "geonames_it", fileName = "target/territories/geonames_it.csv";
-
-	@Test
-	public void setup_database() {
-		sut = new OrientActionImpl();
-		sut.initialSetup(dbName);
-	}
+	private final String dbName = "test_database_lombardia_territories", fileName = "src/test/resources/test_territories.csv";
 
 	@Test
 	public void add_territories() throws CsvParserException, TerritoriesException {
 		sut = new OrientActionImpl();
 		sut.initialSetup(dbName);
-//		sut.addTerritories(fileName);
+		sut.addTerritories(fileName);
 	}
 
 }
