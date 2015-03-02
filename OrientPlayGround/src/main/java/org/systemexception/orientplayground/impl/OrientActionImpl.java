@@ -7,12 +7,12 @@
 package org.systemexception.orientplayground.impl;
 
 import com.tinkerpop.blueprints.Edge;
-import com.tinkerpop.blueprints.Parameter;
+import com.tinkerpop.blueprints.Index;
+import com.tinkerpop.blueprints.IndexableGraph;
 import com.tinkerpop.blueprints.Vertex;
-import com.tinkerpop.blueprints.impls.orient.OrientGraph;
 import com.tinkerpop.blueprints.impls.orient.OrientGraphFactory;
-import com.tinkerpop.blueprints.impls.orient.OrientVertexType;
 import java.io.File;
+import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,12 +26,13 @@ import org.systemexception.orientplayground.pojo.Territory;
 
 public class OrientActionImpl implements Action {
 
-	private static final Logger log = Logger.getLogger(OrientActionImpl.class.getCanonicalName());
+	private static final Logger logger = Logger.getLogger(OrientActionImpl.class.getCanonicalName());
 	private String dbPath;
 	private CsvParser csvParser;
 	private OrientGraphFactory orientGraphFactory;
-	private OrientGraph orientGraph;
+	private IndexableGraph graph;
 	private Territories territories;
+	Index<Vertex> index;
 
 	@Override
 	public void initialSetup(String dbName) {
@@ -39,10 +40,8 @@ public class OrientActionImpl implements Action {
 		File dbFolder = new File(dbPath);
 		deleteFolder(dbFolder);
 		orientGraphFactory = new OrientGraphFactory("plocal:" + dbPath, "admin", "admin");
-		orientGraph = orientGraphFactory.getTx();
-		OrientVertexType territoryVertexType = orientGraph.createVertexType("Territory");
-//		territoryVertexType.createProperty("nodeId", OType.LONG).setNotNull(true);
-		orientGraph.createKeyIndex("id", Vertex.class, new Parameter("nodeId", "UNIQUE"));
+		graph = orientGraphFactory.getTx();
+		index = graph.createIndex("vertexIndex", Vertex.class);
 	}
 
 	@Override
@@ -50,23 +49,40 @@ public class OrientActionImpl implements Action {
 		readCsvTerritories(fileName);
 		// Create all nodes
 		for (Territory territory : territories.getTerritories()) {
-			Vertex territoryVertex = orientGraph.addVertex("class:Territory");
+			Vertex territoryVertex = graph.addVertex("class:Territory");
 			territoryVertex.setProperty("nodeId", territory.getNodeId());
 			territoryVertex.setProperty("nodeDesc", territory.getNodeDescr());
 			territoryVertex.setProperty("nodeType", territory.getNodeType());
-			log.log(Level.INFO, "Adding territory: {0}, {1}", new Object[]{territory.getNodeId(), territory.getNodeDescr()});
+			index.put("nodeId", territory.getNodeId(), territoryVertex);
+			logger.log(Level.INFO, "Adding territory: {0}, {1}", new Object[]{territory.getNodeId(), territory.getNodeDescr()});
 		}
 		// Add edges
 		for (Territory territory : territories.getTerritories()) {
-			Vertex sourceVertex = orientGraph.getVertexByKey("id", territory.getNodeId());
-			Vertex destinationVertex = orientGraph.getVertexByKey("id", territory.getParentId());
+			Vertex sourceVertex = getVertexByNodeId(territory.getNodeId());
+			Vertex destinationVertex = getVertexByNodeId(territory.getParentId());
 			if (sourceVertex == null || destinationVertex == null) {
-				throw new RuntimeException();
+				logger.log(Level.INFO, "Node {0} has no parent", territory.getNodeId());
+			} else {
+				Edge reportingEdge = graph.addEdge("class:Territory", sourceVertex, destinationVertex, "reportsTo");
+				// add a property otherwise you'll get no edge, check orient docs
+				reportingEdge.setProperty("type", "containedIn");
+				logger.log(Level.INFO, "Added edge from {0} to {1}", new Object[]{territory.getNodeId(), territory.getParentId()});
 			}
-			Edge reportingEdge = orientGraph.addEdge("class:Territory", sourceVertex, destinationVertex, "reportsTo");
-			// add a property otherwise you'll get no edge, check orient docs
-			reportingEdge.setProperty("type", "containedIn");
-			log.log(Level.INFO, "Added edge from{0} to {1}", new Object[]{territory.getNodeId(), territory.getParentId()});
+		}
+	}
+
+	/**
+	 * Returns the vertex given the nodeId
+	 *
+	 * @param nodeId
+	 * @return
+	 */
+	public Vertex getVertexByNodeId(String nodeId) {
+		Iterator<Vertex> vertexIterator = index.get("nodeId", nodeId).iterator();
+		if (vertexIterator.hasNext()) {
+			return vertexIterator.next();
+		} else {
+			return null;
 		}
 	}
 
