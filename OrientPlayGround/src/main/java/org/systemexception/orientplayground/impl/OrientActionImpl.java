@@ -59,19 +59,20 @@ public class OrientActionImpl implements Action {
 		}
 		// Add edges
 		for (Territory territory : territories.getTerritories()) {
-			Vertex sourceVertex = getVertexByNodeId(territory.getNodeId());
-			Vertex destinationVertex = getVertexByNodeId(territory.getParentId());
+			String territoryNodeId = territory.getNodeId();
+			String territotyParentNodeId = territory.getParentId();
+			Vertex sourceVertex = getVertexByNodeId(territoryNodeId);
+			Vertex destinationVertex = getVertexByNodeId(territotyParentNodeId);
 			if (sourceVertex == null || destinationVertex == null) {
-				logger.log(Level.INFO, "Node {0} has no parent", territory.getNodeId());
+				logger.log(Level.INFO, "Node {0} has no parent", territoryNodeId);
 			} else {
 				// TODO investigate edge classes and attributes
 				Edge reportingEdge = graph.addEdge(null, destinationVertex, sourceVertex, "reportsTo");
 				// add a property otherwise you'll get no edge, check orient docs
 				reportingEdge.setProperty("type", "reportsTo");
-				// TODO use just one node? refactor as well
-				reportingEdge.setProperty("sourceNode", territory.getNodeId());
-				reportingEdge.setProperty("destinationNode", territory.getParentId());
-				logger.log(Level.INFO, "Added edge from {0} to {1}", new Object[]{territory.getNodeId(), territory.getParentId()});
+				reportingEdge.setProperty("sourceNode", territoryNodeId);
+				reportingEdge.setProperty("destinationNode", territotyParentNodeId);
+				logger.log(Level.INFO, "Added edge from {0} to {1}", new Object[]{territoryNodeId, territotyParentNodeId});
 			}
 		}
 	}
