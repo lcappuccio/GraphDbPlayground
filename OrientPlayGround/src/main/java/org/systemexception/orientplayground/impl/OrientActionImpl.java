@@ -49,6 +49,7 @@ public class OrientActionImpl implements Action {
 		readCsvTerritories(fileName);
 		// Create all nodes
 		for (Territory territory : territories.getTerritories()) {
+			// TODO investigate classes and their attributes
 			Vertex territoryVertex = graph.addVertex("class:Territory");
 			territoryVertex.setProperty("nodeId", territory.getNodeId());
 			territoryVertex.setProperty("nodeDesc", territory.getNodeDescr());
@@ -63,6 +64,7 @@ public class OrientActionImpl implements Action {
 			if (sourceVertex == null || destinationVertex == null) {
 				logger.log(Level.INFO, "Node {0} has no parent", territory.getNodeId());
 			} else {
+				// TODO investigate edge classes and attributes
 				Edge reportingEdge = graph.addEdge("class:Territory", destinationVertex, sourceVertex, "reportsTo");
 				// add a property otherwise you'll get no edge, check orient docs
 				reportingEdge.setProperty("type", "containedIn");
