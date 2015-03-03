@@ -84,6 +84,7 @@ public class OrientActionImpl implements Action {
 	 * @return
 	 */
 	public Vertex getVertexByNodeId(String nodeId) {
+		// TODO Should throw exception if more than one item, otherwise implement unique keys
 		Iterator<Vertex> vertexIterator = index.get("nodeId", nodeId).iterator();
 		if (vertexIterator.hasNext()) {
 			return vertexIterator.next();
