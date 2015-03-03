@@ -55,6 +55,7 @@ public class OrientActionImpl implements Action {
 			territoryVertex.setProperty("nodeDesc", territory.getNodeDescr());
 			territoryVertex.setProperty("nodeType", territory.getNodeType());
 			index.put("nodeId", territory.getNodeId(), territoryVertex);
+			index.put("nodeDesc", territory.getNodeDescr(), territoryVertex);
 			logger.log(Level.INFO, "Adding territory: {0}, {1}", new Object[]{territory.getNodeId(), territory.getNodeDescr()});
 		}
 		// Add edges
