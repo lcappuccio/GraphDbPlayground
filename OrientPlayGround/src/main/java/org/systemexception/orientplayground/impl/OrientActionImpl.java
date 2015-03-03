@@ -67,7 +67,7 @@ public class OrientActionImpl implements Action {
 				// TODO investigate edge classes and attributes
 				Edge reportingEdge = graph.addEdge("class:Territory", destinationVertex, sourceVertex, "reportsTo");
 				// add a property otherwise you'll get no edge, check orient docs
-				reportingEdge.setProperty("type", "containedIn");
+				reportingEdge.setProperty("type", "reportsTo");
 				logger.log(Level.INFO, "Added edge from {0} to {1}", new Object[]{territory.getNodeId(), territory.getParentId()});
 			}
 		}
