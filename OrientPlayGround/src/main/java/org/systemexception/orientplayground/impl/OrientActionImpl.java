@@ -65,9 +65,12 @@ public class OrientActionImpl implements Action {
 				logger.log(Level.INFO, "Node {0} has no parent", territory.getNodeId());
 			} else {
 				// TODO investigate edge classes and attributes
-				Edge reportingEdge = graph.addEdge("class:Territory", destinationVertex, sourceVertex, "reportsTo");
+				Edge reportingEdge = graph.addEdge(null, destinationVertex, sourceVertex, "reportsTo");
 				// add a property otherwise you'll get no edge, check orient docs
 				reportingEdge.setProperty("type", "reportsTo");
+				// TODO use just one node? refactor as well
+				reportingEdge.setProperty("sourceNode", territory.getNodeId());
+				reportingEdge.setProperty("destinationNode", territory.getParentId());
 				logger.log(Level.INFO, "Added edge from {0} to {1}", new Object[]{territory.getNodeId(), territory.getParentId()});
 			}
 		}
