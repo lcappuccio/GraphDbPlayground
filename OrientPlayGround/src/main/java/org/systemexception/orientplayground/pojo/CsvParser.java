@@ -15,6 +15,7 @@ import java.util.List;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
+import org.systemexception.orientplayground.enums.CsvHeaders;
 import org.systemexception.orientplayground.exception.CsvParserException;
 
 public class CsvParser {
@@ -22,7 +23,8 @@ public class CsvParser {
 	private CSVParser csvParser;
 	private CSVFormat csvFormat;
 	private List<CSVRecord> records;
-	private final String[] headerMapping = new String[]{"PARENT_ID", "NODE_ID", "DESCRIPTION", "TYPE"};
+	private final String[] headerMapping = new String[]{CsvHeaders.PARENT_ID.toString(), CsvHeaders.NODE_ID.toString(),
+		CsvHeaders.DESCRIPTION.toString(), CsvHeaders.TYPE.toString()};
 
 	public CsvParser(String fileName) throws CsvParserException {
 		csvFormat = CSVFormat.RFC4180.withHeader(headerMapping).withSkipHeaderRecord(true);
