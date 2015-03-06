@@ -41,7 +41,7 @@ public class OrientActionImpl implements Action {
 		dbPath = "target/" + dbName;
 		File dbFolder = new File(dbPath);
 		deleteFolder(dbFolder);
-		orientGraphFactory = new OrientGraphFactory(OrientConfiguration.DB_STORAGE_TYPE.toString() + dbPath, "admin", "admin");
+		orientGraphFactory = new OrientGraphFactory(OrientConfiguration.DB_STORAGE_MEMORY.toString() + dbPath, "admin", "admin");
 		graph = orientGraphFactory.getNoTx();
 		index = graph.createIndex(OrientConfiguration.VERTEX_INDEX.toString(), Vertex.class);
 	}
