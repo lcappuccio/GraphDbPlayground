@@ -6,6 +6,7 @@
  */
 package org.systemexception.orientplayground.impl;
 
+import org.systemexception.orientplayground.enums.OrientConfiguration;
 import com.tinkerpop.blueprints.Edge;
 import com.tinkerpop.blueprints.Index;
 import com.tinkerpop.blueprints.IndexableGraph;
@@ -18,6 +19,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.csv.CSVRecord;
 import org.systemexception.orientplayground.api.Action;
+import org.systemexception.orientplayground.enums.CsvHeaders;
 import org.systemexception.orientplayground.exception.CsvParserException;
 import org.systemexception.orientplayground.exception.TerritoriesException;
 import org.systemexception.orientplayground.pojo.CsvParser;
@@ -39,9 +41,9 @@ public class OrientActionImpl implements Action {
 		dbPath = "target/" + dbName;
 		File dbFolder = new File(dbPath);
 		deleteFolder(dbFolder);
-		orientGraphFactory = new OrientGraphFactory("plocal:" + dbPath, "admin", "admin");
+		orientGraphFactory = new OrientGraphFactory(OrientConfiguration.DB_STORAGE_TYPE.toString() + dbPath, "admin", "admin");
 		graph = orientGraphFactory.getNoTx();
-		index = graph.createIndex("vertexIndex", Vertex.class);
+		index = graph.createIndex(OrientConfiguration.VERTEX_INDEX.toString(), Vertex.class);
 	}
 
 	@Override
@@ -50,12 +52,12 @@ public class OrientActionImpl implements Action {
 		// Create all nodes
 		for (Territory territory : territories.getTerritories()) {
 			// TODO investigate classes and their attributes
-			Vertex territoryVertex = graph.addVertex("class:Territory");
-			territoryVertex.setProperty("nodeId", territory.getNodeId());
-			territoryVertex.setProperty("nodeDesc", territory.getNodeDescr());
-			territoryVertex.setProperty("nodeType", territory.getNodeType());
-			index.put("nodeId", territory.getNodeId(), territoryVertex);
-			index.put("nodeDesc", territory.getNodeDescr(), territoryVertex);
+			Vertex territoryVertex = graph.addVertex(OrientConfiguration.VERTEX_TERRITORY_CLASS.toString());
+			territoryVertex.setProperty(OrientConfiguration.NODE_ID.toString(), territory.getNodeId());
+			territoryVertex.setProperty(OrientConfiguration.NODE_DESC.toString(), territory.getNodeDescr());
+			territoryVertex.setProperty(OrientConfiguration.NODE_TYPE.toString(), territory.getNodeType());
+			index.put(OrientConfiguration.NODE_ID.toString(), territory.getNodeId(), territoryVertex);
+			index.put(OrientConfiguration.NODE_DESC.toString(), territory.getNodeDescr(), territoryVertex);
 			logger.log(Level.INFO, "Adding territory: {0}, {1}", new Object[]{territory.getNodeId(), territory.getNodeDescr()});
 		}
 		// Add edges
@@ -68,11 +70,11 @@ public class OrientActionImpl implements Action {
 				logger.log(Level.INFO, "Node {0} has no parent", territoryNodeId);
 			} else {
 				// TODO investigate edge classes and attributes
-				Edge reportingEdge = graph.addEdge(null, destinationVertex, sourceVertex, "reportsTo");
+				Edge reportingEdge = graph.addEdge(null, destinationVertex, sourceVertex, OrientConfiguration.REPORTS_TO.toString());
 				// add a property otherwise you'll get no edge, check orient docs
-				reportingEdge.setProperty("type", "reportsTo");
-				reportingEdge.setProperty("sourceNode", territoryNodeId);
-				reportingEdge.setProperty("destinationNode", territotyParentNodeId);
+				reportingEdge.setProperty(OrientConfiguration.EDGE_TYPE.toString(), OrientConfiguration.REPORTS_TO.toString());
+				reportingEdge.setProperty(OrientConfiguration.EDGE_SOURCE_NODE.toString(), territoryNodeId);
+				reportingEdge.setProperty(OrientConfiguration.EDGE_DESTINATION_NODE.toString(), territotyParentNodeId);
 				logger.log(Level.INFO, "Added edge from {0} to {1}", new Object[]{territoryNodeId, territotyParentNodeId});
 			}
 		}
@@ -86,7 +88,7 @@ public class OrientActionImpl implements Action {
 	 */
 	public Vertex getVertexByNodeId(String nodeId) {
 		// TODO Should throw exception if more than one item, otherwise implement unique keys
-		Iterator<Vertex> vertexIterator = index.get("nodeId", nodeId).iterator();
+		Iterator<Vertex> vertexIterator = index.get(OrientConfiguration.NODE_ID.toString(), nodeId).iterator();
 		if (vertexIterator.hasNext()) {
 			return vertexIterator.next();
 		} else {
@@ -106,10 +108,10 @@ public class OrientActionImpl implements Action {
 		List<CSVRecord> csvRecords = csvParser.readCsvContents();
 		territories = new Territories();
 		for (CSVRecord csvRecord : csvRecords) {
-			String parentId = csvRecord.get("PARENT_ID");
-			String nodeId = csvRecord.get("NODE_ID");
-			String description = csvRecord.get("DESCRIPTION");
-			String nodeType = csvRecord.get("TYPE");
+			String parentId = csvRecord.get(CsvHeaders.PARENT_ID.toString());
+			String nodeId = csvRecord.get(CsvHeaders.NODE_ID.toString());
+			String description = csvRecord.get(CsvHeaders.DESCRIPTION.toString());
+			String nodeType = csvRecord.get(CsvHeaders.TYPE.toString());
 			Territory territory = new Territory(parentId, nodeId, description, nodeType);
 			territories.addTerritory(territory);
 		}
