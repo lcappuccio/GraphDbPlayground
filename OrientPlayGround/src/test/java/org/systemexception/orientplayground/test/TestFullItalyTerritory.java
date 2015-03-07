@@ -56,5 +56,4 @@ public class TestFullItalyTerritory {
 			assertTrue(edgeIterator.next().getVertex(Direction.OUT).getProperty("nodeId").equals("3174618"));
 		}
 	}
-
 }

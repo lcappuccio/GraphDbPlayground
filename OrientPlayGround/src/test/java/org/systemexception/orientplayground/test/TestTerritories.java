@@ -55,5 +55,4 @@ public class TestTerritories {
 		}
 		assertTrue(csvRecords.size() == sut.getTerritories().size());
 	}
-
 }

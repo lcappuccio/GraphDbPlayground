@@ -53,5 +53,4 @@ public class Territories {
 		}
 		return true;
 	}
-
 }
