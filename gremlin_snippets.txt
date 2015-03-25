@@ -1,0 +1,57 @@
+g = new OrientGraph("plocal:/home/lcappuccio/Documents/NetBeans_Projects/OrientPlayGround/OrientPlayGround/target/test_database_lombardia_territories")
+
+g = new OrientGraph("plocal:/home/lcappuccio/Documents/NetBeans_Projects/OrientPlayGround/OrientPlayGround/target/test_database_italy_territories")
+
+// get all nodes and all edges
+g.V
+g.V.map()
+g.E
+g.E.map()
+
+// get a node, root node in this case
+g.V("nodeId","3175395")
+g.V("nodeId","3175395").map
+
+// Find a node by property
+g.V("nodeType","PCLI")
+g.V("nodeType","PCLI").map
+g.V("nodeDesc","Luino").map
+
+// Run the tree upwards from Luino
+g.V("nodeId","6540157").in.in.in.map
+g.V[4126].in.in.in.map
+
+// Walk the path down from "root node", by nodeId or nodeType
+g.V("nodeId","3175395").out.map
+g.V("nodeType","PCLI").out.map
+g.V("nodeType","PCLI").outE.inV.map
+
+// Filter all nodes containing "Varese"
+g.V.filter{it-> it.nodeDesc.contains("Varese")}.map
+g.V.filter{it-> it.nodeDesc.contains("Provincia di Varese")}
+
+// Get all nodes that report to "Provincia di Varese"
+g.V.filter{it-> it.nodeDesc.contains("Provincia di Varese")}.outE.inV.map
+
+// Get all nodes that "Provincia di Varese" report to
+g.V.filter{it-> it.nodeDesc.contains("Provincia di Varese")}.inE.outV.map
+
+// Run the path from root node (use V[0], or V("nodeType","PCLI")) and walk down up to three levels then display the path
+g.V[0].as('x').outE.inV.loop('x'){it.loops <= 3}.path
+g.V[0].as('x').outE.inV.loop('x'){it.loops <= 3}.map.path
+
+// Run the path from Luino up to three levels then display the path
+g.V("nodeId","6540157").as('x').inE.outV.loop('x'){it.loops <=3}.map.path
+
+// get node by its internal id
+ g.v("#9:0") 
+
+// view this stuff in an "almost" humanly readable mode
+ g.V().transform(){print(it); print(it.map())}
+ g.V().transform{print(it); it.map()}
+ // for edges
+ g.E().transform{print(it); it.map()}
+ // and for quickness
+ g = new OrientGraph("plocal:/home/lcappuccio/git/rcp-consolidation-graph/rcp-impl/target/orient")
+ g.V().transform{print(it); it.map()}
+ g.E().transform{print(it); it.map()}
