@@ -15,9 +15,9 @@ import com.tinkerpop.blueprints.impls.orient.OrientGraphFactory;
 import java.io.File;
 import java.util.Iterator;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.apache.commons.csv.CSVRecord;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.systemexception.orientplayground.api.Action;
 import org.systemexception.orientplayground.enums.CsvHeaders;
 import org.systemexception.orientplayground.exception.CsvParserException;
@@ -28,7 +28,7 @@ import org.systemexception.orientplayground.pojo.Territory;
 
 public class OrientActionImpl implements Action {
 
-	private static final Logger logger = Logger.getLogger(OrientActionImpl.class.getCanonicalName());
+	private static final Logger logger = LogManager.getLogger(OrientActionImpl.class);
 	private String dbPath;
 	private CsvParser csvParser;
 	private OrientGraphFactory orientGraphFactory;
@@ -42,7 +42,7 @@ public class OrientActionImpl implements Action {
 		File dbFolder = new File(dbPath);
 		deleteFolder(dbFolder);
 		orientGraphFactory = new OrientGraphFactory(OrientConfiguration.DB_STORAGE_MEMORY.toString() + dbPath, "admin", "admin");
-		graph = orientGraphFactory.getNoTx();
+		graph = orientGraphFactory.getTx();
 		index = graph.createIndex(OrientConfiguration.VERTEX_INDEX.toString(), Vertex.class);
 	}
 
@@ -58,7 +58,7 @@ public class OrientActionImpl implements Action {
 			territoryVertex.setProperty(OrientConfiguration.NODE_TYPE.toString(), territory.getNodeType());
 			index.put(OrientConfiguration.NODE_ID.toString(), territory.getNodeId(), territoryVertex);
 			index.put(OrientConfiguration.NODE_DESC.toString(), territory.getNodeDescr(), territoryVertex);
-			logger.log(Level.INFO, "Adding territory: {0}, {1}", new Object[]{territory.getNodeId(), territory.getNodeDescr()});
+			logger.info("Adding territory: " + territory.getNodeId() + ", " + territory.getNodeDescr());
 		}
 		// Add edges
 		for (Territory territory : territories.getTerritories()) {
@@ -67,7 +67,7 @@ public class OrientActionImpl implements Action {
 			Vertex sourceVertex = getVertexByNodeId(territoryNodeId);
 			Vertex destinationVertex = getVertexByNodeId(territotyParentNodeId);
 			if (sourceVertex == null || destinationVertex == null) {
-				logger.log(Level.INFO, "Node {0} has no parent", territoryNodeId);
+				logger.info("Node " + territoryNodeId + " has no parent");
 			} else {
 				// TODO investigate edge classes and attributes
 				Edge reportingEdge = graph.addEdge(null, destinationVertex, sourceVertex, OrientConfiguration.REPORTS_TO.toString());
@@ -75,7 +75,7 @@ public class OrientActionImpl implements Action {
 				reportingEdge.setProperty(OrientConfiguration.EDGE_TYPE.toString(), OrientConfiguration.REPORTS_TO.toString());
 				reportingEdge.setProperty(OrientConfiguration.EDGE_SOURCE_NODE.toString(), territoryNodeId);
 				reportingEdge.setProperty(OrientConfiguration.EDGE_DESTINATION_NODE.toString(), territotyParentNodeId);
-				logger.log(Level.INFO, "Added edge from {0} to {1}", new Object[]{territoryNodeId, territotyParentNodeId});
+				logger.info("Added edge from " + territoryNodeId + " to " + territotyParentNodeId);
 			}
 		}
 	}
