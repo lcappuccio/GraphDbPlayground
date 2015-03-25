@@ -6,11 +6,13 @@
  */
 package org.systemexception.orientplayground.impl;
 
+import com.orientechnologies.common.util.OCallable;
 import org.systemexception.orientplayground.enums.OrientConfiguration;
 import com.tinkerpop.blueprints.Edge;
 import com.tinkerpop.blueprints.Index;
-import com.tinkerpop.blueprints.IndexableGraph;
 import com.tinkerpop.blueprints.Vertex;
+import com.tinkerpop.blueprints.impls.orient.OrientBaseGraph;
+import com.tinkerpop.blueprints.impls.orient.OrientGraph;
 import com.tinkerpop.blueprints.impls.orient.OrientGraphFactory;
 import java.io.File;
 import java.util.Iterator;
@@ -32,7 +34,7 @@ public class OrientActionImpl implements Action {
 	private String dbPath;
 	private CsvParser csvParser;
 	private OrientGraphFactory orientGraphFactory;
-	private IndexableGraph graph;
+	private OrientGraph graph;
 	private Territories territories;
 	Index<Vertex> index;
 
@@ -43,7 +45,13 @@ public class OrientActionImpl implements Action {
 		deleteFolder(dbFolder);
 		orientGraphFactory = new OrientGraphFactory(OrientConfiguration.DB_STORAGE_MEMORY.toString() + dbPath, "admin", "admin");
 		graph = orientGraphFactory.getTx();
-		index = graph.createIndex(OrientConfiguration.VERTEX_INDEX.toString(), Vertex.class);
+		graph.executeOutsideTx(new OCallable<Object, OrientBaseGraph>() {
+			@Override
+			public Object call(OrientBaseGraph arg0) {
+				index = graph.createIndex(OrientConfiguration.VERTEX_INDEX.toString(), Vertex.class);
+				return null;
+			}
+		});
 	}
 
 	@Override
