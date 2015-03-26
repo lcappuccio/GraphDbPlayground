@@ -45,6 +45,10 @@ public class OrientActionImpl implements Action {
 		graph = orientGraphFactory.getTx();
 		index = graph.createIndex(OrientConfiguration.VERTEX_INDEX.toString(), Vertex.class);
 	}
+	
+	public IndexableGraph getGraph() {
+		return graph;
+	}
 
 	@Override
 	public void addTerritories(String fileName) throws CsvParserException, TerritoriesException {
