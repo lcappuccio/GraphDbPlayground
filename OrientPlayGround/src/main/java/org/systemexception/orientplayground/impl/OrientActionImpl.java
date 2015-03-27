@@ -54,6 +54,10 @@ public class OrientActionImpl implements Action {
 		});
 	}
 
+	public OrientGraph getGraph() {
+		return graph;
+	}
+
 	@Override
 	public void addTerritories(String fileName) throws CsvParserException, TerritoriesException {
 		readCsvTerritories(fileName);
