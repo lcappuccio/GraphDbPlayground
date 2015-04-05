@@ -63,7 +63,6 @@ public class OrientActionImpl implements Action {
 		readCsvTerritories(fileName);
 		// Create all nodes
 		for (Territory territory : territories.getTerritories()) {
-			// TODO investigate classes and their attributes
 			Vertex territoryVertex = graph.addVertex(OrientConfiguration.VERTEX_TERRITORY_CLASS.toString());
 			territoryVertex.setProperty(OrientConfiguration.NODE_ID.toString(), territory.getNodeId());
 			territoryVertex.setProperty(OrientConfiguration.NODE_DESC.toString(), territory.getNodeDescr());
@@ -81,7 +80,6 @@ public class OrientActionImpl implements Action {
 			if (sourceVertex == null || destinationVertex == null) {
 				logger.info("Node " + territoryNodeId + " has no parent");
 			} else {
-				// TODO investigate edge classes and attributes
 				Edge reportingEdge = graph.addEdge(null, destinationVertex, sourceVertex, OrientConfiguration.REPORTS_TO.toString());
 				// add a property otherwise you'll get no edge, check orient docs
 				reportingEdge.setProperty(OrientConfiguration.EDGE_TYPE.toString(), OrientConfiguration.REPORTS_TO.toString());
@@ -99,7 +97,6 @@ public class OrientActionImpl implements Action {
 	 * @return
 	 */
 	public Vertex getVertexByNodeId(String nodeId) {
-		// TODO Should throw exception if more than one item, otherwise implement unique keys
 		Iterator<Vertex> vertexIterator = index.get(OrientConfiguration.NODE_ID.toString(), nodeId).iterator();
 		if (vertexIterator.hasNext()) {
 			return vertexIterator.next();
