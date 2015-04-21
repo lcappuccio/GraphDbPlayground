@@ -34,38 +34,4 @@ public class Territory {
 	public String getNodeType() {
 		return nodeType;
 	}
-
-	@Override
-	public int hashCode() {
-		int hash = 3;
-		hash = 59 * hash + Objects.hashCode(this.parentId);
-		hash = 59 * hash + Objects.hashCode(this.nodeId);
-		hash = 59 * hash + Objects.hashCode(this.nodeDescr);
-		hash = 59 * hash + Objects.hashCode(this.nodeType);
-		return hash;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (obj == null) {
-			return false;
-		}
-		if (getClass() != obj.getClass()) {
-			return false;
-		}
-		final Territory other = (Territory) obj;
-		if (!Objects.equals(this.parentId, other.parentId)) {
-			return false;
-		}
-		if (!Objects.equals(this.nodeId, other.nodeId)) {
-			return false;
-		}
-		if (!Objects.equals(this.nodeDescr, other.nodeDescr)) {
-			return false;
-		}
-		if (!Objects.equals(this.nodeType, other.nodeType)) {
-			return false;
-		}
-		return true;
-	}
 }
