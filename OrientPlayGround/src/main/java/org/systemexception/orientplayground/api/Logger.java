@@ -17,19 +17,19 @@ public interface Logger {
 	 * 
 	 * @param message 
 	 */
-	public void info(String message);
+	void info(String message);
 	
 	/**
 	 * 
 	 * @param message 
 	 */
-	public void debug(String message);
+	void debug(String message);
 	
 	/**
 	 * 
 	 * @param message
 	 * @param exception 
 	 */
-	public void error(String message, Exception exception);
+	void error(String message, Exception exception);
 
 }
