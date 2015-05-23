@@ -6,9 +6,7 @@
  */
 package org.systemexception.orientplayground.test;
 
-import java.util.List;
 import org.apache.commons.csv.CSVRecord;
-import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 import org.systemexception.orientplayground.exception.CsvParserException;
@@ -17,15 +15,18 @@ import org.systemexception.orientplayground.pojo.CsvParser;
 import org.systemexception.orientplayground.pojo.Territories;
 import org.systemexception.orientplayground.pojo.Territory;
 
+import java.util.List;
+
+import static org.junit.Assert.assertTrue;
+
 public class TestTerritories {
 
 	private Territories sut;
-	private CsvParser csvParser;
 	private List<CSVRecord> csvRecords;
 
 	@Before
 	public void setUp() throws CsvParserException {
-		csvParser = new CsvParser("src/test/resources/test_territories.csv");
+		CsvParser csvParser = new CsvParser("src/test/resources/test_territories.csv");
 		csvRecords = csvParser.readCsvContents();
 	}
 

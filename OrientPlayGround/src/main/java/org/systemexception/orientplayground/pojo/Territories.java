@@ -6,10 +6,10 @@
  */
 package org.systemexception.orientplayground.pojo;
 
+import org.systemexception.orientplayground.exception.TerritoriesException;
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-import org.systemexception.orientplayground.exception.TerritoriesException;
 
 public class Territories {
 
