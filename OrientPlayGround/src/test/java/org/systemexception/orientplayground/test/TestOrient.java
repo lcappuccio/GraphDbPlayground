@@ -11,16 +11,17 @@ import com.tinkerpop.blueprints.Edge;
 import com.tinkerpop.blueprints.Vertex;
 import com.tinkerpop.blueprints.impls.orient.OrientGraphFactory;
 import com.tinkerpop.blueprints.impls.orient.OrientGraphNoTx;
-import java.io.File;
-import java.io.IOException;
-import java.util.Iterator;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.junit.AfterClass;
-import static org.junit.Assert.assertTrue;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.systemexception.orientplayground.test.classes.Person;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import static org.junit.Assert.assertTrue;
 
 public class TestOrient {
 
@@ -68,9 +69,8 @@ public class TestOrient {
 		Person person = new Person("John", "Doe", 40);
 		Vertex vperson = addPersonVertex(person);
 		log.log(Level.INFO, "Added record {0}", vperson.getId());
-		Iterator<Vertex> vertexIterator = orientGraph.getVertices("name", "John").iterator();
-		while (vertexIterator.hasNext()) {
-			assertTrue(person.getName().equals(vertexIterator.next().getProperty("name")));
+		for (Vertex vertex : orientGraph.getVertices("name", "John")) {
+			assertTrue(person.getName().equals(vertex.getProperty("name")));
 		}
 	}
 

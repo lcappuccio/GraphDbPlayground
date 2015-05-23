@@ -6,8 +6,6 @@
  */
 package org.systemexception.orientplayground.pojo;
 
-import java.util.Objects;
-
 public class Territory {
 
 	private final String parentId, nodeId, nodeDescr, nodeType;

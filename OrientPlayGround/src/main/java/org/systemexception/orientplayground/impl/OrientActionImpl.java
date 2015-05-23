@@ -32,19 +32,16 @@ import java.util.List;
 public class OrientActionImpl implements Action {
 
 	private static final Logger logger = LogManager.getLogger(OrientActionImpl.class);
-	private String dbPath;
-	private CsvParser csvParser;
-	private OrientGraphFactory orientGraphFactory;
 	private OrientGraph graph;
 	private Territories territories;
-	Index<Vertex> index;
+	private Index<Vertex> index;
 
 	@Override
 	public void initialSetup(String dbName) {
-		dbPath = "target/" + dbName;
+		String dbPath = "target/" + dbName;
 		File dbFolder = new File(dbPath);
 		deleteFolder(dbFolder);
-		orientGraphFactory = new OrientGraphFactory(OrientConfiguration.DB_STORAGE_MEMORY.toString() + dbPath, "admin", "admin");
+		OrientGraphFactory orientGraphFactory = new OrientGraphFactory(OrientConfiguration.DB_STORAGE_MEMORY.toString() + dbPath, "admin", "admin");
 		graph = orientGraphFactory.getTx();
 		graph.executeOutsideTx(new OCallable<Object, OrientBaseGraph>() {
 			@Override
@@ -114,7 +111,7 @@ public class OrientActionImpl implements Action {
 	 * @throws TerritoriesException
 	 */
 	private void readCsvTerritories(String fileName) throws CsvParserException, TerritoriesException {
-		csvParser = new CsvParser(fileName);
+		CsvParser csvParser = new CsvParser(fileName);
 		List<CSVRecord> csvRecords = csvParser.readCsvContents();
 		territories = new Territories();
 		for (CSVRecord csvRecord : csvRecords) {
