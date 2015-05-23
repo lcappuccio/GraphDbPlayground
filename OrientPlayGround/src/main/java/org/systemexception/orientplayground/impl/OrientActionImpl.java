@@ -7,26 +7,27 @@
 package org.systemexception.orientplayground.impl;
 
 import com.orientechnologies.common.util.OCallable;
-import org.systemexception.orientplayground.enums.OrientConfiguration;
 import com.tinkerpop.blueprints.Edge;
 import com.tinkerpop.blueprints.Index;
 import com.tinkerpop.blueprints.Vertex;
 import com.tinkerpop.blueprints.impls.orient.OrientBaseGraph;
 import com.tinkerpop.blueprints.impls.orient.OrientGraph;
 import com.tinkerpop.blueprints.impls.orient.OrientGraphFactory;
-import java.io.File;
-import java.util.Iterator;
-import java.util.List;
 import org.apache.commons.csv.CSVRecord;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.systemexception.orientplayground.api.Action;
 import org.systemexception.orientplayground.enums.CsvHeaders;
+import org.systemexception.orientplayground.enums.OrientConfiguration;
 import org.systemexception.orientplayground.exception.CsvParserException;
 import org.systemexception.orientplayground.exception.TerritoriesException;
 import org.systemexception.orientplayground.pojo.CsvParser;
 import org.systemexception.orientplayground.pojo.Territories;
 import org.systemexception.orientplayground.pojo.Territory;
+
+import java.io.File;
+import java.util.Iterator;
+import java.util.List;
 
 public class OrientActionImpl implements Action {
 
@@ -143,5 +144,10 @@ public class OrientActionImpl implements Action {
 			}
 		}
 		dbFolder.delete();
+	}
+
+	@Override
+	public void drop() {
+		graph.drop();
 	}
 }

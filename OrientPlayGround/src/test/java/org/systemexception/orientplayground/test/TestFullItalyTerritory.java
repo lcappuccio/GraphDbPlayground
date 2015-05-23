@@ -9,14 +9,16 @@ package org.systemexception.orientplayground.test;
 import com.tinkerpop.blueprints.Direction;
 import com.tinkerpop.blueprints.Edge;
 import com.tinkerpop.blueprints.Vertex;
-import java.util.Iterator;
 import org.junit.AfterClass;
-import org.junit.Test;
-import static org.junit.Assert.*;
 import org.junit.BeforeClass;
+import org.junit.Test;
 import org.systemexception.orientplayground.exception.CsvParserException;
 import org.systemexception.orientplayground.exception.TerritoriesException;
 import org.systemexception.orientplayground.impl.OrientActionImpl;
+
+import java.util.Iterator;
+
+import static org.junit.Assert.assertTrue;
 
 public class TestFullItalyTerritory {
 
@@ -32,7 +34,7 @@ public class TestFullItalyTerritory {
 
 	@AfterClass
 	public static void tearDown() {
-
+		sut.drop();
 	}
 
 	@Test
