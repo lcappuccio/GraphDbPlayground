@@ -14,9 +14,8 @@ import com.tinkerpop.blueprints.impls.orient.OrientBaseGraph;
 import com.tinkerpop.blueprints.impls.orient.OrientGraph;
 import com.tinkerpop.blueprints.impls.orient.OrientGraphFactory;
 import org.apache.commons.csv.CSVRecord;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.systemexception.orientplayground.api.Action;
+import org.systemexception.orientplayground.api.Logger;
 import org.systemexception.orientplayground.enums.CsvHeaders;
 import org.systemexception.orientplayground.enums.OrientConfiguration;
 import org.systemexception.orientplayground.exception.CsvParserException;
@@ -31,7 +30,7 @@ import java.util.List;
 
 public class OrientActionImpl implements Action {
 
-	private static final Logger logger = LogManager.getLogger(OrientActionImpl.class);
+	private static final Logger logger = LoggerImpl.getFor(OrientActionImpl.class);
 	private OrientGraph graph;
 	private Territories territories;
 	private Index<Vertex> index;
@@ -72,9 +71,9 @@ public class OrientActionImpl implements Action {
 		// Add edges
 		for (Territory territory : territories.getTerritories()) {
 			String territoryNodeId = territory.getNodeId();
-			String territotyParentNodeId = territory.getParentId();
+			String territoryParentNodeId = territory.getParentId();
 			Vertex sourceVertex = getVertexByNodeId(territoryNodeId);
-			Vertex destinationVertex = getVertexByNodeId(territotyParentNodeId);
+			Vertex destinationVertex = getVertexByNodeId(territoryParentNodeId);
 			if (sourceVertex == null || destinationVertex == null) {
 				logger.info("Node " + territoryNodeId + " has no parent");
 			} else {
@@ -82,8 +81,8 @@ public class OrientActionImpl implements Action {
 				// add a property otherwise you'll get no edge, check orient docs
 				reportingEdge.setProperty(OrientConfiguration.EDGE_TYPE.toString(), OrientConfiguration.REPORTS_TO.toString());
 				reportingEdge.setProperty(OrientConfiguration.EDGE_SOURCE_NODE.toString(), territoryNodeId);
-				reportingEdge.setProperty(OrientConfiguration.EDGE_DESTINATION_NODE.toString(), territotyParentNodeId);
-				logger.info("Added edge from " + territoryNodeId + " to " + territotyParentNodeId);
+				reportingEdge.setProperty(OrientConfiguration.EDGE_DESTINATION_NODE.toString(), territoryParentNodeId);
+				logger.info("Added edge from " + territoryNodeId + " to " + territoryParentNodeId);
 			}
 		}
 	}
