@@ -7,43 +7,40 @@
 package org.systemexception.orientplayground.impl;
 
 import com.orientechnologies.common.util.OCallable;
-import org.systemexception.orientplayground.enums.OrientConfiguration;
 import com.tinkerpop.blueprints.Edge;
 import com.tinkerpop.blueprints.Index;
 import com.tinkerpop.blueprints.Vertex;
 import com.tinkerpop.blueprints.impls.orient.OrientBaseGraph;
 import com.tinkerpop.blueprints.impls.orient.OrientGraph;
 import com.tinkerpop.blueprints.impls.orient.OrientGraphFactory;
-import java.io.File;
-import java.util.Iterator;
-import java.util.List;
 import org.apache.commons.csv.CSVRecord;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.systemexception.orientplayground.api.Action;
+import org.systemexception.orientplayground.api.Logger;
 import org.systemexception.orientplayground.enums.CsvHeaders;
+import org.systemexception.orientplayground.enums.OrientConfiguration;
 import org.systemexception.orientplayground.exception.CsvParserException;
 import org.systemexception.orientplayground.exception.TerritoriesException;
 import org.systemexception.orientplayground.pojo.CsvParser;
 import org.systemexception.orientplayground.pojo.Territories;
 import org.systemexception.orientplayground.pojo.Territory;
 
+import java.io.File;
+import java.util.Iterator;
+import java.util.List;
+
 public class OrientActionImpl implements Action {
 
-	private static final Logger logger = LogManager.getLogger(OrientActionImpl.class);
-	private String dbPath;
-	private CsvParser csvParser;
-	private OrientGraphFactory orientGraphFactory;
+	private static final Logger logger = LoggerImpl.getFor(OrientActionImpl.class);
 	private OrientGraph graph;
 	private Territories territories;
-	Index<Vertex> index;
+	private Index<Vertex> index;
 
 	@Override
 	public void initialSetup(String dbName) {
-		dbPath = "target/" + dbName;
+		String dbPath = "target/" + dbName;
 		File dbFolder = new File(dbPath);
 		deleteFolder(dbFolder);
-		orientGraphFactory = new OrientGraphFactory(OrientConfiguration.DB_STORAGE_MEMORY.toString() + dbPath, "admin", "admin");
+		OrientGraphFactory orientGraphFactory = new OrientGraphFactory(OrientConfiguration.DB_STORAGE_MEMORY.toString() + dbPath, "admin", "admin");
 		graph = orientGraphFactory.getTx();
 		graph.executeOutsideTx(new OCallable<Object, OrientBaseGraph>() {
 			@Override
@@ -63,7 +60,6 @@ public class OrientActionImpl implements Action {
 		readCsvTerritories(fileName);
 		// Create all nodes
 		for (Territory territory : territories.getTerritories()) {
-			// TODO investigate classes and their attributes
 			Vertex territoryVertex = graph.addVertex(OrientConfiguration.VERTEX_TERRITORY_CLASS.toString());
 			territoryVertex.setProperty(OrientConfiguration.NODE_ID.toString(), territory.getNodeId());
 			territoryVertex.setProperty(OrientConfiguration.NODE_DESC.toString(), territory.getNodeDescr());
@@ -75,19 +71,18 @@ public class OrientActionImpl implements Action {
 		// Add edges
 		for (Territory territory : territories.getTerritories()) {
 			String territoryNodeId = territory.getNodeId();
-			String territotyParentNodeId = territory.getParentId();
+			String territoryParentNodeId = territory.getParentId();
 			Vertex sourceVertex = getVertexByNodeId(territoryNodeId);
-			Vertex destinationVertex = getVertexByNodeId(territotyParentNodeId);
+			Vertex destinationVertex = getVertexByNodeId(territoryParentNodeId);
 			if (sourceVertex == null || destinationVertex == null) {
 				logger.info("Node " + territoryNodeId + " has no parent");
 			} else {
-				// TODO investigate edge classes and attributes
 				Edge reportingEdge = graph.addEdge(null, destinationVertex, sourceVertex, OrientConfiguration.REPORTS_TO.toString());
 				// add a property otherwise you'll get no edge, check orient docs
 				reportingEdge.setProperty(OrientConfiguration.EDGE_TYPE.toString(), OrientConfiguration.REPORTS_TO.toString());
 				reportingEdge.setProperty(OrientConfiguration.EDGE_SOURCE_NODE.toString(), territoryNodeId);
-				reportingEdge.setProperty(OrientConfiguration.EDGE_DESTINATION_NODE.toString(), territotyParentNodeId);
-				logger.info("Added edge from " + territoryNodeId + " to " + territotyParentNodeId);
+				reportingEdge.setProperty(OrientConfiguration.EDGE_DESTINATION_NODE.toString(), territoryParentNodeId);
+				logger.info("Added edge from " + territoryNodeId + " to " + territoryParentNodeId);
 			}
 		}
 	}
@@ -99,7 +94,6 @@ public class OrientActionImpl implements Action {
 	 * @return
 	 */
 	public Vertex getVertexByNodeId(String nodeId) {
-		// TODO Should throw exception if more than one item, otherwise implement unique keys
 		Iterator<Vertex> vertexIterator = index.get(OrientConfiguration.NODE_ID.toString(), nodeId).iterator();
 		if (vertexIterator.hasNext()) {
 			return vertexIterator.next();
@@ -116,7 +110,7 @@ public class OrientActionImpl implements Action {
 	 * @throws TerritoriesException
 	 */
 	private void readCsvTerritories(String fileName) throws CsvParserException, TerritoriesException {
-		csvParser = new CsvParser(fileName);
+		CsvParser csvParser = new CsvParser(fileName);
 		List<CSVRecord> csvRecords = csvParser.readCsvContents();
 		territories = new Territories();
 		for (CSVRecord csvRecord : csvRecords) {
@@ -146,5 +140,10 @@ public class OrientActionImpl implements Action {
 			}
 		}
 		dbFolder.delete();
+	}
+
+	@Override
+	public void drop() {
+		graph.drop();
 	}
 }

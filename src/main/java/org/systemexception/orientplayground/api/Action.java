@@ -16,7 +16,7 @@ public interface Action {
 	 *
 	 * @param dbName
 	 */
-	public void initialSetup(String dbName);
+	void initialSetup(String dbName);
 
 	/**
 	 * Reads all lines from a csv file and creates all nodes
@@ -25,6 +25,11 @@ public interface Action {
 	 * @throws org.systemexception.orientplayground.exception.CsvParserException
 	 * @throws org.systemexception.orientplayground.exception.TerritoriesException
 	 */
-	public void addTerritories(String fileName) throws CsvParserException, TerritoriesException;
+	void addTerritories(String fileName) throws CsvParserException, TerritoriesException;
+
+	/**
+	 * Drops the database
+	 */
+	void drop();
 
 }

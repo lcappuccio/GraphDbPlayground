@@ -61,12 +61,6 @@ public class Person {
 		if (!Objects.equals(this.name, other.name)) {
 			return false;
 		}
-		if (!Objects.equals(this.surname, other.surname)) {
-			return false;
-		}
-		if (this.age != other.age) {
-			return false;
-		}
-		return true;
+		return Objects.equals(this.surname, other.surname) && this.age == other.age;
 	}
 }
