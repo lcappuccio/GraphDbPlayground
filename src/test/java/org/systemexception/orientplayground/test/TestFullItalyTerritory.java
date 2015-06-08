@@ -16,6 +16,9 @@ import org.systemexception.orientplayground.exception.CsvParserException;
 import org.systemexception.orientplayground.exception.TerritoriesException;
 import org.systemexception.orientplayground.impl.OrientActionImpl;
 
+import java.io.File;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.Iterator;
 
 import static org.junit.Assert.assertTrue;
@@ -23,13 +26,15 @@ import static org.junit.Assert.assertTrue;
 public class TestFullItalyTerritory {
 
 	private static OrientActionImpl sut;
-	private final static String dbName = "test_database_italy_territories", fileName = "src/test/resources/geonames_it.csv";
+	private final static String dbName = "test_database_italy_territories";
 
 	@BeforeClass
-	public static void setUp() throws CsvParserException, TerritoriesException {
+	public static void setUp() throws CsvParserException, TerritoriesException, URISyntaxException {
+		URL myTestURL = ClassLoader.getSystemResource("geonames_it.csv");
+		File myFile = new File(myTestURL.toURI());
 		sut = new OrientActionImpl();
 		sut.initialSetup(dbName);
-		sut.addTerritories(fileName);
+		sut.addTerritories(myFile.getAbsolutePath());
 	}
 
 	@AfterClass
