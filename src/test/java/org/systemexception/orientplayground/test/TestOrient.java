@@ -28,7 +28,7 @@ public class TestOrient {
 	private final static Logger log = Logger.getLogger(TestOrient.class.getCanonicalName());
 	private static OrientGraphFactory orientGraphFactory;
 	private static OrientGraphNoTx orientGraph;
-	private static final String dbPath = "target/orientdb_test_database";
+	private static final String dbPath = "orientdb_test_database";
 	private static final File dbFolder = new File(dbPath);
 
 	@BeforeClass

@@ -1,8 +1,6 @@
 /**
- *
  * @author leo
  * @date 01/03/2015 19:17
- *
  */
 package org.systemexception.orientplayground.impl;
 
@@ -38,10 +36,11 @@ public class OrientActionImpl implements Action {
 
 	@Override
 	public void initialSetup(String dbName) {
-		String dbPath = "target/" + dbName;
+		String dbPath = System.getProperty("user.dir") + File.separator + dbName;
 		File dbFolder = new File(dbPath);
 		deleteFolder(dbFolder);
-		OrientGraphFactory orientGraphFactory = new OrientGraphFactory(OrientConfiguration.DB_STORAGE_MEMORY.toString() + dbPath, "admin", "admin");
+		OrientGraphFactory orientGraphFactory = new OrientGraphFactory(OrientConfiguration.DB_STORAGE_MEMORY.toString
+				() + dbPath, "admin", "admin");
 		graph = orientGraphFactory.getTx();
 		graph.executeOutsideTx(new OCallable<Object, OrientBaseGraph>() {
 			@Override
@@ -78,9 +77,11 @@ public class OrientActionImpl implements Action {
 			if (sourceVertex == null || destinationVertex == null) {
 				logger.info("Node " + territoryNodeId + " has no parent");
 			} else {
-				Edge reportingEdge = graph.addEdge(null, destinationVertex, sourceVertex, OrientConfiguration.REPORTS_TO.toString());
+				Edge reportingEdge = graph.addEdge(null, destinationVertex, sourceVertex, OrientConfiguration
+						.REPORTS_TO.toString());
 				// add a property otherwise you'll get no edge, check orient docs
-				reportingEdge.setProperty(OrientConfiguration.EDGE_TYPE.toString(), OrientConfiguration.REPORTS_TO.toString());
+				reportingEdge.setProperty(OrientConfiguration.EDGE_TYPE.toString(), OrientConfiguration.REPORTS_TO
+						.toString());
 				reportingEdge.setProperty(OrientConfiguration.EDGE_SOURCE_NODE.toString(), territoryNodeId);
 				reportingEdge.setProperty(OrientConfiguration.EDGE_DESTINATION_NODE.toString(), territoryParentNodeId);
 				logger.info("Added edge from " + territoryNodeId + " to " + territoryParentNodeId);
