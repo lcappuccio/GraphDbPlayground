@@ -36,7 +36,7 @@ public class OrientActionImpl implements Action {
 
 	@Override
 	public void initialSetup(String dbName) {
-		String dbPath = "target/" + dbName;
+		String dbPath = System.getProperty("user.dir") + File.separator + dbName;
 		File dbFolder = new File(dbPath);
 		deleteFolder(dbFolder);
 		OrientGraphFactory orientGraphFactory = new OrientGraphFactory(OrientConfiguration.DB_STORAGE_MEMORY.toString
