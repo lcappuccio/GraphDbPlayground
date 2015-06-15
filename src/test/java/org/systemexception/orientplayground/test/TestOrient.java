@@ -89,8 +89,8 @@ public class TestOrient {
 	/**
 	 * Creates a vertex for a Person
 	 *
-	 * @param person
-	 * @return
+	 * @param person a person
+	 * @return a vertex object
 	 */
 	private Vertex addPersonVertex(Person person) {
 		Vertex vperson = orientGraph.addVertex(null);
@@ -104,9 +104,9 @@ public class TestOrient {
 	/**
 	 * Creates an edge from vperson1 to vperson2
 	 *
-	 * @param vperson1
-	 * @param vperson2
-	 * @return
+	 * @param vperson1 the source person
+	 * @param vperson2 the destination person
+	 * @return an edge object
 	 */
 	private Edge addPersonEdge(Vertex vperson1, Vertex vperson2) {
 		Edge edge = orientGraph.addEdge(null, vperson1, vperson2, "brothers");

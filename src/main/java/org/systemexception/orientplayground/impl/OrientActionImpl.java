@@ -92,8 +92,8 @@ public class OrientActionImpl implements Action {
 	/**
 	 * Returns the vertex given the nodeId
 	 *
-	 * @param nodeId
-	 * @return
+	 * @param nodeId the node id to retrieve
+	 * @return a vertex object
 	 */
 	public Vertex getVertexByNodeId(String nodeId) {
 		Iterator<Vertex> vertexIterator = index.get(OrientConfiguration.NODE_ID.toString(), nodeId).iterator();
@@ -107,7 +107,7 @@ public class OrientActionImpl implements Action {
 	/**
 	 * Reads the territories file and creates the necessary structure
 	 *
-	 * @param fileName
+	 * @param fileName the file containing the structure
 	 * @throws CsvParserException
 	 * @throws TerritoriesException
 	 */
@@ -128,7 +128,7 @@ public class OrientActionImpl implements Action {
 	/**
 	 * Removes folder, it needs to be empty before deletion
 	 *
-	 * @param dbFolder
+	 * @param dbFolder the folder to remove
 	 */
 	private void deleteFolder(File dbFolder) {
 		File[] files = dbFolder.listFiles();
