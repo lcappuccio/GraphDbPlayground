@@ -14,14 +14,14 @@ public interface Action {
 	/**
 	 * Sets up the database on the specified folder
 	 *
-	 * @param dbName
+	 * @param dbName the database name
 	 */
 	void initialSetup(String dbName);
 
 	/**
 	 * Reads all lines from a csv file and creates all nodes
 	 *
-	 * @param fileName
+	 * @param fileName the csv file containing the structure
 	 * @throws org.systemexception.orientplayground.exception.CsvParserException
 	 * @throws org.systemexception.orientplayground.exception.TerritoriesException
 	 */
