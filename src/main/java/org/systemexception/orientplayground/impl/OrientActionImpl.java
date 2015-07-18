@@ -39,7 +39,7 @@ public class OrientActionImpl implements Action {
 		String dbPath = System.getProperty("user.dir") + File.separator + dbName;
 		File dbFolder = new File(dbPath);
 		deleteFolder(dbFolder);
-		OrientGraphFactory orientGraphFactory = new OrientGraphFactory(OrientConfiguration.DB_STORAGE_MEMORY.toString
+		OrientGraphFactory orientGraphFactory = new OrientGraphFactory(OrientConfiguration.DB_STORAGE_DISK.toString
 				() + dbPath, "admin", "admin");
 		graph = orientGraphFactory.getTx();
 		graph.executeOutsideTx(new OCallable<Object, OrientBaseGraph>() {
