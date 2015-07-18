@@ -27,7 +27,6 @@ public class CsvParser {
 	private List<CSVRecord> records;
 	private final String[] headerMapping = new String[]{CsvHeaders.PARENT_ID.toString(), CsvHeaders.NODE_ID.toString(),
 		CsvHeaders.DESCRIPTION.toString(), CsvHeaders.TYPE.toString()};
-	private final Timer timer = new Timer();
 
 	public CsvParser(String fileName) throws CsvParserException {
 		CSVFormat csvFormat = CSVFormat.RFC4180.withHeader(headerMapping).withSkipHeaderRecord(true);
@@ -35,6 +34,7 @@ public class CsvParser {
 			URL csvUrl = new File(fileName).toURI().toURL();
 			Reader csvReader = new InputStreamReader(csvUrl.openStream(), "UTF-8");
 			CSVParser csvParser = new CSVParser(csvReader, csvFormat);
+			Timer timer = new Timer();
 			timer.start();
 			records = csvParser.getRecords();
 			timer.end();
