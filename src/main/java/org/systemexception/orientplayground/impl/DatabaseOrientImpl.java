@@ -37,7 +37,7 @@ public class DatabaseOrientImpl implements DatabaseApi {
 	private OrientGraph graph;
 	private Territories territories;
 	private Index<Vertex> index;
-	private Timer timer;
+	private final Timer timer = new Timer();
 
 	@Override
 	public void initialSetup(String dbName) {
