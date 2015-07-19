@@ -124,9 +124,8 @@ public class DatabaseOrientImpl implements DatabaseApi {
 	public List<Vertex> getChildNodesOf(String nodeId) {
 		List<Vertex> childNodes = new ArrayList<>();
 		Vertex parentNode = getVertexByNodeId(nodeId);
-		Iterator<Edge> vertexIterator = parentNode.getEdges(Direction.OUT).iterator();
-		while (vertexIterator.hasNext()) {
-			childNodes.add(vertexIterator.next().getVertex(Direction.IN));
+		for (Edge edge : parentNode.getEdges(Direction.OUT)) {
+			childNodes.add(edge.getVertex(Direction.IN));
 		}
 		return childNodes;
 	}

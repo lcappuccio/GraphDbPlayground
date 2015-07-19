@@ -44,7 +44,7 @@ public class TestFullItalyTerritory {
 	}
 
 	@Test
-	public void verify_luino_has_parent_varese() throws CsvParserException, TerritoriesException {
+	public void verify_luino_has_parent_varese() {
 		Vertex vertexLuino = sut.getVertexByNodeId("6540157");
 		assertTrue(vertexLuino.getProperty("nodeId").equals("6540157"));
 		Iterator<Edge> edgeIterator = vertexLuino.getEdges(Direction.IN, "reportsTo").iterator();
@@ -55,7 +55,7 @@ public class TestFullItalyTerritory {
 	}
 
 	@Test
-	public void verify_varese_has_parent_lombardia() throws CsvParserException, TerritoriesException {
+	public void verify_varese_has_parent_lombardia() {
 		Vertex vertexVarese = sut.getVertexByNodeId("3164697");
 		assertTrue(vertexVarese.getProperty("nodeId").equals("3164697"));
 		Iterator<Edge> edgeIterator = vertexVarese.getEdges(Direction.IN, "reportsTo").iterator();
