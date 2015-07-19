@@ -9,7 +9,7 @@ package org.systemexception.orientplayground.api;
 import org.systemexception.orientplayground.exception.CsvParserException;
 import org.systemexception.orientplayground.exception.TerritoriesException;
 
-public interface Action {
+public interface DatabaseApi {
 
 	/**
 	 * Sets up the database on the specified folder

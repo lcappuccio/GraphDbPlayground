@@ -5,6 +5,7 @@
 package org.systemexception.orientplayground.impl;
 
 import com.orientechnologies.common.util.OCallable;
+import com.tinkerpop.blueprints.Direction;
 import com.tinkerpop.blueprints.Edge;
 import com.tinkerpop.blueprints.Index;
 import com.tinkerpop.blueprints.Vertex;
@@ -14,7 +15,7 @@ import com.tinkerpop.blueprints.impls.orient.OrientGraphFactory;
 import org.apache.commons.csv.CSVRecord;
 import org.systemexception.logger.api.Logger;
 import org.systemexception.logger.impl.LoggerImpl;
-import org.systemexception.orientplayground.api.Action;
+import org.systemexception.orientplayground.api.DatabaseApi;
 import org.systemexception.orientplayground.enums.CsvHeaders;
 import org.systemexception.orientplayground.enums.OrientConfiguration;
 import org.systemexception.orientplayground.exception.CsvParserException;
@@ -24,12 +25,13 @@ import org.systemexception.orientplayground.pojo.Territories;
 import org.systemexception.orientplayground.pojo.Territory;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class OrientActionImpl implements Action {
+public class DatabaseOrientImpl implements DatabaseApi {
 
-	private static final Logger logger = LoggerImpl.getFor(OrientActionImpl.class);
+	private static final Logger logger = LoggerImpl.getFor(DatabaseOrientImpl.class);
 	private OrientGraph graph;
 	private Territories territories;
 	private Index<Vertex> index;
@@ -102,6 +104,22 @@ public class OrientActionImpl implements Action {
 		} else {
 			return null;
 		}
+	}
+
+	/**
+	 * Returns all child nodes belonging to a node
+	 *
+	 * @param nodeId
+	 * @return
+	 */
+	public List<Vertex> getChildNodes(String nodeId) {
+		List<Vertex> childNodes = new ArrayList<>();
+		Vertex parentNode = getVertexByNodeId(nodeId);
+		Iterator<Edge> vertexIterator = parentNode.getEdges(Direction.OUT).iterator();
+		while (vertexIterator.hasNext()) {
+			childNodes.add(vertexIterator.next().getVertex(Direction.IN));
+		}
+		return childNodes;
 	}
 
 	/**
