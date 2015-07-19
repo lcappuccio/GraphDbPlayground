@@ -112,7 +112,7 @@ public class DatabaseOrientImpl implements DatabaseApi {
 	 * @param nodeId
 	 * @return
 	 */
-	public List<Vertex> getChildNodes(String nodeId) {
+	public List<Vertex> getChildNodesOf(String nodeId) {
 		List<Vertex> childNodes = new ArrayList<>();
 		Vertex parentNode = getVertexByNodeId(nodeId);
 		Iterator<Edge> vertexIterator = parentNode.getEdges(Direction.OUT).iterator();
@@ -120,6 +120,13 @@ public class DatabaseOrientImpl implements DatabaseApi {
 			childNodes.add(vertexIterator.next().getVertex(Direction.IN));
 		}
 		return childNodes;
+	}
+
+	public Vertex getParentNodeOf(String nodeId) {
+		Vertex node = getVertexByNodeId(nodeId);
+		String parentNode = node.getEdges(Direction.IN).iterator().next().getVertex(Direction.OUT).getProperty
+				(OrientConfiguration.NODE_ID.toString());
+		return getVertexByNodeId(parentNode);
 	}
 
 	/**

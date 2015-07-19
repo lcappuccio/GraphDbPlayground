@@ -10,6 +10,7 @@ import com.tinkerpop.blueprints.Vertex;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.systemexception.orientplayground.enums.OrientConfiguration;
 import org.systemexception.orientplayground.exception.CsvParserException;
 import org.systemexception.orientplayground.exception.TerritoriesException;
 import org.systemexception.orientplayground.impl.DatabaseOrientImpl;
@@ -68,13 +69,22 @@ public class TestFullItalyTerritory {
 	public void verify_varese_has_childs() {
 		Vertex vertexVarese = sut.getVertexByNodeId("3164697");
 		Vertex vertexLuino = sut.getVertexByNodeId("6540157");
-		List<Vertex> vertexVareseChilds = sut.getChildNodes("3164697");
+		List<Vertex> vertexVareseChilds = sut.getChildNodesOf("3164697");
 		ArrayList<String> childNodes = new ArrayList<>();
 		for (Vertex vertex : vertexVareseChilds) {
-			childNodes.add(vertex.getProperty("nodeDesc").toString());
+			childNodes.add(vertex.getProperty(OrientConfiguration.NODE_DESC.toString()).toString());
 		}
 		assertTrue(childNodes.contains("Luino"));
 		assertTrue(childNodes.contains("Lavena Ponte Tresa"));
 		assertTrue(childNodes.contains("Maccagno"));
+	}
+
+	@Test
+	public void verify_luino_has_parent_varese_by_method() {
+		Vertex vertexLuino = sut.getVertexByNodeId("6540157");
+		Vertex vertexParent = sut.getParentNodeOf(vertexLuino.getProperty(OrientConfiguration.NODE_ID.toString())
+				.toString());
+		String vertexParentDesc = vertexParent.getProperty(OrientConfiguration.NODE_DESC.toString());
+		assertTrue(vertexParentDesc.contains("Varese"));
 	}
 }
