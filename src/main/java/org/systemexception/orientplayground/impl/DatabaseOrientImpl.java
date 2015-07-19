@@ -122,6 +122,12 @@ public class DatabaseOrientImpl implements DatabaseApi {
 		return childNodes;
 	}
 
+	/**
+	 * Returns the parent node of a node
+	 *
+	 * @param nodeId
+	 * @return
+	 */
 	public Vertex getParentNodeOf(String nodeId) {
 		Vertex node = getVertexByNodeId(nodeId);
 		String parentNode = node.getEdges(Direction.IN).iterator().next().getVertex(Direction.OUT).getProperty
