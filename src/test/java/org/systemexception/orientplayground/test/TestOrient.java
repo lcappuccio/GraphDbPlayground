@@ -32,7 +32,7 @@ public class TestOrient {
 	private static final File dbFolder = new File(dbPath);
 
 	@BeforeClass
-	public static void setUp() throws IOException {
+	public static void setUp() {
 		if (dbFolder.exists()) {
 			log.info("Deleting previous database folder");
 			boolean deleted = dbFolder.delete();
