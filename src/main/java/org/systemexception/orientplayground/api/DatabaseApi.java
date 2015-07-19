@@ -47,6 +47,14 @@ public interface DatabaseApi {
 	List<Vertex> getChildNodesOf(String nodeId);
 
 	/**
+	 * Returns the parent node of a node
+	 *
+	 * @param nodeId
+	 * @return
+	 */
+	Vertex getParentNodeOf(String nodeId);
+
+	/**
 	 * Drops the database
 	 */
 	void drop();

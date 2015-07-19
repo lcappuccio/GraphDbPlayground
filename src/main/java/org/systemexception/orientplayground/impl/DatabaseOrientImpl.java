@@ -24,6 +24,7 @@ import org.systemexception.orientplayground.exception.TerritoriesException;
 import org.systemexception.orientplayground.pojo.CsvParser;
 import org.systemexception.orientplayground.pojo.Territories;
 import org.systemexception.orientplayground.pojo.Territory;
+import org.systemexception.orientplayground.pojo.Timer;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -36,6 +37,7 @@ public class DatabaseOrientImpl implements DatabaseApi {
 	private OrientGraph graph;
 	private Territories territories;
 	private Index<Vertex> index;
+	private Timer timer;
 
 	@Override
 	public void initialSetup(String dbName) {
@@ -61,6 +63,7 @@ public class DatabaseOrientImpl implements DatabaseApi {
 	@Override
 	public void addTerritories(String fileName) throws CsvParserException, TerritoriesException {
 		readCsvTerritories(fileName);
+		timer.start();
 		// Create all nodes
 		for (Territory territory : territories.getTerritories()) {
 			Vertex territoryVertex = graph.addVertex(OrientConfiguration.VERTEX_TERRITORY_CLASS.toString());
@@ -90,6 +93,8 @@ public class DatabaseOrientImpl implements DatabaseApi {
 				logger.info("Added edge from " + territoryNodeId + " to " + territoryParentNodeId);
 			}
 		}
+		timer.end();
+		logger.info("Database loaded: " + timer.durantionInSeconds() + " seconds");
 	}
 
 	/**
@@ -132,6 +137,7 @@ public class DatabaseOrientImpl implements DatabaseApi {
 	 * @param nodeId
 	 * @return
 	 */
+	@Override
 	public Vertex getParentNodeOf(String nodeId) {
 		Vertex node = getVertexByNodeId(nodeId);
 		String parentNode = node.getEdges(Direction.IN).iterator().next().getVertex(Direction.OUT).getProperty
