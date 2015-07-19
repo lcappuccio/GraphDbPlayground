@@ -67,8 +67,6 @@ public class TestFullItalyTerritory {
 
 	@Test
 	public void verify_varese_has_childs() {
-		Vertex vertexVarese = sut.getVertexByNodeId("3164697");
-		Vertex vertexLuino = sut.getVertexByNodeId("6540157");
 		List<Vertex> vertexVareseChilds = sut.getChildNodesOf("3164697");
 		ArrayList<String> childNodes = new ArrayList<>();
 		for (Vertex vertex : vertexVareseChilds) {
