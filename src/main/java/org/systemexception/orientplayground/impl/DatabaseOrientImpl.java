@@ -17,6 +17,7 @@ import org.systemexception.logger.api.Logger;
 import org.systemexception.logger.impl.LoggerImpl;
 import org.systemexception.orientplayground.api.DatabaseApi;
 import org.systemexception.orientplayground.enums.CsvHeaders;
+import org.systemexception.orientplayground.enums.ErrorCodes;
 import org.systemexception.orientplayground.enums.OrientConfiguration;
 import org.systemexception.orientplayground.exception.CsvParserException;
 import org.systemexception.orientplayground.exception.TerritoriesException;
@@ -102,6 +103,7 @@ public class DatabaseOrientImpl implements DatabaseApi {
 		if (vertexIterator.hasNext()) {
 			return vertexIterator.next();
 		} else {
+			logger.info(ErrorCodes.NODE_DOES_NOT_EXIST.toString());
 			return null;
 		}
 	}
