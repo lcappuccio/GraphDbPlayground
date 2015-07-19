@@ -98,6 +98,7 @@ public class DatabaseOrientImpl implements DatabaseApi {
 	 * @param nodeId the node id to retrieve
 	 * @return a vertex object
 	 */
+	@Override
 	public Vertex getVertexByNodeId(String nodeId) {
 		Iterator<Vertex> vertexIterator = index.get(OrientConfiguration.NODE_ID.toString(), nodeId).iterator();
 		if (vertexIterator.hasNext()) {
@@ -114,6 +115,7 @@ public class DatabaseOrientImpl implements DatabaseApi {
 	 * @param nodeId
 	 * @return
 	 */
+	@Override
 	public List<Vertex> getChildNodesOf(String nodeId) {
 		List<Vertex> childNodes = new ArrayList<>();
 		Vertex parentNode = getVertexByNodeId(nodeId);
