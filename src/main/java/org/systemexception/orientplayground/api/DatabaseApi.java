@@ -1,8 +1,6 @@
 /**
- *
  * @author leo
  * @date 01/03/2015 19:12
- *
  */
 package org.systemexception.orientplayground.api;
 
@@ -55,8 +53,19 @@ public interface DatabaseApi {
 	Vertex getParentNodeOf(String nodeId);
 
 	/**
+	 * Exports the database
+	 * WARNING: Export doesn't lock your database, but browses it. This means that concurrent operation can be
+	 * executed during the export
+	 */
+	void exportDatabase();
+
+	/**
+	 * Creates a database snapshot
+	 */
+	void backupDatabase();
+
+	/**
 	 * Drops the database
 	 */
 	void drop();
-
 }
