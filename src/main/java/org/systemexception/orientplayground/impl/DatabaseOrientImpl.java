@@ -12,8 +12,8 @@ import com.tinkerpop.blueprints.Edge;
 import com.tinkerpop.blueprints.Index;
 import com.tinkerpop.blueprints.Vertex;
 import com.tinkerpop.blueprints.impls.orient.OrientBaseGraph;
-import com.tinkerpop.blueprints.impls.orient.OrientGraph;
 import com.tinkerpop.blueprints.impls.orient.OrientGraphFactory;
+import com.tinkerpop.blueprints.impls.orient.OrientGraphNoTx;
 import org.apache.commons.csv.CSVRecord;
 import org.systemexception.logger.api.Logger;
 import org.systemexception.logger.impl.LoggerImpl;
@@ -29,7 +29,9 @@ import org.systemexception.orientplayground.pojo.Territory;
 import org.systemexception.orientplayground.pojo.Timer;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -37,7 +39,7 @@ import java.util.List;
 public class DatabaseOrientImpl implements DatabaseApi {
 
 	private static final Logger logger = LoggerImpl.getFor(DatabaseOrientImpl.class);
-	private OrientGraph graph;
+	private OrientGraphNoTx graph;
 	private Territories territories;
 	private Index<Vertex> index;
 	private final Timer timer = new Timer();
@@ -49,7 +51,7 @@ public class DatabaseOrientImpl implements DatabaseApi {
 		deleteFolder(dbFolder);
 		OrientGraphFactory orientGraphFactory = new OrientGraphFactory(OrientConfiguration.DB_STORAGE_DISK.toString
 				() + dbPath, "admin", "admin");
-		graph = orientGraphFactory.getTx();
+		graph = orientGraphFactory.getNoTx();
 		graph.executeOutsideTx(new OCallable<Object, OrientBaseGraph>() {
 			@Override
 			public Object call(OrientBaseGraph arg0) {
@@ -57,10 +59,6 @@ public class DatabaseOrientImpl implements DatabaseApi {
 				return null;
 			}
 		});
-	}
-
-	public OrientGraph getGraph() {
-		return graph;
 	}
 
 	@Override
@@ -101,10 +99,7 @@ public class DatabaseOrientImpl implements DatabaseApi {
 	}
 
 	/**
-	 * Returns the vertex given the nodeId
-	 *
-	 * @param nodeId the node id to retrieve
-	 * @return a vertex object
+	 * {@inheritDoc}
 	 */
 	@Override
 	public Vertex getVertexByNodeId(String nodeId) {
@@ -118,10 +113,7 @@ public class DatabaseOrientImpl implements DatabaseApi {
 	}
 
 	/**
-	 * Returns all child nodes belonging to a node
-	 *
-	 * @param nodeId
-	 * @return
+	 * {@inheritDoc}
 	 */
 	@Override
 	public List<Vertex> getChildNodesOf(String nodeId) {
@@ -134,10 +126,7 @@ public class DatabaseOrientImpl implements DatabaseApi {
 	}
 
 	/**
-	 * Returns the parent node of a node
-	 *
-	 * @param nodeId
-	 * @return
+	 * {@inheritDoc}
 	 */
 	@Override
 	public Vertex getParentNodeOf(String nodeId) {
@@ -147,7 +136,10 @@ public class DatabaseOrientImpl implements DatabaseApi {
 		return getVertexByNodeId(parentNode);
 	}
 
-	public void dumpDatabase() {
+	/**
+	 * {@inheritDoc}
+	 */
+	public void exportDatabase() {
 		try {
 			OCommandOutputListener listener = new OCommandOutputListener() {
 				@Override
@@ -155,21 +147,32 @@ public class DatabaseOrientImpl implements DatabaseApi {
 					System.out.print(iText);
 				}
 			};
-			ODatabaseExport export = new ODatabaseExport(graph.getRawGraph(), "/target/export.db", listener);
+			ODatabaseExport export = new ODatabaseExport(graph.getRawGraph(), "target/export.db", listener);
 			export.exportDatabase();
 			export.close();
 		} catch (IOException e) {
-			e.printStackTrace();
+			logger.error("Export database error", e);
 		}
 	}
 
 	/**
-	 * Reads the territories file and creates the necessary structure
-	 *
-	 * @param fileName the file containing the structure
-	 * @throws CsvParserException
-	 * @throws TerritoriesException
+	 * {@inheritDoc}
 	 */
+	public void backupDatabase() {
+		try {
+			OCommandOutputListener listener = new OCommandOutputListener() {
+				@Override
+				public void onMessage(String iText) {
+					System.out.print(iText);
+				}
+			};
+			OutputStream out = new FileOutputStream("target/backup.zip");
+			graph.getRawGraph().backup(out, null, null, listener, 9, 2048);
+		} catch (IOException e) {
+			logger.error("Backup database error", e);
+		}
+	}
+
 	private void readCsvTerritories(String fileName) throws CsvParserException, TerritoriesException {
 		CsvParser csvParser = new CsvParser(fileName);
 		List<CSVRecord> csvRecords = csvParser.readCsvContents();
@@ -184,11 +187,6 @@ public class DatabaseOrientImpl implements DatabaseApi {
 		}
 	}
 
-	/**
-	 * Removes folder, it needs to be empty before deletion
-	 *
-	 * @param dbFolder the folder to remove
-	 */
 	private void deleteFolder(File dbFolder) {
 		File[] files = dbFolder.listFiles();
 		if (files != null) { //some JVMs return null for empty dirs

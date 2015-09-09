@@ -85,4 +85,15 @@ public class TestFullItalyTerritory {
 		String vertexParentDesc = vertexParent.getProperty(OrientConfiguration.NODE_DESC.toString());
 		assertTrue(vertexParentDesc.contains("Varese"));
 	}
+
+	@Test
+	public void export_the_database() {
+		sut.exportDatabase();
+
+	}
+
+	@Test
+	public void backup_the_database() {
+		sut.backupDatabase();
+	}
 }
