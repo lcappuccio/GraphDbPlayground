@@ -5,6 +5,8 @@
 package org.systemexception.orientplayground.impl;
 
 import com.orientechnologies.common.util.OCallable;
+import com.orientechnologies.orient.core.command.OCommandOutputListener;
+import com.orientechnologies.orient.core.db.tool.ODatabaseExport;
 import com.tinkerpop.blueprints.Direction;
 import com.tinkerpop.blueprints.Edge;
 import com.tinkerpop.blueprints.Index;
@@ -27,6 +29,7 @@ import org.systemexception.orientplayground.pojo.Territory;
 import org.systemexception.orientplayground.pojo.Timer;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -142,6 +145,22 @@ public class DatabaseOrientImpl implements DatabaseApi {
 		String parentNode = node.getEdges(Direction.IN).iterator().next().getVertex(Direction.OUT).getProperty
 				(OrientConfiguration.NODE_ID.toString());
 		return getVertexByNodeId(parentNode);
+	}
+
+	public void dumpDatabase() {
+		try {
+			OCommandOutputListener listener = new OCommandOutputListener() {
+				@Override
+				public void onMessage(String iText) {
+					System.out.print(iText);
+				}
+			};
+			ODatabaseExport export = new ODatabaseExport(graph.getRawGraph(), "/target/export.db", listener);
+			export.exportDatabase();
+			export.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
