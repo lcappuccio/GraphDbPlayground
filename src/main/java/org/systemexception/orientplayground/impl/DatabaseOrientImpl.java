@@ -142,6 +142,7 @@ public class DatabaseOrientImpl implements DatabaseApi {
 	 */
 	@Override
 	public void exportDatabase(String exportFileName) {
+		logger.info("Database export started");
 		try {
 			OCommandOutputListener listener = new OCommandOutputListener() {
 				@Override
@@ -152,6 +153,7 @@ public class DatabaseOrientImpl implements DatabaseApi {
 			ODatabaseExport export = new ODatabaseExport(graph.getRawGraph(), exportFileName, listener);
 			export.exportDatabase();
 			export.close();
+			logger.info("Database export completed");
 		} catch (IOException e) {
 			logger.error("Export database error", e);
 		}
@@ -164,6 +166,7 @@ public class DatabaseOrientImpl implements DatabaseApi {
 	 */
 	@Override
 	public void backupDatabase(String backupFileName) {
+		logger.info("Database backup started");
 		try {
 			if (graph.getRawGraph().getStorage().getType().equals(OrientConfiguration.DB_STORAGE_MEMORY.toString())) {
 				logger.info("Operation not supported");
@@ -177,6 +180,7 @@ public class DatabaseOrientImpl implements DatabaseApi {
 			};
 			OutputStream out = new FileOutputStream(backupFileName);
 			graph.getRawGraph().backup(out, null, null, listener, 9, 2048);
+			logger.info("Database backup completed");
 		} catch (IOException e) {
 			logger.error("Backup database error", e);
 		}

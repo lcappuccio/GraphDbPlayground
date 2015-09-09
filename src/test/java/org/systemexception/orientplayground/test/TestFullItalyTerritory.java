@@ -29,7 +29,7 @@ public class TestFullItalyTerritory {
 
 	private static DatabaseOrientImpl sut;
 	private final static String dbName = "test_database_italy_territories", dbStorageType = OrientConfiguration
-			.DB_STORAGE_DISK.toString(), exportFileName = "target/database_export", backupFileName =
+			.DB_STORAGE_MEMORY.toString(), exportFileName = "target/database_export", backupFileName =
 			"target/backup.zip";
 	private static File backupFile, exportFile;
 
