@@ -8,8 +8,8 @@ package org.systemexception.orientplayground.enums;
 
 public enum OrientConfiguration {
 
-	DB_STORAGE_MEMORY("memory:"),
-	DB_STORAGE_DISK("plocal:"),
+	DB_STORAGE_MEMORY("memory"),
+	DB_STORAGE_DISK("plocal"),
 	VERTEX_TERRITORY_CLASS("class:Territory"),
 	VERTEX_INDEX("vertexIndex"),
 	NODE_ID("nodeId"),
