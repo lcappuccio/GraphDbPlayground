@@ -22,20 +22,26 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class TestFullItalyTerritory {
 
 	private static DatabaseOrientImpl sut;
-	private final static String dbName = "test_database_italy_territories";
+	private final static String dbName = "test_database_italy_territories", dbStorageType = OrientConfiguration
+			.DB_STORAGE_DISK.toString(), exportFileName = "target/database_export", backupFileName =
+			"target/backup.zip";
+	private static File backupFile, exportFile;
 
 	@BeforeClass
 	public static void setUp() throws CsvParserException, TerritoriesException, URISyntaxException {
 		URL myTestURL = ClassLoader.getSystemResource("geonames_it.csv");
 		File myFile = new File(myTestURL.toURI());
 		sut = new DatabaseOrientImpl();
-		sut.initialSetup(dbName);
+		sut.initialSetup(dbName, dbStorageType);
 		sut.addTerritories(myFile.getAbsolutePath());
+		exportFile = new File(exportFileName + ".json.gz");
+		backupFile = new File(backupFileName);
 	}
 
 	@AfterClass
@@ -88,12 +94,23 @@ public class TestFullItalyTerritory {
 
 	@Test
 	public void export_the_database() {
-		sut.exportDatabase();
-
+		sut.exportDatabase(exportFileName);
+		assertTrue(exportFile.exists());
 	}
 
 	@Test
 	public void backup_the_database() {
-		sut.backupDatabase();
+		if (dbStorageType.equals(OrientConfiguration.DB_STORAGE_DISK.toString())) {
+			sut.backupDatabase(backupFileName);
+			assertTrue(backupFile.exists());
+		}
+	}
+
+	@Test
+	public void dont_backup_database_in_memory() {
+		if (dbStorageType.equals(OrientConfiguration.DB_STORAGE_MEMORY.toString())) {
+			sut.backupDatabase(backupFileName);
+			assertFalse(backupFile.exists());
+		}
 	}
 }

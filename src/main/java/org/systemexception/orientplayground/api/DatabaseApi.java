@@ -17,7 +17,7 @@ public interface DatabaseApi {
 	 *
 	 * @param dbName the database name
 	 */
-	void initialSetup(String dbName);
+	void initialSetup(String dbName, String storageType);
 
 	/**
 	 * Reads all lines from a csv file and creates all nodes
@@ -56,13 +56,15 @@ public interface DatabaseApi {
 	 * Exports the database
 	 * WARNING: Export doesn't lock your database, but browses it. This means that concurrent operation can be
 	 * executed during the export
+	 * @param exportFileName
 	 */
-	void exportDatabase();
+	void exportDatabase(String exportFileName);
 
 	/**
 	 * Creates a database snapshot
+	 * @param backupFileName
 	 */
-	void backupDatabase();
+	void backupDatabase(String backupFileName);
 
 	/**
 	 * Drops the database

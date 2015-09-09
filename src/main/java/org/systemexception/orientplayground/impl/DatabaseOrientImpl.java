@@ -45,12 +45,11 @@ public class DatabaseOrientImpl implements DatabaseApi {
 	private final Timer timer = new Timer();
 
 	@Override
-	public void initialSetup(String dbName) {
+	public void initialSetup(String dbName, String dbStorageType) {
 		String dbPath = System.getProperty("user.dir") + File.separator + dbName;
 		File dbFolder = new File(dbPath);
 		deleteFolder(dbFolder);
-		OrientGraphFactory orientGraphFactory = new OrientGraphFactory(OrientConfiguration.DB_STORAGE_DISK.toString
-				() + dbPath, "admin", "admin");
+		OrientGraphFactory orientGraphFactory = new OrientGraphFactory(dbStorageType + ":" + dbPath, "admin", "admin");
 		graph = orientGraphFactory.getNoTx();
 		graph.executeOutsideTx(new OCallable<Object, OrientBaseGraph>() {
 			@Override
@@ -138,9 +137,11 @@ public class DatabaseOrientImpl implements DatabaseApi {
 
 	/**
 	 * {@inheritDoc}
+	 *
+	 * @param exportFileName
 	 */
 	@Override
-	public void exportDatabase() {
+	public void exportDatabase(String exportFileName) {
 		try {
 			OCommandOutputListener listener = new OCommandOutputListener() {
 				@Override
@@ -148,7 +149,7 @@ public class DatabaseOrientImpl implements DatabaseApi {
 					System.out.print(iText);
 				}
 			};
-			ODatabaseExport export = new ODatabaseExport(graph.getRawGraph(), "target/export.db", listener);
+			ODatabaseExport export = new ODatabaseExport(graph.getRawGraph(), exportFileName, listener);
 			export.exportDatabase();
 			export.close();
 		} catch (IOException e) {
@@ -158,17 +159,23 @@ public class DatabaseOrientImpl implements DatabaseApi {
 
 	/**
 	 * {@inheritDoc}
+	 *
+	 * @param backupFileName
 	 */
 	@Override
-	public void backupDatabase() {
+	public void backupDatabase(String backupFileName) {
 		try {
+			if (graph.getRawGraph().getStorage().getType().equals(OrientConfiguration.DB_STORAGE_MEMORY.toString())) {
+				logger.info("Operation not supported");
+				return;
+			}
 			OCommandOutputListener listener = new OCommandOutputListener() {
 				@Override
 				public void onMessage(String iText) {
 					System.out.print(iText);
 				}
 			};
-			OutputStream out = new FileOutputStream("target/backup.zip");
+			OutputStream out = new FileOutputStream(backupFileName);
 			graph.getRawGraph().backup(out, null, null, listener, 9, 2048);
 		} catch (IOException e) {
 			logger.error("Backup database error", e);
