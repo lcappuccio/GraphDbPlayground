@@ -1,7 +1,7 @@
-# Orient Playground
+# Graph Databases Playground
 Test project for using OrientDB graph database
 
-[![Build Status](https://travis-ci.org/lcappuccio/OrientPlayGround.svg?branch=master)](https://travis-ci.org/lcappuccio/OrientPlayGround)
+[![Build Status](https://travis-ci.org/lcappuccio/GraphDbPlayGround.svg?branch=master)](https://travis-ci.org/lcappuccio/GraphDbPlayGround)
 
 ## Installation
 1. Read CAREFULLY the instructions and SQL script: script.sql
