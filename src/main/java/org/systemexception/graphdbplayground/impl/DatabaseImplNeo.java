@@ -8,11 +8,9 @@ import com.tinkerpop.blueprints.*;
 import com.tinkerpop.blueprints.impls.neo4j.Neo4jGraph;
 import org.apache.commons.csv.CSVRecord;
 import org.neo4j.index.impl.lucene.LowerCaseKeywordAnalyzer;
-import org.systemexception.graphdbplayground.enums.ErrorCodes;
-import org.systemexception.logger.api.Logger;
-import org.systemexception.logger.impl.LoggerImpl;
 import org.systemexception.graphdbplayground.api.DatabaseApi;
 import org.systemexception.graphdbplayground.enums.CsvHeaders;
+import org.systemexception.graphdbplayground.enums.ErrorCodes;
 import org.systemexception.graphdbplayground.enums.OrientConfiguration;
 import org.systemexception.graphdbplayground.exception.CsvParserException;
 import org.systemexception.graphdbplayground.exception.TerritoriesException;
@@ -20,8 +18,9 @@ import org.systemexception.graphdbplayground.pojo.CsvParser;
 import org.systemexception.graphdbplayground.pojo.Territories;
 import org.systemexception.graphdbplayground.pojo.Territory;
 import org.systemexception.graphdbplayground.pojo.Timer;
+import org.systemexception.logger.api.Logger;
+import org.systemexception.logger.impl.LoggerImpl;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -158,19 +157,5 @@ public class DatabaseImplNeo implements DatabaseApi {
 			Territory territory = new Territory(parentId, nodeId, description, nodeType);
 			territories.addTerritory(territory);
 		}
-	}
-
-	private void deleteFolder(File dbFolder) {
-		File[] files = dbFolder.listFiles();
-		if (files != null) { //some JVMs return null for empty dirs
-			for (File f : files) {
-				if (f.isDirectory()) {
-					deleteFolder(f);
-				} else {
-					f.delete();
-				}
-			}
-		}
-		dbFolder.delete();
 	}
 }
