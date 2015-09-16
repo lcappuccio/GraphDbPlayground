@@ -11,4 +11,4 @@ Test project for using OrientDB graph database
 5. Insert the data with your favourite SQL ide, database, tool, whatever
 
 ## Usage
-An usage case is available: ```org.systemexception.orientplayground.test.TestFullItalyTerritory```
+An usage case is available: ```org.systemexception.orientplayground.test.TestItalyTerritoryOrient```
