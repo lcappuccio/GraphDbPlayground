@@ -1,8 +1,4 @@
-/**
- * @author leo
- * @date 02/03/2015 23:38
- */
-package org.systemexception.orientplayground.test;
+package org.systemexception.graphdbplayground.test;
 
 import com.tinkerpop.blueprints.Direction;
 import com.tinkerpop.blueprints.Edge;
@@ -10,12 +6,15 @@ import com.tinkerpop.blueprints.Vertex;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.systemexception.orientplayground.enums.OrientConfiguration;
-import org.systemexception.orientplayground.exception.CsvParserException;
-import org.systemexception.orientplayground.exception.TerritoriesException;
-import org.systemexception.orientplayground.impl.DatabaseOrientImpl;
+import org.neo4j.kernel.impl.util.FileUtils;
+import org.systemexception.graphdbplayground.api.DatabaseApi;
+import org.systemexception.graphdbplayground.enums.OrientConfiguration;
+import org.systemexception.graphdbplayground.exception.CsvParserException;
+import org.systemexception.graphdbplayground.exception.TerritoriesException;
+import org.systemexception.graphdbplayground.impl.DatabaseImplNeo;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -25,19 +24,27 @@ import java.util.List;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-public class TestFullItalyTerritory {
+/**
+ * $Id$
+ *
+ * @author lcappuccio
+ * @date 16/09/15 18:42
+ * Copyright (C) 2015 Scytl Secure Electronic Voting SA
+ * All rights reserved.
+ */
+public class TestImplNeo {
 
-	private static DatabaseOrientImpl sut;
-	private final static String dbName = "test_database_italy_territories", dbStorageType = OrientConfiguration
-			.DB_STORAGE_MEMORY.toString(), exportFileName = "target/database_export", backupFileName =
-			"target/backup.zip";
+	private static DatabaseApi sut;
+	private final static String dbName = "target/database_neo_italy", dbStorageType = OrientConfiguration
+			.DB_STORAGE_MEMORY.toString(), exportFileName = "target/database_neo_export", backupFileName =
+			"target/database_neo_backup";
 	private static File backupFile, exportFile;
 
 	@BeforeClass
 	public static void setUp() throws CsvParserException, TerritoriesException, URISyntaxException {
 		URL myTestURL = ClassLoader.getSystemResource("geonames_it.csv");
 		File myFile = new File(myTestURL.toURI());
-		sut = new DatabaseOrientImpl();
+		sut = new DatabaseImplNeo();
 		sut.initialSetup(dbName, dbStorageType);
 		sut.addTerritories(myFile.getAbsolutePath());
 		exportFile = new File(exportFileName + ".json.gz");
@@ -45,8 +52,9 @@ public class TestFullItalyTerritory {
 	}
 
 	@AfterClass
-	public static void tearDown() {
+	public static void tearDown() throws IOException {
 		sut.drop();
+		FileUtils.deleteRecursively(new File(dbName));
 	}
 
 	@Test
@@ -95,22 +103,12 @@ public class TestFullItalyTerritory {
 	@Test
 	public void export_the_database() {
 		sut.exportDatabase(exportFileName);
-		assertTrue(exportFile.exists());
+		assertFalse(exportFile.exists());
 	}
 
 	@Test
 	public void backup_the_database() {
-		if (dbStorageType.equals(OrientConfiguration.DB_STORAGE_DISK.toString())) {
-			sut.backupDatabase(backupFileName);
-			assertTrue(backupFile.exists());
-		}
-	}
-
-	@Test
-	public void dont_backup_database_in_memory() {
-		if (dbStorageType.equals(OrientConfiguration.DB_STORAGE_MEMORY.toString())) {
-			sut.backupDatabase(backupFileName);
-			assertFalse(backupFile.exists());
-		}
+		sut.backupDatabase(backupFileName);
+		assertFalse(backupFile.exists());
 	}
 }

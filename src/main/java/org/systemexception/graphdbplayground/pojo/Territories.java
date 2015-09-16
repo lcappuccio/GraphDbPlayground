@@ -4,9 +4,9 @@
  * @date 01/03/2015 18:25
  *
  */
-package org.systemexception.orientplayground.pojo;
+package org.systemexception.graphdbplayground.pojo;
 
-import org.systemexception.orientplayground.exception.TerritoriesException;
+import org.systemexception.graphdbplayground.exception.TerritoriesException;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,7 +1,7 @@
-# Orient Playground
-Test project for using OrientDB graph database
+# Graph Databases Playground
+Test project using graph databases
 
-[![Build Status](https://travis-ci.org/lcappuccio/OrientPlayGround.svg?branch=master)](https://travis-ci.org/lcappuccio/OrientPlayGround)
+[![Build Status](https://travis-ci.org/lcappuccio/GraphDbPlayground.svg?branch=master)](https://travis-ci.org/lcappuccio/GraphDbPlayground)
 
 ## Installation
 1. Read CAREFULLY the instructions and SQL script: script.sql
@@ -11,4 +11,7 @@ Test project for using OrientDB graph database
 5. Insert the data with your favourite SQL ide, database, tool, whatever
 
 ## Usage
-An usage case is available: ```org.systemexception.orientplayground.test.TestFullItalyTerritory```
+Usage cases examples:
+
+```org.systemexception.orientplayground.test.TestImplOrient```
+```org.systemexception.orientplayground.test.TestImplNeo```

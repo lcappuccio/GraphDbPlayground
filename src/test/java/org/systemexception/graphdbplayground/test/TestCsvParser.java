@@ -4,13 +4,13 @@
  * @date 01/03/2015 14:46
  *
  */
-package org.systemexception.orientplayground.test;
+package org.systemexception.graphdbplayground.test;
 
 import org.apache.commons.csv.CSVRecord;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.systemexception.orientplayground.exception.CsvParserException;
-import org.systemexception.orientplayground.pojo.CsvParser;
+import org.systemexception.graphdbplayground.exception.CsvParserException;
+import org.systemexception.graphdbplayground.pojo.CsvParser;
 
 import java.io.File;
 import java.net.URISyntaxException;

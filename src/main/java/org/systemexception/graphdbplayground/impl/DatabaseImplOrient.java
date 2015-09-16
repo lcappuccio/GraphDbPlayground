@@ -2,7 +2,7 @@
  * @author leo
  * @date 01/03/2015 19:17
  */
-package org.systemexception.orientplayground.impl;
+package org.systemexception.graphdbplayground.impl;
 
 import com.orientechnologies.common.util.OCallable;
 import com.orientechnologies.orient.core.command.OCommandOutputListener;
@@ -17,16 +17,16 @@ import com.tinkerpop.blueprints.impls.orient.OrientGraphNoTx;
 import org.apache.commons.csv.CSVRecord;
 import org.systemexception.logger.api.Logger;
 import org.systemexception.logger.impl.LoggerImpl;
-import org.systemexception.orientplayground.api.DatabaseApi;
-import org.systemexception.orientplayground.enums.CsvHeaders;
-import org.systemexception.orientplayground.enums.ErrorCodes;
-import org.systemexception.orientplayground.enums.OrientConfiguration;
-import org.systemexception.orientplayground.exception.CsvParserException;
-import org.systemexception.orientplayground.exception.TerritoriesException;
-import org.systemexception.orientplayground.pojo.CsvParser;
-import org.systemexception.orientplayground.pojo.Territories;
-import org.systemexception.orientplayground.pojo.Territory;
-import org.systemexception.orientplayground.pojo.Timer;
+import org.systemexception.graphdbplayground.api.DatabaseApi;
+import org.systemexception.graphdbplayground.enums.CsvHeaders;
+import org.systemexception.graphdbplayground.enums.ErrorCodes;
+import org.systemexception.graphdbplayground.enums.OrientConfiguration;
+import org.systemexception.graphdbplayground.exception.CsvParserException;
+import org.systemexception.graphdbplayground.exception.TerritoriesException;
+import org.systemexception.graphdbplayground.pojo.CsvParser;
+import org.systemexception.graphdbplayground.pojo.Territories;
+import org.systemexception.graphdbplayground.pojo.Territory;
+import org.systemexception.graphdbplayground.pojo.Timer;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -36,14 +36,17 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class DatabaseOrientImpl implements DatabaseApi {
+public class DatabaseImplOrient implements DatabaseApi {
 
-	private static final Logger logger = LoggerImpl.getFor(DatabaseOrientImpl.class);
+	private static final Logger logger = LoggerImpl.getFor(DatabaseImplOrient.class);
 	private OrientGraphNoTx graph;
 	private Territories territories;
 	private Index<Vertex> index;
 	private final Timer timer = new Timer();
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void initialSetup(String dbName, String dbStorageType) {
 		String dbPath = System.getProperty("user.dir") + File.separator + dbName;
@@ -60,6 +63,9 @@ public class DatabaseOrientImpl implements DatabaseApi {
 		});
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void addTerritories(String fileName) throws CsvParserException, TerritoriesException {
 		readCsvTerritories(fileName);
@@ -137,8 +143,6 @@ public class DatabaseOrientImpl implements DatabaseApi {
 
 	/**
 	 * {@inheritDoc}
-	 *
-	 * @param exportFileName
 	 */
 	@Override
 	public void exportDatabase(String exportFileName) {
@@ -161,8 +165,6 @@ public class DatabaseOrientImpl implements DatabaseApi {
 
 	/**
 	 * {@inheritDoc}
-	 *
-	 * @param backupFileName
 	 */
 	@Override
 	public void backupDatabase(String backupFileName) {
@@ -184,6 +186,14 @@ public class DatabaseOrientImpl implements DatabaseApi {
 		} catch (IOException e) {
 			logger.error("Backup database error", e);
 		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void drop() {
+		graph.drop();
 	}
 
 	private void readCsvTerritories(String fileName) throws CsvParserException, TerritoriesException {
@@ -212,10 +222,5 @@ public class DatabaseOrientImpl implements DatabaseApi {
 			}
 		}
 		dbFolder.delete();
-	}
-
-	@Override
-	public void drop() {
-		graph.drop();
 	}
 }
