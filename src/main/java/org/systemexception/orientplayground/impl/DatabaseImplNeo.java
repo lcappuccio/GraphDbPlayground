@@ -1,3 +1,7 @@
+/**
+ * @author leo
+ * @date 16/09/15 15:53
+ */
 package org.systemexception.orientplayground.impl;
 
 import com.tinkerpop.blueprints.Vertex;
@@ -7,12 +11,6 @@ import org.systemexception.orientplayground.exception.TerritoriesException;
 
 import java.util.List;
 
-/**
- * $Id$
- *
- * @author leo
- * @date 16/09/15 15:53
- */
 public class DatabaseImplNeo implements DatabaseApi {
 
 	@Override
