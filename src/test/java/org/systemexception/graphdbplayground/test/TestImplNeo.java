@@ -22,7 +22,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -114,15 +113,6 @@ public class TestImplNeo {
 		if (dbStorageType.equals(OrientConfiguration.DB_STORAGE_DISK.toString())) {
 			sut.backupDatabase(backupFileName);
 			assertTrue(backupFile.exists());
-		}
-	}
-
-	@Test
-	@Ignore
-	public void dont_backup_database_in_memory() {
-		if (dbStorageType.equals(OrientConfiguration.DB_STORAGE_MEMORY.toString())) {
-			sut.backupDatabase(backupFileName);
-			assertFalse(backupFile.exists());
 		}
 	}
 }
