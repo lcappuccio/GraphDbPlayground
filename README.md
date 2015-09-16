@@ -1,5 +1,5 @@
 # Graph Databases Playground
-Test project for using OrientDB graph database
+Test project using graph databases
 
 [![Build Status](https://travis-ci.org/lcappuccio/GraphDbPlayGround.svg?branch=master)](https://travis-ci.org/lcappuccio/GraphDbPlayGround)
 
