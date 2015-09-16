@@ -4,7 +4,7 @@
  * @date 06/03/2015 20:59
  *
  */
-package org.systemexception.orientplayground.enums;
+package org.systemexception.graphdbplayground.enums;
 
 public enum OrientConfiguration {
 

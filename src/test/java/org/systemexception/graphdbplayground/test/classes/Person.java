@@ -4,7 +4,7 @@
  * @date 28/02/2015 21:25
  *
  */
-package org.systemexception.orientplayground.test.classes;
+package org.systemexception.graphdbplayground.test.classes;
 
 import java.util.Objects;
 

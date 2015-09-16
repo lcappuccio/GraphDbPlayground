@@ -2,11 +2,11 @@
  * @author leo
  * @date 01/03/2015 19:12
  */
-package org.systemexception.orientplayground.api;
+package org.systemexception.graphdbplayground.api;
 
 import com.tinkerpop.blueprints.Vertex;
-import org.systemexception.orientplayground.exception.CsvParserException;
-import org.systemexception.orientplayground.exception.TerritoriesException;
+import org.systemexception.graphdbplayground.exception.CsvParserException;
+import org.systemexception.graphdbplayground.exception.TerritoriesException;
 
 import java.util.List;
 
@@ -23,8 +23,8 @@ public interface DatabaseApi {
 	 * Reads all lines from a csv file and creates all nodes
 	 *
 	 * @param fileName the csv file containing the structure
-	 * @throws org.systemexception.orientplayground.exception.CsvParserException
-	 * @throws org.systemexception.orientplayground.exception.TerritoriesException
+	 * @throws org.systemexception.graphdbplayground.exception.CsvParserException
+	 * @throws org.systemexception.graphdbplayground.exception.TerritoriesException
 	 */
 	void addTerritories(String fileName) throws CsvParserException, TerritoriesException;
 

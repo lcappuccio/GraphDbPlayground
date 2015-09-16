@@ -4,7 +4,7 @@
  * @date 01/03/2015 16:48
  *
  */
-package org.systemexception.orientplayground.exception;
+package org.systemexception.graphdbplayground.exception;
 
 public class CsvParserException extends Exception {
 

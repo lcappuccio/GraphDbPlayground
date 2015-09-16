@@ -2,7 +2,7 @@
  * @author leo
  * @date 02/03/2015 23:38
  */
-package org.systemexception.orientplayground.test;
+package org.systemexception.graphdbplayground.test;
 
 import com.tinkerpop.blueprints.Direction;
 import com.tinkerpop.blueprints.Edge;
@@ -10,10 +10,10 @@ import com.tinkerpop.blueprints.Vertex;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.systemexception.orientplayground.enums.OrientConfiguration;
-import org.systemexception.orientplayground.exception.CsvParserException;
-import org.systemexception.orientplayground.exception.TerritoriesException;
-import org.systemexception.orientplayground.impl.DatabaseImplOrient;
+import org.systemexception.graphdbplayground.enums.OrientConfiguration;
+import org.systemexception.graphdbplayground.exception.CsvParserException;
+import org.systemexception.graphdbplayground.exception.TerritoriesException;
+import org.systemexception.graphdbplayground.impl.DatabaseImplOrient;
 
 import java.io.File;
 import java.net.URISyntaxException;

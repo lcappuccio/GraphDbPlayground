@@ -4,15 +4,15 @@
  * @date 01/03/2015 14:59
  *
  */
-package org.systemexception.orientplayground.pojo;
+package org.systemexception.graphdbplayground.pojo;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 import org.systemexception.logger.api.Logger;
 import org.systemexception.logger.impl.LoggerImpl;
-import org.systemexception.orientplayground.enums.CsvHeaders;
-import org.systemexception.orientplayground.exception.CsvParserException;
+import org.systemexception.graphdbplayground.enums.CsvHeaders;
+import org.systemexception.graphdbplayground.exception.CsvParserException;
 
 import java.io.File;
 import java.io.IOException;

@@ -4,7 +4,7 @@
  * @date 28/02/2015 20:03
  *
  */
-package org.systemexception.orientplayground.test;
+package org.systemexception.graphdbplayground.test;
 
 import com.tinkerpop.blueprints.Direction;
 import com.tinkerpop.blueprints.Edge;
@@ -14,10 +14,9 @@ import com.tinkerpop.blueprints.impls.orient.OrientGraphNoTx;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.systemexception.orientplayground.test.classes.Person;
+import org.systemexception.graphdbplayground.test.classes.Person;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 

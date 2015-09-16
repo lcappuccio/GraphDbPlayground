@@ -1,4 +1,4 @@
-package org.systemexception.orientplayground.pojo;
+package org.systemexception.graphdbplayground.pojo;
 
 /**
  * @author leo

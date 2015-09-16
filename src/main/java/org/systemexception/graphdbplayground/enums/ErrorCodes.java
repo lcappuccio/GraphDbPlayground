@@ -1,4 +1,4 @@
-package org.systemexception.orientplayground.enums;
+package org.systemexception.graphdbplayground.enums;
 
 /**
  * @author leo
