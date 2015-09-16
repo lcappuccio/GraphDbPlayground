@@ -25,7 +25,6 @@
             <AppenderRef ref="info_logfile" level="INFO"/>
             <AppenderRef ref="error_logfile" level="ERROR"/>
             <AppenderRef ref="debug_logfile" level="DEBUG"/>
-            <AppenderRef ref="console"/>
         </Root>
     </Loggers>
 </Configuration>
