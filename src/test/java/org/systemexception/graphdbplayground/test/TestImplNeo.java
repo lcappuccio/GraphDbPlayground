@@ -7,14 +7,15 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.neo4j.kernel.impl.util.FileUtils;
 import org.systemexception.graphdbplayground.api.DatabaseApi;
 import org.systemexception.graphdbplayground.enums.OrientConfiguration;
 import org.systemexception.graphdbplayground.exception.CsvParserException;
 import org.systemexception.graphdbplayground.exception.TerritoriesException;
 import org.systemexception.graphdbplayground.impl.DatabaseImplNeo;
-import org.systemexception.graphdbplayground.impl.DatabaseImplOrient;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -52,8 +53,9 @@ public class TestImplNeo {
 	}
 
 	@AfterClass
-	public static void tearDown() {
+	public static void tearDown() throws IOException {
 		sut.drop();
+		FileUtils.deleteRecursively(new File(dbName));
 	}
 
 	@Test
