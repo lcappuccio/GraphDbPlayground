@@ -126,7 +126,7 @@ public class DatabaseImplNeo implements DatabaseApi {
 	 */
 	@Override
 	public void exportDatabase(String exportFileName) {
-
+		logger.error("Database export only in enterprise", new UnsupportedOperationException());
 	}
 
 	/**
@@ -134,7 +134,7 @@ public class DatabaseImplNeo implements DatabaseApi {
 	 */
 	@Override
 	public void backupDatabase(String backupFileName) {
-
+		logger.error("Database backup only in enterprise", new UnsupportedOperationException());
 	}
 
 	/**

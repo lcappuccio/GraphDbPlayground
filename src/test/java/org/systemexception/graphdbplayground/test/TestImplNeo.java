@@ -5,7 +5,6 @@ import com.tinkerpop.blueprints.Edge;
 import com.tinkerpop.blueprints.Vertex;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.neo4j.kernel.impl.util.FileUtils;
 import org.systemexception.graphdbplayground.api.DatabaseApi;
@@ -22,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -37,7 +37,7 @@ public class TestImplNeo {
 	private static DatabaseApi sut;
 	private final static String dbName = "target/database_neo_italy", dbStorageType = OrientConfiguration
 			.DB_STORAGE_MEMORY.toString(), exportFileName = "target/database_neo_export", backupFileName =
-			"target/database_neo_backup.zip";
+			"target/database_neo_backup";
 	private static File backupFile, exportFile;
 
 	@BeforeClass
@@ -101,18 +101,14 @@ public class TestImplNeo {
 	}
 
 	@Test
-	@Ignore
 	public void export_the_database() {
 		sut.exportDatabase(exportFileName);
-		assertTrue(exportFile.exists());
+		assertFalse(exportFile.exists());
 	}
 
 	@Test
-	@Ignore
 	public void backup_the_database() {
-		if (dbStorageType.equals(OrientConfiguration.DB_STORAGE_DISK.toString())) {
-			sut.backupDatabase(backupFileName);
-			assertTrue(backupFile.exists());
-		}
+		sut.backupDatabase(backupFileName);
+		assertFalse(backupFile.exists());
 	}
 }
