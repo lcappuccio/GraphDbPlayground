@@ -8,8 +8,6 @@ package org.systemexception.graphdbplayground.exception;
 
 public class CsvParserException extends Exception {
 
-	private static final long serialVersionUID = 223605635294014864L;
-
 	/**
 	 * Creates a new instance of <code>CsvParserException</code> without detail message.
 	 */
