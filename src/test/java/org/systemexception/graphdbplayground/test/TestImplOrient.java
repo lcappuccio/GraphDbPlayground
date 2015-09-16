@@ -10,6 +10,7 @@ import com.tinkerpop.blueprints.Vertex;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.systemexception.graphdbplayground.api.DatabaseApi;
 import org.systemexception.graphdbplayground.enums.OrientConfiguration;
 import org.systemexception.graphdbplayground.exception.CsvParserException;
 import org.systemexception.graphdbplayground.exception.TerritoriesException;
@@ -27,7 +28,7 @@ import static org.junit.Assert.assertTrue;
 
 public class TestImplOrient {
 
-	private static DatabaseImplOrient sut;
+	private static DatabaseApi sut;
 	private final static String dbName = "target/database_orient_italy", dbStorageType = OrientConfiguration
 			.DB_STORAGE_MEMORY.toString(), exportFileName = "target/database_orient_export", backupFileName =
 			"target/database_orient_backup.zip";
