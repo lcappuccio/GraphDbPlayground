@@ -13,7 +13,7 @@ import org.junit.Test;
 import org.systemexception.orientplayground.enums.OrientConfiguration;
 import org.systemexception.orientplayground.exception.CsvParserException;
 import org.systemexception.orientplayground.exception.TerritoriesException;
-import org.systemexception.orientplayground.impl.DatabaseOrientImpl;
+import org.systemexception.orientplayground.impl.DatabaseImplOrient;
 
 import java.io.File;
 import java.net.URISyntaxException;
@@ -27,7 +27,7 @@ import static org.junit.Assert.assertTrue;
 
 public class TestFullItalyTerritory {
 
-	private static DatabaseOrientImpl sut;
+	private static DatabaseImplOrient sut;
 	private final static String dbName = "test_database_italy_territories", dbStorageType = OrientConfiguration
 			.DB_STORAGE_MEMORY.toString(), exportFileName = "target/database_export", backupFileName =
 			"target/backup.zip";
@@ -37,7 +37,7 @@ public class TestFullItalyTerritory {
 	public static void setUp() throws CsvParserException, TerritoriesException, URISyntaxException {
 		URL myTestURL = ClassLoader.getSystemResource("geonames_it.csv");
 		File myFile = new File(myTestURL.toURI());
-		sut = new DatabaseOrientImpl();
+		sut = new DatabaseImplOrient();
 		sut.initialSetup(dbName, dbStorageType);
 		sut.addTerritories(myFile.getAbsolutePath());
 		exportFile = new File(exportFileName + ".json.gz");

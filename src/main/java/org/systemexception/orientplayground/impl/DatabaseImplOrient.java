@@ -36,9 +36,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class DatabaseOrientImpl implements DatabaseApi {
+public class DatabaseImplOrient implements DatabaseApi {
 
-	private static final Logger logger = LoggerImpl.getFor(DatabaseOrientImpl.class);
+	private static final Logger logger = LoggerImpl.getFor(DatabaseImplOrient.class);
 	private OrientGraphNoTx graph;
 	private Territories territories;
 	private Index<Vertex> index;
