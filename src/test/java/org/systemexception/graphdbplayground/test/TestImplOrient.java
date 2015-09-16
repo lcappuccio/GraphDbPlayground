@@ -25,7 +25,7 @@ import java.util.List;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-public class TestItalyTerritoryOrient {
+public class TestImplOrient {
 
 	private static DatabaseImplOrient sut;
 	private final static String dbName = "target/database_orient_italy", dbStorageType = OrientConfiguration
