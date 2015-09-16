@@ -47,8 +47,4 @@ public class CsvParser {
 	public List readCsvContents() {
 		return records;
 	}
-
-	public String[] getMapping() {
-		return headerMapping;
-	}
 }
