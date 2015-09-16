@@ -28,9 +28,9 @@ import static org.junit.Assert.assertTrue;
 public class TestItalyTerritoryOrient {
 
 	private static DatabaseImplOrient sut;
-	private final static String dbName = "test_database_italy_territories", dbStorageType = OrientConfiguration
-			.DB_STORAGE_MEMORY.toString(), exportFileName = "target/database_export", backupFileName =
-			"target/backup.zip";
+	private final static String dbName = "target/database_orient_italy", dbStorageType = OrientConfiguration
+			.DB_STORAGE_MEMORY.toString(), exportFileName = "target/database_orient_export", backupFileName =
+			"target/database_orient_backup.zip";
 	private static File backupFile, exportFile;
 
 	@BeforeClass
