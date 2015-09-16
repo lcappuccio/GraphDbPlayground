@@ -44,6 +44,9 @@ public class DatabaseImplOrient implements DatabaseApi {
 	private Index<Vertex> index;
 	private final Timer timer = new Timer();
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void initialSetup(String dbName, String dbStorageType) {
 		String dbPath = System.getProperty("user.dir") + File.separator + dbName;
@@ -60,6 +63,9 @@ public class DatabaseImplOrient implements DatabaseApi {
 		});
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void addTerritories(String fileName) throws CsvParserException, TerritoriesException {
 		readCsvTerritories(fileName);
@@ -137,8 +143,6 @@ public class DatabaseImplOrient implements DatabaseApi {
 
 	/**
 	 * {@inheritDoc}
-	 *
-	 * @param exportFileName
 	 */
 	@Override
 	public void exportDatabase(String exportFileName) {
@@ -161,8 +165,6 @@ public class DatabaseImplOrient implements DatabaseApi {
 
 	/**
 	 * {@inheritDoc}
-	 *
-	 * @param backupFileName
 	 */
 	@Override
 	public void backupDatabase(String backupFileName) {
@@ -184,6 +186,14 @@ public class DatabaseImplOrient implements DatabaseApi {
 		} catch (IOException e) {
 			logger.error("Backup database error", e);
 		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void drop() {
+		graph.drop();
 	}
 
 	private void readCsvTerritories(String fileName) throws CsvParserException, TerritoriesException {
@@ -212,10 +222,5 @@ public class DatabaseImplOrient implements DatabaseApi {
 			}
 		}
 		dbFolder.delete();
-	}
-
-	@Override
-	public void drop() {
-		graph.drop();
 	}
 }
