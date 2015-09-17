@@ -8,7 +8,6 @@ import com.tinkerpop.blueprints.*;
 import com.tinkerpop.blueprints.impls.neo4j.Neo4jGraph;
 import com.tinkerpop.blueprints.util.io.graphson.GraphSONWriter;
 import org.apache.commons.csv.CSVRecord;
-import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.index.impl.lucene.LowerCaseKeywordAnalyzer;
 import org.neo4j.kernel.impl.util.FileUtils;
 import org.systemexception.graphdbplayground.api.DatabaseApi;
