@@ -6,10 +6,11 @@
  */
 package org.systemexception.graphdbplayground.enums;
 
-public enum OrientConfiguration {
+public enum GraphDatabaseConfiguration {
 
-	DB_STORAGE_MEMORY("memory"),
-	DB_STORAGE_DISK("plocal"),
+	ORIENT_DB_STORAGE_MEMORY("memory"),
+	ORIENT_DB_STORAGE_DISK("plocal"),
+	NEO_INDEX_PARAMETER("exact"),
 	VERTEX_TERRITORY_CLASS("class:Territory"),
 	VERTEX_INDEX("vertexIndex"),
 	NODE_ID("nodeId"),
@@ -22,7 +23,7 @@ public enum OrientConfiguration {
 
 	private final String orientConfiguration;
 
-	OrientConfiguration(String orientConfiguration) {
+	GraphDatabaseConfiguration(String orientConfiguration) {
 		this.orientConfiguration = orientConfiguration;
 	}
 

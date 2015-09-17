@@ -11,7 +11,7 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.systemexception.graphdbplayground.api.DatabaseApi;
-import org.systemexception.graphdbplayground.enums.OrientConfiguration;
+import org.systemexception.graphdbplayground.enums.GraphDatabaseConfiguration;
 import org.systemexception.graphdbplayground.exception.CsvParserException;
 import org.systemexception.graphdbplayground.exception.TerritoriesException;
 import org.systemexception.graphdbplayground.impl.DatabaseImplNeo;
@@ -24,14 +24,13 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class TestImplNeo {
 
 	private static DatabaseApi sut;
-	private final static String dbName = "target/database_neo_italy", dbStorageType = OrientConfiguration
-			.DB_STORAGE_MEMORY.toString(), exportFileName = "target/database_neo_export.csv", backupFileName =
+	private final static String dbName = "target/database_neo_italy", dbStorageType = GraphDatabaseConfiguration
+			.ORIENT_DB_STORAGE_MEMORY.toString(), exportFileName = "target/database_neo_export.csv", backupFileName =
 			"target/database_neo_backup.csv";
 	private static File backupFile, exportFile;
 
@@ -78,7 +77,7 @@ public class TestImplNeo {
 		List<Vertex> vertexVareseChilds = sut.getChildNodesOf("3164697");
 		ArrayList<String> childNodes = new ArrayList<>();
 		for (Vertex vertex : vertexVareseChilds) {
-			childNodes.add(vertex.getProperty(OrientConfiguration.NODE_DESC.toString()).toString());
+			childNodes.add(vertex.getProperty(GraphDatabaseConfiguration.NODE_DESC.toString()).toString());
 		}
 		assertTrue(childNodes.contains("Luino"));
 		assertTrue(childNodes.contains("Lavena Ponte Tresa"));
@@ -88,9 +87,9 @@ public class TestImplNeo {
 	@Test
 	public void verify_luino_has_parent_varese_by_method() {
 		Vertex vertexLuino = sut.getVertexByNodeId("6540157");
-		Vertex vertexParent = sut.getParentNodeOf(vertexLuino.getProperty(OrientConfiguration.NODE_ID.toString())
+		Vertex vertexParent = sut.getParentNodeOf(vertexLuino.getProperty(GraphDatabaseConfiguration.NODE_ID.toString())
 				.toString());
-		String vertexParentDesc = vertexParent.getProperty(OrientConfiguration.NODE_DESC.toString());
+		String vertexParentDesc = vertexParent.getProperty(GraphDatabaseConfiguration.NODE_DESC.toString());
 		assertTrue(vertexParentDesc.contains("Varese"));
 	}
 
