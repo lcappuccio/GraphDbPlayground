@@ -10,7 +10,6 @@ import com.tinkerpop.blueprints.Vertex;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.neo4j.kernel.impl.util.FileUtils;
 import org.systemexception.graphdbplayground.api.DatabaseApi;
 import org.systemexception.graphdbplayground.enums.OrientConfiguration;
 import org.systemexception.graphdbplayground.exception.CsvParserException;
