@@ -17,7 +17,6 @@ import org.systemexception.graphdbplayground.exception.TerritoriesException;
 import org.systemexception.graphdbplayground.impl.DatabaseImplNeo;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -46,7 +45,7 @@ public class TestImplNeo {
 	}
 
 	@AfterClass
-	public static void tearDown() throws IOException {
+	public static void tearDown() {
 		 sut.drop();
 	}
 

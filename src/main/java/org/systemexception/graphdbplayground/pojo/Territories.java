@@ -20,8 +20,8 @@ public class Territories {
 	}
 
 	public void addTerritory(Territory territory) throws TerritoriesException {
-		for (Territory territorie : territories) {
-			if (territory.getNodeId().equals(territorie.getNodeId())) {
+		for (Territory territory1 : territories) {
+			if (territory.getNodeId().equals(territory1.getNodeId())) {
 				throw new TerritoriesException("Territory already exists");
 			}
 		}

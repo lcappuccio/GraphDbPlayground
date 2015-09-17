@@ -27,9 +27,10 @@ public abstract class DatabaseImplDefault implements DatabaseApi {
 
 	protected static final Logger logger = LoggerImpl.getFor(DatabaseImplOrient.class);
 	protected Graph graph;
-	protected Territories territories;
+	private Territories territories;
 	protected Index<Vertex> index;
-	protected final Timer timer = new Timer();
+	private final Timer timer = new Timer();
+	private final String LOG_SEPARATOR = ", ";
 
 	/**
 	 * {@inheritDoc}
@@ -46,7 +47,7 @@ public abstract class DatabaseImplDefault implements DatabaseApi {
 			territoryVertex.setProperty(GraphDatabaseConfiguration.NODE_TYPE.toString(), territory.getNodeType());
 			index.put(GraphDatabaseConfiguration.NODE_ID.toString(), territory.getNodeId(), territoryVertex);
 			index.put(GraphDatabaseConfiguration.NODE_DESC.toString(), territory.getNodeDescr(), territoryVertex);
-			logger.info("Adding territory: " + territory.getNodeId() + ", " + territory.getNodeDescr());
+			logger.info("Adding territory: " + territory.getNodeId() + LOG_SEPARATOR + territory.getNodeDescr());
 		}
 		// Add edges
 		for (Territory territory : territories.getTerritories()) {
@@ -55,7 +56,7 @@ public abstract class DatabaseImplDefault implements DatabaseApi {
 			Vertex sourceVertex = getVertexByNodeId(territoryNodeId);
 			Vertex destinationVertex = getVertexByNodeId(territoryParentNodeId);
 			if (sourceVertex == null || destinationVertex == null) {
-				logger.info("Node " + territoryNodeId + " has no parent");
+				logger.info(territoryNodeId + LOG_SEPARATOR + ErrorCodes.NODE_HAS_NO_PARENT);
 			} else {
 				Edge reportingEdge = graph.addEdge(null, destinationVertex, sourceVertex, GraphDatabaseConfiguration
 						.REPORTS_TO.toString());
@@ -80,7 +81,7 @@ public abstract class DatabaseImplDefault implements DatabaseApi {
 		if (vertexIterator.hasNext()) {
 			return vertexIterator.next();
 		} else {
-			logger.info(ErrorCodes.NODE_DOES_NOT_EXIST.toString());
+			logger.info(nodeId + LOG_SEPARATOR + ErrorCodes.NODE_DOES_NOT_EXIST.toString());
 			return null;
 		}
 	}
@@ -94,6 +95,9 @@ public abstract class DatabaseImplDefault implements DatabaseApi {
 		Vertex parentNode = getVertexByNodeId(nodeId);
 		for (Edge edge : parentNode.getEdges(Direction.OUT)) {
 			childNodes.add(edge.getVertex(Direction.IN));
+		}
+		if (childNodes.size() == 0) {
+			logger.info(nodeId + LOG_SEPARATOR + ErrorCodes.NODE_HAS_NO_CHILDS);
 		}
 		return childNodes;
 	}
@@ -109,7 +113,7 @@ public abstract class DatabaseImplDefault implements DatabaseApi {
 		return getVertexByNodeId(parentNode);
 	}
 
-	protected void readCsvTerritories(String fileName) throws CsvParserException, TerritoriesException {
+	private void readCsvTerritories(String fileName) throws CsvParserException, TerritoriesException {
 		CsvParser csvParser = new CsvParser(fileName);
 		List<CSVRecord> csvRecords = csvParser.readCsvContents();
 		territories = new Territories();
