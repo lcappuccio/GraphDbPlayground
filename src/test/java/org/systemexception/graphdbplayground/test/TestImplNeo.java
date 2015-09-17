@@ -42,8 +42,8 @@ public class TestImplNeo {
 		sut = new DatabaseImplNeo();
 		sut.initialSetup(dbName, dbStorageType);
 		sut.addTerritories(myFile.getAbsolutePath());
-		exportFile = new File(exportFileName + ".csv");
-		backupFile = new File(backupFileName + ".csv");
+		exportFile = new File(exportFileName);
+		backupFile = new File(backupFileName);
 	}
 
 	@AfterClass
