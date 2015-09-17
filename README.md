@@ -13,5 +13,4 @@ Test project using graph databases
 ## Usage
 Usage cases examples:
 
-```org.systemexception.orientplayground.test.TestImplOrient```
-```org.systemexception.orientplayground.test.TestImplNeo```
+```org.systemexception.orientplayground.test.TestImplOrient, org.systemexception.orientplayground.test.TestImplNeo```

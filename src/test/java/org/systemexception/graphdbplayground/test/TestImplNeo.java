@@ -1,3 +1,7 @@
+/**
+ * @author leo
+ * @date 16/09/15 18:42
+ */
 package org.systemexception.graphdbplayground.test;
 
 import com.tinkerpop.blueprints.Direction;
@@ -6,7 +10,6 @@ import com.tinkerpop.blueprints.Vertex;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.neo4j.kernel.impl.util.FileUtils;
 import org.systemexception.graphdbplayground.api.DatabaseApi;
 import org.systemexception.graphdbplayground.enums.OrientConfiguration;
 import org.systemexception.graphdbplayground.exception.CsvParserException;
@@ -24,14 +27,6 @@ import java.util.List;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-/**
- * $Id$
- *
- * @author lcappuccio
- * @date 16/09/15 18:42
- * Copyright (C) 2015 Scytl Secure Electronic Voting SA
- * All rights reserved.
- */
 public class TestImplNeo {
 
 	private static DatabaseApi sut;
@@ -53,8 +48,7 @@ public class TestImplNeo {
 
 	@AfterClass
 	public static void tearDown() throws IOException {
-		sut.drop();
-		FileUtils.deleteRecursively(new File(dbName));
+		 sut.drop();
 	}
 
 	@Test
