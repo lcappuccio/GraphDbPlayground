@@ -27,9 +27,9 @@ public abstract class DatabaseImplDefault implements DatabaseApi {
 
 	protected static final Logger logger = LoggerImpl.getFor(DatabaseImplOrient.class);
 	protected Graph graph;
-	protected Territories territories;
+	private Territories territories;
 	protected Index<Vertex> index;
-	protected final Timer timer = new Timer();
+	private final Timer timer = new Timer();
 	private final String LOG_SEPARATOR = ", ";
 
 	/**
@@ -113,7 +113,7 @@ public abstract class DatabaseImplDefault implements DatabaseApi {
 		return getVertexByNodeId(parentNode);
 	}
 
-	protected void readCsvTerritories(String fileName) throws CsvParserException, TerritoriesException {
+	private void readCsvTerritories(String fileName) throws CsvParserException, TerritoriesException {
 		CsvParser csvParser = new CsvParser(fileName);
 		List<CSVRecord> csvRecords = csvParser.readCsvContents();
 		territories = new Territories();

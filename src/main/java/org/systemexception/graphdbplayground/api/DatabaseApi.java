@@ -39,16 +39,16 @@ public interface DatabaseApi {
 	/**
 	 * Returns all child nodes belonging to a node
 	 *
-	 * @param nodeId
-	 * @return
+	 * @param nodeId the parent node
+	 * @return a vertex list with all child nodes
 	 */
 	List<Vertex> getChildNodesOf(String nodeId);
 
 	/**
 	 * Returns the parent node of a node
 	 *
-	 * @param nodeId
-	 * @return
+	 * @param nodeId the child node
+	 * @return the parent vertex
 	 */
 	Vertex getParentNodeOf(String nodeId);
 
@@ -56,13 +56,13 @@ public interface DatabaseApi {
 	 * Exports the database
 	 * WARNING: Export doesn't lock your database, but browses it. This means that concurrent operation can be
 	 * executed during the export
-	 * @param exportFileName
+	 * @param exportFileName the file name of the export
 	 */
 	void exportDatabase(String exportFileName);
 
 	/**
 	 * Creates a database snapshot
-	 * @param backupFileName
+	 * @param backupFileName the file name of the backup
 	 */
 	void backupDatabase(String backupFileName);
 
