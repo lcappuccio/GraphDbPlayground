@@ -9,7 +9,7 @@ import org.apache.commons.csv.CSVRecord;
 import org.systemexception.graphdbplayground.api.DatabaseApi;
 import org.systemexception.graphdbplayground.enums.CsvHeaders;
 import org.systemexception.graphdbplayground.enums.ErrorCodes;
-import org.systemexception.graphdbplayground.enums.OrientConfiguration;
+import org.systemexception.graphdbplayground.enums.GraphDatabaseConfiguration;
 import org.systemexception.graphdbplayground.exception.CsvParserException;
 import org.systemexception.graphdbplayground.exception.TerritoriesException;
 import org.systemexception.graphdbplayground.pojo.CsvParser;
@@ -40,12 +40,12 @@ public abstract class DatabaseImplDefault implements DatabaseApi {
 		timer.start();
 		// Create all nodes
 		for (Territory territory : territories.getTerritories()) {
-			Vertex territoryVertex = graph.addVertex(OrientConfiguration.VERTEX_TERRITORY_CLASS.toString());
-			territoryVertex.setProperty(OrientConfiguration.NODE_ID.toString(), territory.getNodeId());
-			territoryVertex.setProperty(OrientConfiguration.NODE_DESC.toString(), territory.getNodeDescr());
-			territoryVertex.setProperty(OrientConfiguration.NODE_TYPE.toString(), territory.getNodeType());
-			index.put(OrientConfiguration.NODE_ID.toString(), territory.getNodeId(), territoryVertex);
-			index.put(OrientConfiguration.NODE_DESC.toString(), territory.getNodeDescr(), territoryVertex);
+			Vertex territoryVertex = graph.addVertex(GraphDatabaseConfiguration.VERTEX_TERRITORY_CLASS.toString());
+			territoryVertex.setProperty(GraphDatabaseConfiguration.NODE_ID.toString(), territory.getNodeId());
+			territoryVertex.setProperty(GraphDatabaseConfiguration.NODE_DESC.toString(), territory.getNodeDescr());
+			territoryVertex.setProperty(GraphDatabaseConfiguration.NODE_TYPE.toString(), territory.getNodeType());
+			index.put(GraphDatabaseConfiguration.NODE_ID.toString(), territory.getNodeId(), territoryVertex);
+			index.put(GraphDatabaseConfiguration.NODE_DESC.toString(), territory.getNodeDescr(), territoryVertex);
 			logger.info("Adding territory: " + territory.getNodeId() + ", " + territory.getNodeDescr());
 		}
 		// Add edges
@@ -57,13 +57,13 @@ public abstract class DatabaseImplDefault implements DatabaseApi {
 			if (sourceVertex == null || destinationVertex == null) {
 				logger.info("Node " + territoryNodeId + " has no parent");
 			} else {
-				Edge reportingEdge = graph.addEdge(null, destinationVertex, sourceVertex, OrientConfiguration
+				Edge reportingEdge = graph.addEdge(null, destinationVertex, sourceVertex, GraphDatabaseConfiguration
 						.REPORTS_TO.toString());
 				// add a property otherwise you'll get no edge, check orient docs
-				reportingEdge.setProperty(OrientConfiguration.EDGE_TYPE.toString(), OrientConfiguration.REPORTS_TO
+				reportingEdge.setProperty(GraphDatabaseConfiguration.EDGE_TYPE.toString(), GraphDatabaseConfiguration.REPORTS_TO
 						.toString());
-				reportingEdge.setProperty(OrientConfiguration.EDGE_SOURCE_NODE.toString(), territoryNodeId);
-				reportingEdge.setProperty(OrientConfiguration.EDGE_DESTINATION_NODE.toString(), territoryParentNodeId);
+				reportingEdge.setProperty(GraphDatabaseConfiguration.EDGE_SOURCE_NODE.toString(), territoryNodeId);
+				reportingEdge.setProperty(GraphDatabaseConfiguration.EDGE_DESTINATION_NODE.toString(), territoryParentNodeId);
 				logger.info("Added edge from " + territoryNodeId + " to " + territoryParentNodeId);
 			}
 		}
@@ -76,7 +76,7 @@ public abstract class DatabaseImplDefault implements DatabaseApi {
 	 */
 	@Override
 	public Vertex getVertexByNodeId(String nodeId) {
-		Iterator<Vertex> vertexIterator = index.get(OrientConfiguration.NODE_ID.toString(), nodeId).iterator();
+		Iterator<Vertex> vertexIterator = index.get(GraphDatabaseConfiguration.NODE_ID.toString(), nodeId).iterator();
 		if (vertexIterator.hasNext()) {
 			return vertexIterator.next();
 		} else {
@@ -105,7 +105,7 @@ public abstract class DatabaseImplDefault implements DatabaseApi {
 	public Vertex getParentNodeOf(String nodeId) {
 		Vertex node = getVertexByNodeId(nodeId);
 		String parentNode = node.getEdges(Direction.IN).iterator().next().getVertex(Direction.OUT).getProperty
-				(OrientConfiguration.NODE_ID.toString());
+				(GraphDatabaseConfiguration.NODE_ID.toString());
 		return getVertexByNodeId(parentNode);
 	}
 

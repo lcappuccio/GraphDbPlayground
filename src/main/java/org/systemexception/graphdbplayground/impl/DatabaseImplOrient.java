@@ -11,7 +11,7 @@ import com.tinkerpop.blueprints.Vertex;
 import com.tinkerpop.blueprints.impls.orient.OrientBaseGraph;
 import com.tinkerpop.blueprints.impls.orient.OrientGraphFactory;
 import com.tinkerpop.blueprints.impls.orient.OrientGraphNoTx;
-import org.systemexception.graphdbplayground.enums.OrientConfiguration;
+import org.systemexception.graphdbplayground.enums.GraphDatabaseConfiguration;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -34,7 +34,7 @@ public class DatabaseImplOrient extends DatabaseImplDefault {
 		graph.executeOutsideTx(new OCallable<Object, OrientBaseGraph>() {
 			@Override
 			public Object call(OrientBaseGraph arg0) {
-				index = graph.createIndex(OrientConfiguration.VERTEX_INDEX.toString(), Vertex.class);
+				index = graph.createIndex(GraphDatabaseConfiguration.VERTEX_INDEX.toString(), Vertex.class);
 				return null;
 			}
 		});
@@ -69,7 +69,7 @@ public class DatabaseImplOrient extends DatabaseImplDefault {
 	public void backupDatabase(String backupFileName) {
 		logger.info("Database backup started");
 		try {
-			if (graph.getRawGraph().getStorage().getType().equals(OrientConfiguration.DB_STORAGE_MEMORY.toString())) {
+			if (graph.getRawGraph().getStorage().getType().equals(GraphDatabaseConfiguration.DB_STORAGE_MEMORY.toString())) {
 				logger.info("Operation not supported");
 				return;
 			}

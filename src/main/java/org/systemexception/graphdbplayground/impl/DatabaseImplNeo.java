@@ -9,7 +9,7 @@ import com.tinkerpop.blueprints.impls.neo4j.Neo4jGraph;
 import com.tinkerpop.blueprints.util.io.graphson.GraphSONWriter;
 import org.neo4j.index.impl.lucene.LowerCaseKeywordAnalyzer;
 import org.neo4j.kernel.impl.util.FileUtils;
-import org.systemexception.graphdbplayground.enums.OrientConfiguration;
+import org.systemexception.graphdbplayground.enums.GraphDatabaseConfiguration;
 
 import java.io.*;
 
@@ -26,7 +26,7 @@ public class DatabaseImplNeo extends DatabaseImplDefault {
 		this.dbFolder = dbFolder;
 		graph = new Neo4jGraph(dbFolder);
 		super.graph = graph;
-		index = graph.createIndex(OrientConfiguration.VERTEX_INDEX.toString(), Vertex.class, new Parameter("analyzer",
+		index = graph.createIndex(GraphDatabaseConfiguration.VERTEX_INDEX.toString(), Vertex.class, new Parameter("analyzer",
 				LowerCaseKeywordAnalyzer.class.getName()));
 	}
 

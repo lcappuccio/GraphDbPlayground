@@ -11,7 +11,7 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.systemexception.graphdbplayground.api.DatabaseApi;
-import org.systemexception.graphdbplayground.enums.OrientConfiguration;
+import org.systemexception.graphdbplayground.enums.GraphDatabaseConfiguration;
 import org.systemexception.graphdbplayground.exception.CsvParserException;
 import org.systemexception.graphdbplayground.exception.TerritoriesException;
 import org.systemexception.graphdbplayground.impl.DatabaseImplOrient;
@@ -29,7 +29,7 @@ import static org.junit.Assert.assertTrue;
 public class TestImplOrient {
 
 	private static DatabaseApi sut;
-	private final static String dbName = "target/database_orient_italy", dbStorageType = OrientConfiguration
+	private final static String dbName = "target/database_orient_italy", dbStorageType = GraphDatabaseConfiguration
 			.DB_STORAGE_MEMORY.toString(), exportFileName = "target/database_orient_export", backupFileName =
 			"target/database_orient_backup.zip";
 	private static File backupFile, exportFile;
@@ -77,7 +77,7 @@ public class TestImplOrient {
 		List<Vertex> vertexVareseChilds = sut.getChildNodesOf("3164697");
 		ArrayList<String> childNodes = new ArrayList<>();
 		for (Vertex vertex : vertexVareseChilds) {
-			childNodes.add(vertex.getProperty(OrientConfiguration.NODE_DESC.toString()).toString());
+			childNodes.add(vertex.getProperty(GraphDatabaseConfiguration.NODE_DESC.toString()).toString());
 		}
 		assertTrue(childNodes.contains("Luino"));
 		assertTrue(childNodes.contains("Lavena Ponte Tresa"));
@@ -87,9 +87,9 @@ public class TestImplOrient {
 	@Test
 	public void verify_luino_has_parent_varese_by_method() {
 		Vertex vertexLuino = sut.getVertexByNodeId("6540157");
-		Vertex vertexParent = sut.getParentNodeOf(vertexLuino.getProperty(OrientConfiguration.NODE_ID.toString())
+		Vertex vertexParent = sut.getParentNodeOf(vertexLuino.getProperty(GraphDatabaseConfiguration.NODE_ID.toString())
 				.toString());
-		String vertexParentDesc = vertexParent.getProperty(OrientConfiguration.NODE_DESC.toString());
+		String vertexParentDesc = vertexParent.getProperty(GraphDatabaseConfiguration.NODE_DESC.toString());
 		assertTrue(vertexParentDesc.contains("Varese"));
 	}
 
@@ -101,7 +101,7 @@ public class TestImplOrient {
 
 	@Test
 	public void backup_the_database() {
-		if (dbStorageType.equals(OrientConfiguration.DB_STORAGE_DISK.toString())) {
+		if (dbStorageType.equals(GraphDatabaseConfiguration.DB_STORAGE_DISK.toString())) {
 			sut.backupDatabase(backupFileName);
 			assertTrue(backupFile.exists());
 		}
@@ -109,7 +109,7 @@ public class TestImplOrient {
 
 	@Test
 	public void dont_backup_database_in_memory() {
-		if (dbStorageType.equals(OrientConfiguration.DB_STORAGE_MEMORY.toString())) {
+		if (dbStorageType.equals(GraphDatabaseConfiguration.DB_STORAGE_MEMORY.toString())) {
 			sut.backupDatabase(backupFileName);
 			assertFalse(backupFile.exists());
 		}

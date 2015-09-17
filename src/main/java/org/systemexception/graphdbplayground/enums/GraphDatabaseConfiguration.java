@@ -6,7 +6,7 @@
  */
 package org.systemexception.graphdbplayground.enums;
 
-public enum OrientConfiguration {
+public enum GraphDatabaseConfiguration {
 
 	DB_STORAGE_MEMORY("memory"),
 	DB_STORAGE_DISK("plocal"),
@@ -22,7 +22,7 @@ public enum OrientConfiguration {
 
 	private final String orientConfiguration;
 
-	OrientConfiguration(String orientConfiguration) {
+	GraphDatabaseConfiguration(String orientConfiguration) {
 		this.orientConfiguration = orientConfiguration;
 	}
 
