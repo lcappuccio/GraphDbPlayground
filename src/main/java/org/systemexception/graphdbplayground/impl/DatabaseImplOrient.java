@@ -7,34 +7,16 @@ package org.systemexception.graphdbplayground.impl;
 import com.orientechnologies.common.util.OCallable;
 import com.orientechnologies.orient.core.command.OCommandOutputListener;
 import com.orientechnologies.orient.core.db.tool.ODatabaseExport;
-import com.tinkerpop.blueprints.Direction;
-import com.tinkerpop.blueprints.Edge;
-import com.tinkerpop.blueprints.Index;
 import com.tinkerpop.blueprints.Vertex;
 import com.tinkerpop.blueprints.impls.orient.OrientBaseGraph;
 import com.tinkerpop.blueprints.impls.orient.OrientGraphFactory;
 import com.tinkerpop.blueprints.impls.orient.OrientGraphNoTx;
-import org.apache.commons.csv.CSVRecord;
-import org.systemexception.logger.api.Logger;
-import org.systemexception.logger.impl.LoggerImpl;
-import org.systemexception.graphdbplayground.api.DatabaseApi;
-import org.systemexception.graphdbplayground.enums.CsvHeaders;
-import org.systemexception.graphdbplayground.enums.ErrorCodes;
 import org.systemexception.graphdbplayground.enums.OrientConfiguration;
-import org.systemexception.graphdbplayground.exception.CsvParserException;
-import org.systemexception.graphdbplayground.exception.TerritoriesException;
-import org.systemexception.graphdbplayground.pojo.CsvParser;
-import org.systemexception.graphdbplayground.pojo.Territories;
-import org.systemexception.graphdbplayground.pojo.Territory;
-import org.systemexception.graphdbplayground.pojo.Timer;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 
 public class DatabaseImplOrient extends DatabaseImplDefault {
 
