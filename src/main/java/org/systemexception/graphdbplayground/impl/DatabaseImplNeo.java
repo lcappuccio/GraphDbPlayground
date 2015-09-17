@@ -4,14 +4,18 @@
  */
 package org.systemexception.graphdbplayground.impl;
 
-import com.tinkerpop.blueprints.*;
+import com.tinkerpop.blueprints.Parameter;
+import com.tinkerpop.blueprints.Vertex;
 import com.tinkerpop.blueprints.impls.neo4j.Neo4jGraph;
 import com.tinkerpop.blueprints.util.io.graphson.GraphSONWriter;
 import org.neo4j.index.impl.lucene.LowerCaseKeywordAnalyzer;
 import org.neo4j.kernel.impl.util.FileUtils;
 import org.systemexception.graphdbplayground.enums.GraphDatabaseConfiguration;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 
 public class DatabaseImplNeo extends DatabaseImplDefault {
 
@@ -26,8 +30,8 @@ public class DatabaseImplNeo extends DatabaseImplDefault {
 		this.dbFolder = dbFolder;
 		graph = new Neo4jGraph(dbFolder);
 		super.graph = graph;
-		index = graph.createIndex(GraphDatabaseConfiguration.VERTEX_INDEX.toString(), Vertex.class, new Parameter("analyzer",
-				LowerCaseKeywordAnalyzer.class.getName()));
+		index = graph.createIndex(GraphDatabaseConfiguration.VERTEX_INDEX.toString(), Vertex.class, new Parameter
+				(GraphDatabaseConfiguration.NEO_INDEX_PARAMETER.toString(), LowerCaseKeywordAnalyzer.class.getName()));
 	}
 
 	/**

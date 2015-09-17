@@ -30,7 +30,7 @@ public class TestImplNeo {
 
 	private static DatabaseApi sut;
 	private final static String dbName = "target/database_neo_italy", dbStorageType = GraphDatabaseConfiguration
-			.DB_STORAGE_MEMORY.toString(), exportFileName = "target/database_neo_export.csv", backupFileName =
+			.ORIENT_DB_STORAGE_MEMORY.toString(), exportFileName = "target/database_neo_export.csv", backupFileName =
 			"target/database_neo_backup.csv";
 	private static File backupFile, exportFile;
 

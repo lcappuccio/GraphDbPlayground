@@ -30,7 +30,7 @@ public class TestImplOrient {
 
 	private static DatabaseApi sut;
 	private final static String dbName = "target/database_orient_italy", dbStorageType = GraphDatabaseConfiguration
-			.DB_STORAGE_MEMORY.toString(), exportFileName = "target/database_orient_export", backupFileName =
+			.ORIENT_DB_STORAGE_MEMORY.toString(), exportFileName = "target/database_orient_export", backupFileName =
 			"target/database_orient_backup.zip";
 	private static File backupFile, exportFile;
 
@@ -101,7 +101,7 @@ public class TestImplOrient {
 
 	@Test
 	public void backup_the_database() {
-		if (dbStorageType.equals(GraphDatabaseConfiguration.DB_STORAGE_DISK.toString())) {
+		if (dbStorageType.equals(GraphDatabaseConfiguration.ORIENT_DB_STORAGE_DISK.toString())) {
 			sut.backupDatabase(backupFileName);
 			assertTrue(backupFile.exists());
 		}
@@ -109,7 +109,7 @@ public class TestImplOrient {
 
 	@Test
 	public void dont_backup_database_in_memory() {
-		if (dbStorageType.equals(GraphDatabaseConfiguration.DB_STORAGE_MEMORY.toString())) {
+		if (dbStorageType.equals(GraphDatabaseConfiguration.ORIENT_DB_STORAGE_MEMORY.toString())) {
 			sut.backupDatabase(backupFileName);
 			assertFalse(backupFile.exists());
 		}

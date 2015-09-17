@@ -69,7 +69,7 @@ public class DatabaseImplOrient extends DatabaseImplDefault {
 	public void backupDatabase(String backupFileName) {
 		logger.info("Database backup started");
 		try {
-			if (graph.getRawGraph().getStorage().getType().equals(GraphDatabaseConfiguration.DB_STORAGE_MEMORY.toString())) {
+			if (graph.getRawGraph().getStorage().getType().equals(GraphDatabaseConfiguration.ORIENT_DB_STORAGE_MEMORY.toString())) {
 				logger.info("Operation not supported");
 				return;
 			}
