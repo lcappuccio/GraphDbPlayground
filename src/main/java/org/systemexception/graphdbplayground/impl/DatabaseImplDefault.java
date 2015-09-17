@@ -1,3 +1,7 @@
+/**
+ * @author leo
+ * @date 17/09/15 18:17
+ */
 package org.systemexception.graphdbplayground.impl;
 
 import com.tinkerpop.blueprints.*;
@@ -19,14 +23,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-/**
- * $Id$
- *
- * @author lcappuccio
- * @date 17/09/15 18:17
- * Copyright (C) 2015 Scytl Secure Electronic Voting SA
- * All rights reserved.
- */
 public abstract class DatabaseImplDefault implements DatabaseApi {
 
 	protected static final Logger logger = LoggerImpl.getFor(DatabaseImplOrient.class);
