@@ -53,8 +53,7 @@ public class TestImplNeo {
 
 	@AfterClass
 	public static void tearDown() throws IOException {
-		sut.drop();
-		FileUtils.deleteRecursively(new File(dbName));
+		 sut.drop();
 	}
 
 	@Test

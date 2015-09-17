@@ -8,6 +8,7 @@ import com.tinkerpop.blueprints.*;
 import com.tinkerpop.blueprints.impls.neo4j.Neo4jGraph;
 import org.apache.commons.csv.CSVRecord;
 import org.neo4j.index.impl.lucene.LowerCaseKeywordAnalyzer;
+import org.neo4j.kernel.impl.util.FileUtils;
 import org.systemexception.graphdbplayground.api.DatabaseApi;
 import org.systemexception.graphdbplayground.enums.CsvHeaders;
 import org.systemexception.graphdbplayground.enums.ErrorCodes;
@@ -21,6 +22,8 @@ import org.systemexception.graphdbplayground.pojo.Timer;
 import org.systemexception.logger.api.Logger;
 import org.systemexception.logger.impl.LoggerImpl;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -32,13 +35,15 @@ public class DatabaseImplNeo implements DatabaseApi {
 	private Territories territories;
 	private Index<Vertex> index;
 	private final Timer timer = new Timer();
+	private String dbFolder;
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void initialSetup(String dbName, String storageType) {
-		graph = new Neo4jGraph(dbName);
+	public void initialSetup(String dbFolder, String storageType) {
+		this.dbFolder = dbFolder;
+		graph = new Neo4jGraph(dbFolder);
 		index = graph.createIndex(OrientConfiguration.VERTEX_INDEX.toString(), Vertex.class, new Parameter("analyzer",
 				LowerCaseKeywordAnalyzer.class.getName()));
 	}
@@ -143,6 +148,11 @@ public class DatabaseImplNeo implements DatabaseApi {
 	@Override
 	public void drop() {
 		graph.shutdown();
+		try {
+			FileUtils.deleteRecursively(new File(dbFolder));
+		} catch (IOException e) {
+			logger.error("Could not delete database folder", e);
+		}
 	}
 
 	private void readCsvTerritories(String fileName) throws CsvParserException, TerritoriesException {
