@@ -50,8 +50,6 @@ public class DatabaseImplOrient implements DatabaseApi {
 	@Override
 	public void initialSetup(String dbName, String dbStorageType) {
 		String dbPath = System.getProperty("user.dir") + File.separator + dbName;
-		File dbFolder = new File(dbPath);
-		deleteFolder(dbFolder);
 		OrientGraphFactory orientGraphFactory = new OrientGraphFactory(dbStorageType + ":" + dbPath, "admin", "admin");
 		graph = orientGraphFactory.getNoTx();
 		graph.executeOutsideTx(new OCallable<Object, OrientBaseGraph>() {
@@ -208,19 +206,5 @@ public class DatabaseImplOrient implements DatabaseApi {
 			Territory territory = new Territory(parentId, nodeId, description, nodeType);
 			territories.addTerritory(territory);
 		}
-	}
-
-	private void deleteFolder(File dbFolder) {
-		File[] files = dbFolder.listFiles();
-		if (files != null) { //some JVMs return null for empty dirs
-			for (File f : files) {
-				if (f.isDirectory()) {
-					deleteFolder(f);
-				} else {
-					f.delete();
-				}
-			}
-		}
-		dbFolder.delete();
 	}
 }
