@@ -31,8 +31,8 @@ public class TestImplNeo {
 
 	private static DatabaseApi sut;
 	private final static String dbName = "target/database_neo_italy", dbStorageType = OrientConfiguration
-			.DB_STORAGE_MEMORY.toString(), exportFileName = "target/database_neo_export", backupFileName =
-			"target/database_neo_backup";
+			.DB_STORAGE_MEMORY.toString(), exportFileName = "target/database_neo_export.csv", backupFileName =
+			"target/database_neo_backup.csv";
 	private static File backupFile, exportFile;
 
 	@BeforeClass
@@ -42,8 +42,8 @@ public class TestImplNeo {
 		sut = new DatabaseImplNeo();
 		sut.initialSetup(dbName, dbStorageType);
 		sut.addTerritories(myFile.getAbsolutePath());
-		exportFile = new File(exportFileName + ".json.gz");
-		backupFile = new File(backupFileName);
+		exportFile = new File(exportFileName + ".csv");
+		backupFile = new File(backupFileName + ".csv");
 	}
 
 	@AfterClass
@@ -97,12 +97,12 @@ public class TestImplNeo {
 	@Test
 	public void export_the_database() {
 		sut.exportDatabase(exportFileName);
-		assertFalse(exportFile.exists());
+		assertTrue(exportFile.exists());
 	}
 
 	@Test
 	public void backup_the_database() {
 		sut.backupDatabase(backupFileName);
-		assertFalse(backupFile.exists());
+		assertTrue(backupFile.exists());
 	}
 }
