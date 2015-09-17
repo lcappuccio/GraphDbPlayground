@@ -6,7 +6,9 @@ package org.systemexception.graphdbplayground.impl;
 
 import com.tinkerpop.blueprints.*;
 import com.tinkerpop.blueprints.impls.neo4j.Neo4jGraph;
+import com.tinkerpop.blueprints.util.io.graphson.GraphSONWriter;
 import org.apache.commons.csv.CSVRecord;
+import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.index.impl.lucene.LowerCaseKeywordAnalyzer;
 import org.neo4j.kernel.impl.util.FileUtils;
 import org.systemexception.graphdbplayground.api.DatabaseApi;
@@ -22,8 +24,7 @@ import org.systemexception.graphdbplayground.pojo.Timer;
 import org.systemexception.logger.api.Logger;
 import org.systemexception.logger.impl.LoggerImpl;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -131,7 +132,13 @@ public class DatabaseImplNeo implements DatabaseApi {
 	 */
 	@Override
 	public void exportDatabase(String exportFileName) {
-		logger.error("Database export only in enterprise", new UnsupportedOperationException());
+
+		try {
+			OutputStream outStream = new FileOutputStream(exportFileName);
+			GraphSONWriter.outputGraph(graph, outStream);
+		} catch (IOException e) {
+			logger.error("Error in export", e);
+		}
 	}
 
 	/**
@@ -139,7 +146,7 @@ public class DatabaseImplNeo implements DatabaseApi {
 	 */
 	@Override
 	public void backupDatabase(String backupFileName) {
-		logger.error("Database backup only in enterprise", new UnsupportedOperationException());
+		exportDatabase(backupFileName);
 	}
 
 	/**
