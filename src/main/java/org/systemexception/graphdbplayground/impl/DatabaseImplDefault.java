@@ -61,10 +61,12 @@ public abstract class DatabaseImplDefault implements DatabaseApi {
 				Edge reportingEdge = graph.addEdge(null, destinationVertex, sourceVertex, GraphDatabaseConfiguration
 						.REPORTS_TO.toString());
 				// add a property otherwise you'll get no edge, check orient docs
-				reportingEdge.setProperty(GraphDatabaseConfiguration.EDGE_TYPE.toString(), GraphDatabaseConfiguration.REPORTS_TO
+				reportingEdge.setProperty(GraphDatabaseConfiguration.EDGE_TYPE.toString(), GraphDatabaseConfiguration
+						.REPORTS_TO
 						.toString());
 				reportingEdge.setProperty(GraphDatabaseConfiguration.EDGE_SOURCE_NODE.toString(), territoryNodeId);
-				reportingEdge.setProperty(GraphDatabaseConfiguration.EDGE_DESTINATION_NODE.toString(), territoryParentNodeId);
+				reportingEdge.setProperty(GraphDatabaseConfiguration.EDGE_DESTINATION_NODE.toString(),
+						territoryParentNodeId);
 				logger.info("Added edge from " + territoryNodeId + " to " + territoryParentNodeId);
 			}
 		}

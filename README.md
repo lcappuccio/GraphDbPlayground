@@ -1,7 +1,13 @@
 # Graph Databases Playground
 Test project using graph databases
 
-[![Build Status](https://travis-ci.org/lcappuccio/GraphDbPlayground.svg?branch=master)](https://travis-ci.org/lcappuccio/GraphDbPlayground)
+**Master**
+
+[![Build Status](https://travis-ci.org/lcappuccio/graphdb-playground.svg?branch=master)](https://travis-ci.org/lcappuccio/graphdb-playground)
+
+**Develop**
+
+[![Build Status](https://travis-ci.org/lcappuccio/graphdb-playground.svg?branch=develop)](https://travis-ci.org/lcappuccio/graphdb-playground)
 
 ## Installation
 1. Read CAREFULLY the instructions and SQL script: script.sql
