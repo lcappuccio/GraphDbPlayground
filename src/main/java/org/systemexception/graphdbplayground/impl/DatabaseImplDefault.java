@@ -116,6 +116,7 @@ public abstract class DatabaseImplDefault implements DatabaseApi {
 	}
 
 	private void readCsvTerritories(String fileName) throws CsvParserException, TerritoriesException {
+		logger.info("Start loading territories file");
 		CsvParser csvParser = new CsvParser(fileName);
 		List<CSVRecord> csvRecords = csvParser.readCsvContents();
 		territories = new Territories();
@@ -127,5 +128,6 @@ public abstract class DatabaseImplDefault implements DatabaseApi {
 			Territory territory = new Territory(parentId, nodeId, description, nodeType);
 			territories.addTerritory(territory);
 		}
+		logger.info("Finished loading territories file");
 	}
 }
