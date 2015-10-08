@@ -1,8 +1,6 @@
 /**
- *
  * @author leo
  * @date 01/03/2015 14:46
- *
  */
 package org.systemexception.graphdbplayground.test;
 

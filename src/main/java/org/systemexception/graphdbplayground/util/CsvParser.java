@@ -1,18 +1,16 @@
 /**
- *
  * @author leo
  * @date 01/03/2015 14:59
- *
  */
 package org.systemexception.graphdbplayground.util;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
-import org.systemexception.logger.api.Logger;
-import org.systemexception.logger.impl.LoggerImpl;
 import org.systemexception.graphdbplayground.enums.CsvHeaders;
 import org.systemexception.graphdbplayground.exception.CsvParserException;
+import org.systemexception.logger.api.Logger;
+import org.systemexception.logger.impl.LoggerImpl;
 
 import java.io.File;
 import java.io.IOException;
@@ -26,7 +24,7 @@ public class CsvParser {
 	private static final Logger logger = LoggerImpl.getFor(CsvParser.class);
 	private List<CSVRecord> records;
 	private final String[] headerMapping = new String[]{CsvHeaders.PARENT_ID.toString(), CsvHeaders.NODE_ID.toString(),
-		CsvHeaders.DESCRIPTION.toString(), CsvHeaders.TYPE.toString()};
+			CsvHeaders.DESCRIPTION.toString(), CsvHeaders.TYPE.toString()};
 
 	public CsvParser(String fileName) throws CsvParserException {
 		CSVFormat csvFormat = CSVFormat.RFC4180.withHeader(headerMapping).withSkipHeaderRecord(true);
