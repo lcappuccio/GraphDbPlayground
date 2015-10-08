@@ -12,10 +12,10 @@ import org.systemexception.graphdbplayground.enums.ErrorCodes;
 import org.systemexception.graphdbplayground.enums.GraphDatabaseConfiguration;
 import org.systemexception.graphdbplayground.exception.CsvParserException;
 import org.systemexception.graphdbplayground.exception.TerritoriesException;
-import org.systemexception.graphdbplayground.pojo.CsvParser;
-import org.systemexception.graphdbplayground.pojo.Territories;
-import org.systemexception.graphdbplayground.pojo.Territory;
-import org.systemexception.graphdbplayground.pojo.Timer;
+import org.systemexception.graphdbplayground.util.CsvParser;
+import org.systemexception.graphdbplayground.model.Territories;
+import org.systemexception.graphdbplayground.model.Territory;
+import org.systemexception.graphdbplayground.util.Timer;
 import org.systemexception.logger.api.Logger;
 import org.systemexception.logger.impl.LoggerImpl;
 

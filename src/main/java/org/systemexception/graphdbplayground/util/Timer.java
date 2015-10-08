@@ -1,4 +1,4 @@
-package org.systemexception.graphdbplayground.pojo;
+package org.systemexception.graphdbplayground.util;
 
 /**
  * @author leo

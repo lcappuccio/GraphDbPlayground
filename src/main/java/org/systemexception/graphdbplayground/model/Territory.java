@@ -4,7 +4,7 @@
  * @date 01/03/2015 17:15
  *
  */
-package org.systemexception.graphdbplayground.pojo;
+package org.systemexception.graphdbplayground.model;
 
 public class Territory {
 

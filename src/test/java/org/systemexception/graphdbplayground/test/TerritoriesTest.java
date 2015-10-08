@@ -3,8 +3,8 @@ package org.systemexception.graphdbplayground.test;
 import org.junit.Before;
 import org.junit.Test;
 import org.systemexception.graphdbplayground.exception.TerritoriesException;
-import org.systemexception.graphdbplayground.pojo.Territories;
-import org.systemexception.graphdbplayground.pojo.Territory;
+import org.systemexception.graphdbplayground.model.Territories;
+import org.systemexception.graphdbplayground.model.Territory;
 
 import static org.junit.Assert.assertTrue;
 

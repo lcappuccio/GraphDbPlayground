@@ -4,7 +4,7 @@
  * @date 01/03/2015 14:59
  *
  */
-package org.systemexception.graphdbplayground.pojo;
+package org.systemexception.graphdbplayground.util;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
