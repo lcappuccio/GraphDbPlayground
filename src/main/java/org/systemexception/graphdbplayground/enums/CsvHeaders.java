@@ -1,8 +1,6 @@
 /**
- *
  * @author leo
  * @date 06/03/2015 21:13
- *
  */
 package org.systemexception.graphdbplayground.enums;
 

@@ -46,7 +46,7 @@ public class TestImplNeo {
 
 	@AfterClass
 	public static void tearDown() {
-		 sut.drop();
+		sut.drop();
 	}
 
 	@Test
@@ -86,7 +86,8 @@ public class TestImplNeo {
 	@Test
 	public void verify_luino_has_parent_varese_by_method() {
 		Vertex vertexLuino = sut.getVertexByNodeId("6540157");
-		Vertex vertexParent = sut.getParentNodeOf(vertexLuino.getProperty(GraphDatabaseConfiguration.NODE_ID.toString())
+		Vertex vertexParent = sut.getParentNodeOf(vertexLuino.getProperty(GraphDatabaseConfiguration.NODE_ID
+				.toString())
 				.toString());
 		String vertexParentDesc = vertexParent.getProperty(GraphDatabaseConfiguration.NODE_DESC.toString());
 		assertTrue(vertexParentDesc.contains("Varese"));
