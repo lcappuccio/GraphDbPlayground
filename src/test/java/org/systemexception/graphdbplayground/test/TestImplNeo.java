@@ -99,7 +99,7 @@ public class TestImplNeo {
 		assertTrue(exportFile.exists());
 	}
 
-	@Test
+	@Test(expected = UnsupportedOperationException.class)
 	public void backup_the_database() {
 		sut.backupDatabase(backupFileName);
 		assertTrue(backupFile.exists());
