@@ -7,8 +7,7 @@ package org.systemexception.graphdbplayground.test;
 import com.tinkerpop.blueprints.Direction;
 import com.tinkerpop.blueprints.Edge;
 import com.tinkerpop.blueprints.Vertex;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
+import org.junit.After;
 import org.junit.Test;
 import org.systemexception.graphdbplayground.api.DatabaseApi;
 import org.systemexception.graphdbplayground.enums.GraphDatabaseConfiguration;
@@ -28,30 +27,21 @@ import static org.junit.Assert.assertTrue;
 
 public class TestImplOrient {
 
-	private static DatabaseApi sut;
-	private final static String dbName = "target/database_orient_italy", dbStorageType = GraphDatabaseConfiguration
-			.ORIENT_DB_STORAGE_MEMORY.toString(), exportFileName = "target/database_orient_export", backupFileName =
-			"target/database_orient_backup.zip";
-	private static File backupFile, exportFile;
+	private DatabaseApi sut;
+	private final static String dbName = "target/database_orient_italy",
+			dbDiskStorageType = GraphDatabaseConfiguration.ORIENT_DB_STORAGE_DISK.toString(),
+			dbMemoryStorageType = GraphDatabaseConfiguration.ORIENT_DB_STORAGE_MEMORY.toString(),
+			exportFileName = "target/database_orient_export", backupFileName = "target/database_orient_backup.zip";
+	private File backupFile, exportFile;
 
-	@BeforeClass
-	public static void setUp() throws CsvParserException, TerritoriesException, URISyntaxException {
-		URL myTestURL = ClassLoader.getSystemResource("geonames_it.csv");
-		File myFile = new File(myTestURL.toURI());
-		sut = new DatabaseImplOrient();
-		sut.initialSetup(dbName, dbStorageType);
-		sut.addTerritories(myFile.getAbsolutePath());
-		exportFile = new File(exportFileName + ".json.gz");
-		backupFile = new File(backupFileName);
-	}
-
-	@AfterClass
-	public static void tearDown() {
+	@After
+	public void tearDown() {
 		sut.drop();
 	}
 
 	@Test
-	public void verify_luino_has_parent_varese() {
+	public void verify_luino_has_parent_varese() throws TerritoriesException, CsvParserException, URISyntaxException {
+		getSut(dbMemoryStorageType);
 		Vertex vertexLuino = sut.getVertexByNodeId("6540157");
 		assertTrue(vertexLuino.getProperty("nodeId").equals("6540157"));
 		Iterator<Edge> edgeIterator = vertexLuino.getEdges(Direction.IN, "reportsTo").iterator();
@@ -62,7 +52,9 @@ public class TestImplOrient {
 	}
 
 	@Test
-	public void verify_varese_has_parent_lombardia() {
+	public void verify_varese_has_parent_lombardia() throws TerritoriesException, CsvParserException,
+			URISyntaxException {
+		getSut(dbMemoryStorageType);
 		Vertex vertexVarese = sut.getVertexByNodeId("3164697");
 		assertTrue(vertexVarese.getProperty("nodeId").equals("3164697"));
 		Iterator<Edge> edgeIterator = vertexVarese.getEdges(Direction.IN, "reportsTo").iterator();
@@ -73,7 +65,8 @@ public class TestImplOrient {
 	}
 
 	@Test
-	public void verify_varese_has_childs() {
+	public void verify_varese_has_childs() throws TerritoriesException, CsvParserException, URISyntaxException {
+		getSut(dbMemoryStorageType);
 		List<Vertex> vertexVareseChilds = sut.getChildNodesOf("3164697");
 		ArrayList<String> childNodes = new ArrayList<>();
 		for (Vertex vertex : vertexVareseChilds) {
@@ -85,7 +78,9 @@ public class TestImplOrient {
 	}
 
 	@Test
-	public void verify_luino_has_parent_varese_by_method() {
+	public void verify_luino_has_parent_varese_by_method() throws TerritoriesException, CsvParserException,
+			URISyntaxException {
+		getSut(dbMemoryStorageType);
 		Vertex vertexLuino = sut.getVertexByNodeId("6540157");
 		Vertex vertexParent = sut.getParentNodeOf(vertexLuino.getProperty(GraphDatabaseConfiguration.NODE_ID
 				.toString())
@@ -95,24 +90,35 @@ public class TestImplOrient {
 	}
 
 	@Test
-	public void export_the_database() {
+	public void export_the_database() throws TerritoriesException, CsvParserException, URISyntaxException {
+		getSut(dbDiskStorageType);
 		sut.exportDatabase(exportFileName);
 		assertTrue(exportFile.exists());
 	}
 
 	@Test
-	public void backup_the_database() {
-		if (dbStorageType.equals(GraphDatabaseConfiguration.ORIENT_DB_STORAGE_DISK.toString())) {
+	public void backup_the_database() throws TerritoriesException, CsvParserException, URISyntaxException {
+		getSut(dbDiskStorageType);
+		if (dbDiskStorageType.equals(GraphDatabaseConfiguration.ORIENT_DB_STORAGE_DISK.toString())) {
 			sut.backupDatabase(backupFileName);
 			assertTrue(backupFile.exists());
 		}
 	}
 
 	@Test(expected = UnsupportedOperationException.class)
-	public void dont_backup_database_in_memory() {
-		if (dbStorageType.equals(GraphDatabaseConfiguration.ORIENT_DB_STORAGE_MEMORY.toString())) {
-			sut.backupDatabase(backupFileName);
-			assertFalse(backupFile.exists());
-		}
+	public void dont_backup_database_in_memory() throws TerritoriesException, CsvParserException, URISyntaxException {
+		getSut(dbMemoryStorageType);
+		sut.backupDatabase(backupFileName);
+		assertFalse(backupFile.exists());
+	}
+
+	private void getSut(final String storageType) throws URISyntaxException, CsvParserException, TerritoriesException {
+		URL myTestURL = ClassLoader.getSystemResource("geonames_it_SMALL.csv");
+		File myFile = new File(myTestURL.toURI());
+		sut = new DatabaseImplOrient();
+		sut.initialSetup(dbName, storageType);
+		sut.addTerritories(myFile.getAbsolutePath());
+		exportFile = new File(exportFileName + ".json.gz");
+		backupFile = new File(backupFileName);
 	}
 }

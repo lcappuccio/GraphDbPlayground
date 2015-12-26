@@ -1,0 +1,7 @@
+PARENT_ID,NODE_ID,DESCRIPTION,TYPE
+"6255148","3175395","Repubblica Italiana","PCLI"
+"3175395","3174618","Lombardia","ADM1"
+"3174618","3164697","Provincia di Varese","ADM2"
+"3164697","6540157","Luino","ADM3"
+"3164697","6540570","Maccagno","ADM3"
+"3164697","6540569","Lavena Ponte Tresa","ADM3"
