@@ -40,7 +40,7 @@ public class Timer {
 	}
 
 	public double durantionInSeconds() {
-		return (end - start) / 1000;
+		return (duration()) / 1000;
 	}
 
 	/**
