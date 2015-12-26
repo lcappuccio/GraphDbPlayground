@@ -35,7 +35,7 @@ public class TestImplNeo {
 
 	@BeforeClass
 	public static void setUp() throws CsvParserException, TerritoriesException, URISyntaxException {
-		URL myTestURL = ClassLoader.getSystemResource("geonames_it.csv");
+		URL myTestURL = ClassLoader.getSystemResource("geonames_it_SMALL.csv");
 		File myFile = new File(myTestURL.toURI());
 		sut = new DatabaseImplNeo();
 		sut.initialSetup(dbName, dbStorageType);
