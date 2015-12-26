@@ -7,8 +7,8 @@ package org.systemexception.graphdbplayground.test;
 import com.tinkerpop.blueprints.Direction;
 import com.tinkerpop.blueprints.Edge;
 import com.tinkerpop.blueprints.Vertex;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.systemexception.graphdbplayground.api.DatabaseApi;
 import org.systemexception.graphdbplayground.enums.GraphDatabaseConfiguration;
@@ -27,14 +27,14 @@ import static org.junit.Assert.assertTrue;
 
 public class TestImplNeo {
 
-	private static DatabaseApi sut;
-	private final static String dbName = "target/database_neo_italy", dbStorageType = GraphDatabaseConfiguration
-			.ORIENT_DB_STORAGE_MEMORY.toString(), exportFileName = "target/database_neo_export.csv", backupFileName =
-			"target/database_neo_backup.csv";
-	private static File backupFile, exportFile;
+	private DatabaseApi sut;
+	private final static String dbName = "target/database_neo_italy",
+			dbStorageType = GraphDatabaseConfiguration.ORIENT_DB_STORAGE_MEMORY.toString(),
+			exportFileName = "target/database_neo_export.csv", backupFileName = "target/database_neo_backup.csv";
+	private File backupFile, exportFile;
 
-	@BeforeClass
-	public static void setUp() throws CsvParserException, TerritoriesException, URISyntaxException {
+	@Before
+	public void setUp() throws CsvParserException, TerritoriesException, URISyntaxException {
 		URL myTestURL = ClassLoader.getSystemResource("geonames_it_SMALL.csv");
 		File myFile = new File(myTestURL.toURI());
 		sut = new DatabaseImplNeo();
@@ -44,8 +44,8 @@ public class TestImplNeo {
 		backupFile = new File(backupFileName);
 	}
 
-	@AfterClass
-	public static void tearDown() {
+	@After
+	public void tearDown() {
 		sut.drop();
 	}
 
