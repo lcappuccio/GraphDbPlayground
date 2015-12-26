@@ -4,10 +4,12 @@ Test project using graph databases
 **Master**
 
 [![Build Status](https://travis-ci.org/lcappuccio/graphdb-playground.svg?branch=master)](https://travis-ci.org/lcappuccio/graphdb-playground)
+[![codecov.io](https://codecov.io/github/lcappuccio/graphdb-playground/coverage.svg?branch=master)](https://codecov.io/github/lcappuccio/graphdb-playground?branch=master)
 
 **Develop**
 
 [![Build Status](https://travis-ci.org/lcappuccio/graphdb-playground.svg?branch=develop)](https://travis-ci.org/lcappuccio/graphdb-playground)
+[![codecov.io](https://codecov.io/github/lcappuccio/graphdb-playground/coverage.svg?branch=develop)](https://codecov.io/github/lcappuccio/graphdb-playground?branch=develop)
 
 ## Installation
 1. Read CAREFULLY the instructions and SQL script: script.sql

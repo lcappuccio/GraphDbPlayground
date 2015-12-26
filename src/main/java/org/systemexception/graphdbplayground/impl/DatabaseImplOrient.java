@@ -71,8 +71,7 @@ public class DatabaseImplOrient extends DatabaseImplDefault {
 		try {
 			if (graph.getRawGraph().getStorage().getType().equals(GraphDatabaseConfiguration.ORIENT_DB_STORAGE_MEMORY
 					.toString())) {
-				logger.info("Operation not supported");
-				return;
+				throw new UnsupportedOperationException();
 			}
 			OCommandOutputListener listener = new OCommandOutputListener() {
 				@Override

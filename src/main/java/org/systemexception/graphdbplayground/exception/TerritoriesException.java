@@ -6,8 +6,6 @@ package org.systemexception.graphdbplayground.exception;
 
 public class TerritoriesException extends Exception {
 
-	private static final long serialVersionUID = 8119389404182511510L;
-
 	/**
 	 * Creates a new instance of <code>TerritoriesException</code> without detail message.
 	 */

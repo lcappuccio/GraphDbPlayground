@@ -53,7 +53,7 @@ public class DatabaseImplNeo extends DatabaseImplDefault {
 	 */
 	@Override
 	public void backupDatabase(String backupFileName) {
-		exportDatabase(backupFileName);
+		throw new UnsupportedOperationException();
 	}
 
 	/**

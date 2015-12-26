@@ -108,7 +108,7 @@ public class TestImplOrient {
 		}
 	}
 
-	@Test
+	@Test(expected = UnsupportedOperationException.class)
 	public void dont_backup_database_in_memory() {
 		if (dbStorageType.equals(GraphDatabaseConfiguration.ORIENT_DB_STORAGE_MEMORY.toString())) {
 			sut.backupDatabase(backupFileName);
