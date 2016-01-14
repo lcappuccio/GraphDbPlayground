@@ -6,6 +6,8 @@ package org.systemexception.graphdbplayground.impl;
 
 import com.tinkerpop.blueprints.*;
 import org.apache.commons.csv.CSVRecord;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.systemexception.graphdbplayground.api.DatabaseApi;
 import org.systemexception.graphdbplayground.enums.CsvHeaders;
 import org.systemexception.graphdbplayground.enums.ErrorCodes;
@@ -16,8 +18,6 @@ import org.systemexception.graphdbplayground.model.Territories;
 import org.systemexception.graphdbplayground.model.Territory;
 import org.systemexception.graphdbplayground.util.CsvParser;
 import org.systemexception.graphdbplayground.util.Timer;
-import org.systemexception.logger.api.Logger;
-import org.systemexception.logger.impl.LoggerImpl;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -25,7 +25,7 @@ import java.util.List;
 
 public abstract class DatabaseImplDefault implements DatabaseApi {
 
-	protected static final Logger logger = LoggerImpl.getFor(DatabaseImplOrient.class);
+	protected static final Logger logger = LogManager.getLogger(DatabaseImplDefault.class);
 	protected Graph graph;
 	private Territories territories;
 	protected Index<Vertex> index;
