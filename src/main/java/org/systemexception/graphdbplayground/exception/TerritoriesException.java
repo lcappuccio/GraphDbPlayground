@@ -7,12 +7,6 @@ package org.systemexception.graphdbplayground.exception;
 public class TerritoriesException extends Exception {
 
 	/**
-	 * Creates a new instance of <code>TerritoriesException</code> without detail message.
-	 */
-	public TerritoriesException() {
-	}
-
-	/**
 	 * Constructs an instance of <code>TerritoriesException</code> with the specified detail message.
 	 *
 	 * @param msg the detail message.
