@@ -7,10 +7,10 @@ package org.systemexception.graphdbplayground.util;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.systemexception.graphdbplayground.enums.CsvHeaders;
 import org.systemexception.graphdbplayground.exception.CsvParserException;
-import org.systemexception.logger.api.Logger;
-import org.systemexception.logger.impl.LoggerImpl;
 
 import java.io.File;
 import java.io.IOException;
@@ -21,7 +21,7 @@ import java.util.List;
 
 public class CsvParser {
 
-	private static final Logger logger = LoggerImpl.getFor(CsvParser.class);
+	private static final Logger logger = LogManager.getLogger(CsvParser.class);
 	private List<CSVRecord> records;
 	private final String[] headerMapping = new String[]{CsvHeaders.PARENT_ID.toString(), CsvHeaders.NODE_ID.toString(),
 			CsvHeaders.DESCRIPTION.toString(), CsvHeaders.TYPE.toString()};

@@ -21,7 +21,7 @@ import static org.junit.Assert.assertTrue;
 public class TestCsvParser {
 
 	private CsvParser sut;
-	private static final String testFile = "geonames_it.csv";
+	private static final String testFile = "geonames_it_SMALL.csv";
 	private static File resourceFile;
 
 	@BeforeClass
