@@ -7,12 +7,6 @@ package org.systemexception.graphdbplayground.exception;
 public class CsvParserException extends Exception {
 
 	/**
-	 * Creates a new instance of <code>CsvParserException</code> without detail message.
-	 */
-	public CsvParserException() {
-	}
-
-	/**
 	 * Constructs an instance of <code>CsvParserException</code> with the specified detail message.
 	 *
 	 * @param msg the detail message.
