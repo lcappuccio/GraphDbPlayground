@@ -71,6 +71,7 @@ public class DatabaseImplOrient extends DatabaseImplDefault {
 		try {
 			if (graph.getRawGraph().getStorage().getType().equals(GraphDatabaseConfiguration.ORIENT_DB_STORAGE_MEMORY
 					.toString())) {
+				logger.error("Unsupported in-memory database backup");
 				throw new UnsupportedOperationException();
 			}
 			OCommandOutputListener listener = new OCommandOutputListener() {

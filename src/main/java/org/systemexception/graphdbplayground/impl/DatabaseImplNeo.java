@@ -53,6 +53,7 @@ public class DatabaseImplNeo extends DatabaseImplDefault {
 	 */
 	@Override
 	public void backupDatabase(String backupFileName) {
+		logger.error("Unsupported Neo backup operation, use export instead");
 		throw new UnsupportedOperationException();
 	}
 
