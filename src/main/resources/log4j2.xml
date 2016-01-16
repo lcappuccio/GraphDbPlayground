@@ -21,7 +21,7 @@
 		</Console>
 	</Appenders>
 	<Loggers>
-		<Root level="error">
+		<Root level="info">
 			<AppenderRef ref="info_logfile" level="INFO"/>
 			<AppenderRef ref="error_logfile" level="ERROR"/>
 			<AppenderRef ref="debug_logfile" level="DEBUG"/>
