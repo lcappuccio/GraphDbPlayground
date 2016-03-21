@@ -8,6 +8,7 @@ import com.tinkerpop.blueprints.Parameter;
 import com.tinkerpop.blueprints.Vertex;
 import com.tinkerpop.blueprints.impls.neo4j.Neo4jGraph;
 import com.tinkerpop.blueprints.util.io.graphson.GraphSONWriter;
+
 import org.neo4j.index.impl.lucene.LowerCaseKeywordAnalyzer;
 import org.neo4j.kernel.impl.util.FileUtils;
 import org.systemexception.graphdbplayground.enums.GraphDatabaseConfiguration;
@@ -34,19 +35,14 @@ public class DatabaseImplNeo extends DatabaseImplDefault {
 				(GraphDatabaseConfiguration.NEO_INDEX_PARAMETER.toString(), LowerCaseKeywordAnalyzer.class.getName()));
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void exportDatabase(String exportFileName) {
-
-		try {
-			OutputStream outStream = new FileOutputStream(exportFileName);
-			GraphSONWriter.outputGraph(graph, outStream);
-		} catch (IOException e) {
-			logger.error("Error in export", e);
-		}
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void exportDatabase(String exportFileName) throws IOException {
+        OutputStream outStream = new FileOutputStream(exportFileName);
+        GraphSONWriter.outputGraph(graph, outStream);
+    }
 
 	/**
 	 * {@inheritDoc}
@@ -57,16 +53,12 @@ public class DatabaseImplNeo extends DatabaseImplDefault {
 		throw new UnsupportedOperationException();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void drop() {
-		graph.shutdown();
-		try {
-			FileUtils.deleteRecursively(new File(dbFolder));
-		} catch (IOException e) {
-			logger.error("Could not delete database folder", e);
-		}
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void drop() throws IOException {
+        graph.shutdown();
+        FileUtils.deleteRecursively(new File(dbFolder));
+    }
 }

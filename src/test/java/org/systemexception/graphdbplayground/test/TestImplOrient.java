@@ -16,6 +16,7 @@ import org.systemexception.graphdbplayground.exception.TerritoriesException;
 import org.systemexception.graphdbplayground.impl.DatabaseImplOrient;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -35,7 +36,7 @@ public class TestImplOrient {
 	private File backupFile, exportFile;
 
 	@After
-	public void tearDown() {
+	public void tearDown() throws IOException {
 		sut.drop();
 	}
 
@@ -100,14 +101,14 @@ public class TestImplOrient {
 	}
 
 	@Test
-	public void export_the_database() throws TerritoriesException, CsvParserException, URISyntaxException {
+	public void export_the_database() throws TerritoriesException, CsvParserException, URISyntaxException, IOException {
 		getSut(dbDiskStorageType);
 		sut.exportDatabase(exportFileName);
 		assertTrue(exportFile.exists());
 	}
 
 	@Test
-	public void backup_the_database() throws TerritoriesException, CsvParserException, URISyntaxException {
+	public void backup_the_database() throws TerritoriesException, CsvParserException, URISyntaxException, IOException {
 		getSut(dbDiskStorageType);
 		if (dbDiskStorageType.equals(GraphDatabaseConfiguration.DB_ORIENT_STORAGE_DISK.toString())) {
 			sut.backupDatabase(backupFileName);
@@ -116,7 +117,7 @@ public class TestImplOrient {
 	}
 
 	@Test(expected = UnsupportedOperationException.class)
-	public void dont_backup_database_in_memory() throws TerritoriesException, CsvParserException, URISyntaxException {
+	public void dont_backup_database_in_memory() throws TerritoriesException, CsvParserException, URISyntaxException, IOException {
 		getSut(dbMemoryStorageType);
 		sut.backupDatabase(backupFileName);
 		assertFalse(backupFile.exists());

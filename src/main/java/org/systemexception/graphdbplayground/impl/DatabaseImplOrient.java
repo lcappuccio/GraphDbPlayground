@@ -11,6 +11,7 @@ import com.tinkerpop.blueprints.Vertex;
 import com.tinkerpop.blueprints.impls.orient.OrientBaseGraph;
 import com.tinkerpop.blueprints.impls.orient.OrientGraphFactory;
 import com.tinkerpop.blueprints.impls.orient.OrientGraphNoTx;
+
 import org.systemexception.graphdbplayground.enums.GraphDatabaseConfiguration;
 
 import java.io.File;
@@ -40,53 +41,45 @@ public class DatabaseImplOrient extends DatabaseImplDefault {
 		});
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void exportDatabase(String exportFileName) {
-		logger.info("Database export started");
-		try {
-			OCommandOutputListener listener = new OCommandOutputListener() {
-				@Override
-				public void onMessage(String iText) {
-					System.out.print(iText);
-				}
-			};
-			ODatabaseExport export = new ODatabaseExport(graph.getRawGraph(), exportFileName, listener);
-			export.exportDatabase();
-			export.close();
-			logger.info("Database export completed");
-		} catch (IOException e) {
-			logger.error("Export database error", e);
-		}
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void exportDatabase(String exportFileName) throws IOException {
+        logger.info("Database export started");
+        OCommandOutputListener listener = new OCommandOutputListener() {
+            @Override
+            public void onMessage(String iText) {
+                System.out.print(iText);
+            }
+        };
+        ODatabaseExport export = new ODatabaseExport(graph.getRawGraph(), exportFileName, listener);
+        export.exportDatabase();
+        export.close();
+        logger.info("Database export completed");
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void backupDatabase(String backupFileName) {
-		logger.info("Database backup started");
-		try {
-			if (graph.getRawGraph().getStorage().getType().equals(GraphDatabaseConfiguration.DB_STORAGE_MEMORY
-					.toString())) {
-				logger.error("Unsupported in-memory database backup");
-				throw new UnsupportedOperationException();
-			}
-			OCommandOutputListener listener = new OCommandOutputListener() {
-				@Override
-				public void onMessage(String iText) {
-					System.out.print(iText);
-				}
-			};
-			OutputStream out = new FileOutputStream(backupFileName);
-			graph.getRawGraph().backup(out, null, null, listener, 9, 2048);
-			logger.info("Database backup completed");
-		} catch (IOException e) {
-			logger.error("Backup database error", e);
-		}
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void backupDatabase(String backupFileName) throws IOException {
+        logger.info("Database backup started");
+        if (graph.getRawGraph().getStorage().getType().equals(GraphDatabaseConfiguration.DB_STORAGE_MEMORY
+                .toString())) {
+            logger.error("Unsupported in-memory database backup");
+            throw new UnsupportedOperationException();
+        }
+        OCommandOutputListener listener = new OCommandOutputListener() {
+            @Override
+            public void onMessage(String iText) {
+                System.out.print(iText);
+            }
+        };
+        OutputStream out = new FileOutputStream(backupFileName);
+        graph.getRawGraph().backup(out, null, null, listener, 9, 2048);
+        logger.info("Database backup completed");
+    }
 
 	/**
 	 * {@inheritDoc}

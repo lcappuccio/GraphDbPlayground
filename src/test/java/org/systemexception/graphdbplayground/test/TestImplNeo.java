@@ -17,6 +17,7 @@ import org.systemexception.graphdbplayground.exception.TerritoriesException;
 import org.systemexception.graphdbplayground.impl.DatabaseImplNeo;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -45,7 +46,7 @@ public class TestImplNeo {
 	}
 
 	@After
-	public void tearDown() {
+	public void tearDown() throws IOException {
 		sut.drop();
 	}
 
@@ -103,13 +104,13 @@ public class TestImplNeo {
 	}
 
 	@Test
-	public void export_the_database() {
+	public void export_the_database() throws IOException {
 		sut.exportDatabase(exportFileName);
 		assertTrue(exportFile.exists());
 	}
 
 	@Test(expected = UnsupportedOperationException.class)
-	public void backup_the_database() {
+	public void backup_the_database() throws IOException {
 		sut.backupDatabase(backupFileName);
 		assertTrue(backupFile.exists());
 	}
