@@ -16,6 +16,7 @@ import org.systemexception.graphdbplayground.exception.TerritoriesException;
 import org.systemexception.graphdbplayground.impl.DatabaseImplOrient;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -29,13 +30,13 @@ public class TestImplOrient {
 
 	private DatabaseApi sut;
 	private final static String dbName = "target/database_orient_italy",
-			dbDiskStorageType = GraphDatabaseConfiguration.ORIENT_DB_STORAGE_DISK.toString(),
-			dbMemoryStorageType = GraphDatabaseConfiguration.ORIENT_DB_STORAGE_MEMORY.toString(),
+			dbDiskStorageType = GraphDatabaseConfiguration.DB_ORIENT_STORAGE_DISK.toString(),
+			dbMemoryStorageType = GraphDatabaseConfiguration.DB_STORAGE_MEMORY.toString(),
 			exportFileName = "target/database_orient_export", backupFileName = "target/database_orient_backup.zip";
 	private File backupFile, exportFile;
 
 	@After
-	public void tearDown() {
+	public void tearDown() throws IOException {
 		sut.drop();
 	}
 
@@ -90,23 +91,33 @@ public class TestImplOrient {
 	}
 
 	@Test
-	public void export_the_database() throws TerritoriesException, CsvParserException, URISyntaxException {
+	public void verify_luino_has_no_childs() throws TerritoriesException, CsvParserException, URISyntaxException {
+		getSut(dbMemoryStorageType);
+		Vertex vertexLuino = sut.getVertexByNodeId("6540157");
+		List<Vertex> childNodesOfLuino = sut.getChildNodesOf(vertexLuino.getProperty(GraphDatabaseConfiguration.NODE_ID
+				.toString())
+				.toString());
+		assertTrue(0 == childNodesOfLuino.size());
+	}
+
+	@Test
+	public void export_the_database() throws TerritoriesException, CsvParserException, URISyntaxException, IOException {
 		getSut(dbDiskStorageType);
 		sut.exportDatabase(exportFileName);
 		assertTrue(exportFile.exists());
 	}
 
 	@Test
-	public void backup_the_database() throws TerritoriesException, CsvParserException, URISyntaxException {
+	public void backup_the_database() throws TerritoriesException, CsvParserException, URISyntaxException, IOException {
 		getSut(dbDiskStorageType);
-		if (dbDiskStorageType.equals(GraphDatabaseConfiguration.ORIENT_DB_STORAGE_DISK.toString())) {
+		if (dbDiskStorageType.equals(GraphDatabaseConfiguration.DB_ORIENT_STORAGE_DISK.toString())) {
 			sut.backupDatabase(backupFileName);
 			assertTrue(backupFile.exists());
 		}
 	}
 
 	@Test(expected = UnsupportedOperationException.class)
-	public void dont_backup_database_in_memory() throws TerritoriesException, CsvParserException, URISyntaxException {
+	public void dont_backup_database_in_memory() throws TerritoriesException, CsvParserException, URISyntaxException, IOException {
 		getSut(dbMemoryStorageType);
 		sut.backupDatabase(backupFileName);
 		assertFalse(backupFile.exists());

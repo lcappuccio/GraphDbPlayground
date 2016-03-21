@@ -17,6 +17,7 @@ import org.systemexception.graphdbplayground.exception.TerritoriesException;
 import org.systemexception.graphdbplayground.impl.DatabaseImplNeo;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -29,7 +30,7 @@ public class TestImplNeo {
 
 	private DatabaseApi sut;
 	private final static String dbName = "target/database_neo_italy",
-			dbStorageType = GraphDatabaseConfiguration.ORIENT_DB_STORAGE_MEMORY.toString(),
+			dbStorageType = GraphDatabaseConfiguration.DB_STORAGE_MEMORY.toString(),
 			exportFileName = "target/database_neo_export.csv", backupFileName = "target/database_neo_backup.csv";
 	private File backupFile, exportFile;
 
@@ -45,7 +46,7 @@ public class TestImplNeo {
 	}
 
 	@After
-	public void tearDown() {
+	public void tearDown() throws IOException {
 		sut.drop();
 	}
 
@@ -94,13 +95,22 @@ public class TestImplNeo {
 	}
 
 	@Test
-	public void export_the_database() {
+	public void verify_luino_has_no_childs() throws TerritoriesException, CsvParserException, URISyntaxException {
+		Vertex vertexLuino = sut.getVertexByNodeId("6540157");
+		List<Vertex> childNodesOfLuino = sut.getChildNodesOf(vertexLuino.getProperty(GraphDatabaseConfiguration.NODE_ID
+				.toString())
+				.toString());
+		assertTrue(0 == childNodesOfLuino.size());
+	}
+
+	@Test
+	public void export_the_database() throws IOException {
 		sut.exportDatabase(exportFileName);
 		assertTrue(exportFile.exists());
 	}
 
 	@Test(expected = UnsupportedOperationException.class)
-	public void backup_the_database() {
+	public void backup_the_database() throws IOException {
 		sut.backupDatabase(backupFileName);
 		assertTrue(backupFile.exists());
 	}

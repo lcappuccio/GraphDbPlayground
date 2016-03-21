@@ -5,9 +5,11 @@
 package org.systemexception.graphdbplayground.api;
 
 import com.tinkerpop.blueprints.Vertex;
+
 import org.systemexception.graphdbplayground.exception.CsvParserException;
 import org.systemexception.graphdbplayground.exception.TerritoriesException;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface DatabaseApi {
@@ -59,17 +61,17 @@ public interface DatabaseApi {
 	 *
 	 * @param exportFileName the file name of the export
 	 */
-	void exportDatabase(String exportFileName);
+	void exportDatabase(String exportFileName) throws IOException;
 
 	/**
 	 * Creates a database snapshot
 	 *
 	 * @param backupFileName the file name of the backup
 	 */
-	void backupDatabase(String backupFileName);
+	void backupDatabase(String backupFileName) throws IOException;
 
 	/**
 	 * Drops the database
 	 */
-	void drop();
+	void drop() throws IOException;
 }
