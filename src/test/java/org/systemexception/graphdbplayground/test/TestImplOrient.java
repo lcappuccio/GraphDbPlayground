@@ -90,6 +90,16 @@ public class TestImplOrient {
 	}
 
 	@Test
+	public void verify_luino_has_no_childs() throws TerritoriesException, CsvParserException, URISyntaxException {
+		getSut(dbMemoryStorageType);
+		Vertex vertexLuino = sut.getVertexByNodeId("6540157");
+		List<Vertex> childNodesOfLuino = sut.getChildNodesOf(vertexLuino.getProperty(GraphDatabaseConfiguration.NODE_ID
+				.toString())
+				.toString());
+		assertTrue(0 == childNodesOfLuino.size());
+	}
+
+	@Test
 	public void export_the_database() throws TerritoriesException, CsvParserException, URISyntaxException {
 		getSut(dbDiskStorageType);
 		sut.exportDatabase(exportFileName);
