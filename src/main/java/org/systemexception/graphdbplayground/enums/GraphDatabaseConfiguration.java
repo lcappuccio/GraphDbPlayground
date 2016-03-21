@@ -6,8 +6,8 @@ package org.systemexception.graphdbplayground.enums;
 
 public enum GraphDatabaseConfiguration {
 
-	ORIENT_DB_STORAGE_MEMORY("memory"),
-	ORIENT_DB_STORAGE_DISK("plocal"),
+	DB_STORAGE_MEMORY("memory"),
+	DB_ORIENT_STORAGE_DISK("plocal"),
 	NEO_INDEX_PARAMETER("exact"),
 	VERTEX_TERRITORY_CLASS("class:Territory"),
 	VERTEX_INDEX("vertexIndex"),

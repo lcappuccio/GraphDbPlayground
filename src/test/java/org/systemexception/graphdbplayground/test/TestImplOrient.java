@@ -29,8 +29,8 @@ public class TestImplOrient {
 
 	private DatabaseApi sut;
 	private final static String dbName = "target/database_orient_italy",
-			dbDiskStorageType = GraphDatabaseConfiguration.ORIENT_DB_STORAGE_DISK.toString(),
-			dbMemoryStorageType = GraphDatabaseConfiguration.ORIENT_DB_STORAGE_MEMORY.toString(),
+			dbDiskStorageType = GraphDatabaseConfiguration.DB_ORIENT_STORAGE_DISK.toString(),
+			dbMemoryStorageType = GraphDatabaseConfiguration.DB_STORAGE_MEMORY.toString(),
 			exportFileName = "target/database_orient_export", backupFileName = "target/database_orient_backup.zip";
 	private File backupFile, exportFile;
 
@@ -109,7 +109,7 @@ public class TestImplOrient {
 	@Test
 	public void backup_the_database() throws TerritoriesException, CsvParserException, URISyntaxException {
 		getSut(dbDiskStorageType);
-		if (dbDiskStorageType.equals(GraphDatabaseConfiguration.ORIENT_DB_STORAGE_DISK.toString())) {
+		if (dbDiskStorageType.equals(GraphDatabaseConfiguration.DB_ORIENT_STORAGE_DISK.toString())) {
 			sut.backupDatabase(backupFileName);
 			assertTrue(backupFile.exists());
 		}
