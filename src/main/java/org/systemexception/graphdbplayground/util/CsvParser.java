@@ -23,10 +23,10 @@ public class CsvParser {
 
 	private static final Logger logger = LogManager.getLogger(CsvParser.class);
 	private List<CSVRecord> records;
-	private final String[] headerMapping = new String[]{CsvHeaders.PARENT_ID.toString(), CsvHeaders.NODE_ID.toString(),
-			CsvHeaders.DESCRIPTION.toString(), CsvHeaders.TYPE.toString()};
 
 	public CsvParser(String fileName) throws CsvParserException {
+		String[] headerMapping = new String[]{CsvHeaders.PARENT_ID.toString(), CsvHeaders.NODE_ID.toString(),
+				CsvHeaders.DESCRIPTION.toString(), CsvHeaders.TYPE.toString()};
 		CSVFormat csvFormat = CSVFormat.RFC4180.withHeader(headerMapping).withSkipHeaderRecord(true);
 		try {
 			URL csvUrl = new File(fileName).toURI().toURL();
