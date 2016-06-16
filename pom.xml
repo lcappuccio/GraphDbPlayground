@@ -8,7 +8,7 @@
 	<packaging>jar</packaging>
 
 	<properties>
-		<orient.version>2.1.11</orient.version>
+		<orient.version>2.2.2</orient.version>
 		<tinkerpop.version>2.6.0</tinkerpop.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.8</maven.compiler.source>
