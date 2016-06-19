@@ -95,7 +95,7 @@ public class TestImplNeo {
 	}
 
 	@Test
-	public void verify_luino_has_no_childs() throws TerritoriesException, CsvParserException, URISyntaxException {
+	public void verify_luino_has_no_childs() {
 		Vertex vertexLuino = sut.getVertexByNodeId("6540157");
 		List<Vertex> childNodesOfLuino = sut.getChildNodesOf(vertexLuino.getProperty(GraphDatabaseConfiguration.NODE_ID
 				.toString())
