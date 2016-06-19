@@ -47,12 +47,7 @@ public class DatabaseImplOrient extends DatabaseImplDefault {
     @Override
     public void exportDatabase(String exportFileName) throws IOException {
         logger.info("Database export started");
-        OCommandOutputListener listener = new OCommandOutputListener() {
-            @Override
-            public void onMessage(String iText) {
-                System.out.print(iText);
-            }
-        };
+        OCommandOutputListener listener = System.out::print;
         ODatabaseExport export = new ODatabaseExport(graph.getRawGraph(), exportFileName, listener);
         export.exportDatabase();
         export.close();
@@ -70,12 +65,7 @@ public class DatabaseImplOrient extends DatabaseImplDefault {
             logger.error("Unsupported in-memory database backup");
             throw new UnsupportedOperationException();
         }
-        OCommandOutputListener listener = new OCommandOutputListener() {
-            @Override
-            public void onMessage(String iText) {
-                System.out.print(iText);
-            }
-        };
+        OCommandOutputListener listener = System.out::print;
         OutputStream out = new FileOutputStream(backupFileName);
         graph.getRawGraph().backup(out, null, null, listener, 9, 2048);
         logger.info("Database backup completed");
