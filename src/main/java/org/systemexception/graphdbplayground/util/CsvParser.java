@@ -38,7 +38,7 @@ public class CsvParser {
 			timer.end();
 			logger.info("Loaded " + fileName + ": " + timer.durantionInSeconds() + " seconds");
 		} catch (IOException ex) {
-			String errorMessage = "Malformed URL\n" + ex.getMessage();
+			String errorMessage = ex.getMessage();
 			logger.error(errorMessage);
 			throw new CsvParserException(errorMessage);
 		}
