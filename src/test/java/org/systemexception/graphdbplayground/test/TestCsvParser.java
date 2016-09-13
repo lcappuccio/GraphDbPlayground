@@ -23,10 +23,10 @@ import static org.systemexception.graphdbplayground.enums.CsvHeaders.NODE_ID;
 public class TestCsvParser {
 
 	private CsvParser sut;
-	static final String TEST_FILE_PATH = "geonames_it_SMALL.csv";
-	static final String NODE_LUINO_DESCRIPTION = "Luino", NODE_LAVENA_DESCRIPTION = "Lavena Ponte Tresa",
+	public static final String TEST_FILE_PATH = "geonames_it_SMALL.csv";
+	public static final String NODE_LUINO_DESCRIPTION = "Luino", NODE_LAVENA_DESCRIPTION = "Lavena Ponte Tresa",
 			NODE_MACCAGNO_DESCRIPTION = "Maccagno", NODE_VARESE_DESCRIPTION = "Varese";
-	static final String NODE_LUINO_NODEID = "6540157", NODE_VARESE_NODEID = "3164697",
+	public static final String NODE_LUINO_NODEID = "6540157", NODE_VARESE_NODEID = "3164697",
 			NODE_LOMBARDIA_NODEID = "3174618";
 	private static File resourceFile;
 
