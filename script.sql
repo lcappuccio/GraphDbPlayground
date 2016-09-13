@@ -23,16 +23,14 @@ CREATE TABLE GEONAMES_$COUNTRY_CODE  (
 	ADMIN_CODE3  	varchar(25) NULL,
 	ADMIN_CODE4  	varchar(25) NULL,
 	PRIMARY KEY(GEONAME_ID)
-)
-GO
+);
 
 // Important, used to create the hierarchy
 CREATE TABLE GEONAMES_HIERARCHY  ( 
 	HIERARCHY_ID1 	decimal(10,0) NOT NULL,
 	HIERARCHY_ID2 	decimal(10,0) NOT NULL,
 	HIERARCHY_TYPE	varchar(25) NOT NULL 
-	)
-GO
+	);
 
 // Feature code explanation
 CREATE TABLE GEONAMES_FEATURE_CODES  ( 
@@ -40,8 +38,7 @@ CREATE TABLE GEONAMES_FEATURE_CODES  (
 	SHORT_DESCR      	varchar(500) NULL,
 	LONG_DESCR       	varchar(1000) NULL,
 	PRIMARY KEY(CONCATENATED_CODE)
-)
-GO
+);
 
 // Not really needed but nice to have
 CREATE TABLE GEONAMES_ADMIN_CODE_1  ( 
@@ -50,8 +47,7 @@ CREATE TABLE GEONAMES_ADMIN_CODE_1  (
 	NAME_ASCII       	varchar(500) NULL,
 	CONCATENATED_CODE	varchar(200) NULL,
 	PRIMARY KEY(GEONAME_ID)
-)
-GO
+);
 
 // Not really needed but nice to have
 CREATE TABLE GEONAMES_ADMIN_CODE_2  ( 
@@ -60,16 +56,14 @@ CREATE TABLE GEONAMES_ADMIN_CODE_2  (
 	NAME_ASCII       	varchar(500) NULL,
 	CONCATENATED_CODE	varchar(500) NULL,
 	PRIMARY KEY(GEONAME_ID)
-)
-GO
+);
 
 // A query to check the hierarchy mapping, remember to use correct country table
 select gh.HIERARCHY_ID1 as PARENT_ID, g.GEONAME_ID as NODE_ID, g.NAME, 
 concat_ws('.',g.FEATURE_CLASS,g.FEATURE_CODE) as ADM_TYPE
 from GEONAMES_HIERARCHY gh, GEONAMES_IT g
 where gh.HIERARCHY_ID2 = g.GEONAME_ID
-and g.FEATURE_CLASS = 'A'
-go
+and g.FEATURE_CLASS = 'A';
 
 // To map this query with a view, remeber to use correct country table
 create view GEONAMES_CH_MAP as (
@@ -77,5 +71,4 @@ select gh.HIERARCHY_ID1 as PARENT_ID, g.GEONAME_ID as NODE_ID, g.NAME,
 concat_ws('.',g.FEATURE_CLASS,g.FEATURE_CODE) as ADM_TYPE
 from GEONAMES_HIERARCHY gh, GEONAMES_CH g
 where gh.HIERARCHY_ID2 = g.GEONAME_ID
-and g.FEATURE_CLASS = 'A')
-go
+and g.FEATURE_CLASS = 'A');

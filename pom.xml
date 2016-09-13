@@ -4,11 +4,11 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.systemexception</groupId>
 	<artifactId>graphdb-playground</artifactId>
-	<version>2.3.5</version>
+	<version>2.3.6</version>
 	<packaging>jar</packaging>
 
 	<properties>
-		<orient.version>2.1.11</orient.version>
+		<orient.version>2.2.2</orient.version>
 		<tinkerpop.version>2.6.0</tinkerpop.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.8</maven.compiler.source>
