@@ -21,7 +21,7 @@ public class TestImplOrientDisk extends DatabaseImplTest {
 	public void setUp() throws URISyntaxException, CsvParserException, TerritoriesException {
 		dbName = "target/database_orient_italy";
 		dbStorageType = GraphDatabaseConfiguration.DB_ORIENT_STORAGE_DISK.toString();
-		exportFileName = "target/database_orient_disk_export";
+		exportFileName = "target/database_orient_disk_export.json.gz";
 		backupFileName = "target/database_orient_disk_backup.zip";
 		URL myTestURL = ClassLoader.getSystemResource(TEST_FILE_PATH);
 		File myFile = new File(myTestURL.toURI());

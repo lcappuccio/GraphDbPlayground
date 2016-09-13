@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.systemexception.graphdbplayground.test.TestCsvParser.TEST_FILE_PATH;
 
@@ -45,6 +46,6 @@ public class TestImplNeo extends DatabaseImplTest {
 	@Test(expected = UnsupportedOperationException.class)
 	public void backup_the_database() throws IOException {
 		sut.backupDatabase(backupFileName);
-		assertTrue(backupFile.exists());
+		assertFalse(backupFile.exists());
 	}
 }
