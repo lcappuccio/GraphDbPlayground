@@ -25,6 +25,9 @@ import java.util.List;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.systemexception.graphdbplayground.enums.GraphDatabaseConfiguration.NODE_ID;
+import static org.systemexception.graphdbplayground.enums.GraphDatabaseConfiguration.REPORTS_TO;
+import static org.systemexception.graphdbplayground.test.TestCsvParser.*;
 
 public class TestImplOrient {
 
@@ -43,12 +46,13 @@ public class TestImplOrient {
 	@Test
 	public void verify_luino_has_parent_varese() throws TerritoriesException, CsvParserException, URISyntaxException {
 		getSut(dbMemoryStorageType);
-		Vertex vertexLuino = sut.getVertexByNodeId("6540157");
-		assertTrue(vertexLuino.getProperty("nodeId").equals("6540157"));
-		Iterator<Edge> edgeIterator = vertexLuino.getEdges(Direction.IN, "reportsTo").iterator();
+		Vertex vertexLuino = sut.getVertexByNodeId(NODE_LUINO_NODEID);
+		assertTrue(vertexLuino.getProperty(NODE_ID.toString()).equals(NODE_LUINO_NODEID));
+		Iterator<Edge> edgeIterator = vertexLuino.getEdges(Direction.IN, REPORTS_TO.toString()).iterator();
 		assertTrue(edgeIterator.hasNext());
 		while (edgeIterator.hasNext()) {
-			assertTrue(edgeIterator.next().getVertex(Direction.OUT).getProperty("nodeId").equals("3164697"));
+			assertTrue(edgeIterator.next().getVertex(Direction.OUT).getProperty(NODE_ID.toString())
+					.equals(NODE_VARESE_NODEID));
 		}
 	}
 
@@ -56,44 +60,45 @@ public class TestImplOrient {
 	public void verify_varese_has_parent_lombardia() throws TerritoriesException, CsvParserException,
 			URISyntaxException {
 		getSut(dbMemoryStorageType);
-		Vertex vertexVarese = sut.getVertexByNodeId("3164697");
-		assertTrue(vertexVarese.getProperty("nodeId").equals("3164697"));
-		Iterator<Edge> edgeIterator = vertexVarese.getEdges(Direction.IN, "reportsTo").iterator();
+		Vertex vertexVarese = sut.getVertexByNodeId(NODE_VARESE_NODEID);
+		assertTrue(vertexVarese.getProperty(NODE_ID.toString()).equals(NODE_VARESE_NODEID));
+		Iterator<Edge> edgeIterator = vertexVarese.getEdges(Direction.IN, REPORTS_TO.toString()).iterator();
 		assertTrue(edgeIterator.hasNext());
 		while (edgeIterator.hasNext()) {
-			assertTrue(edgeIterator.next().getVertex(Direction.OUT).getProperty("nodeId").equals("3174618"));
+			assertTrue(edgeIterator.next().getVertex(Direction.OUT).getProperty(NODE_ID.toString())
+					.equals(NODE_LOMBARDIA_NODEID));
 		}
 	}
 
 	@Test
 	public void verify_varese_has_childs() throws TerritoriesException, CsvParserException, URISyntaxException {
 		getSut(dbMemoryStorageType);
-		List<Vertex> vertexVareseChilds = sut.getChildNodesOf("3164697");
+		List<Vertex> vertexVareseChilds = sut.getChildNodesOf(NODE_VARESE_NODEID);
 		ArrayList<String> childNodes = new ArrayList<>();
 		for (Vertex vertex : vertexVareseChilds) {
 			childNodes.add(vertex.getProperty(GraphDatabaseConfiguration.NODE_DESC.toString()).toString());
 		}
-		assertTrue(childNodes.contains("Luino"));
-		assertTrue(childNodes.contains("Lavena Ponte Tresa"));
-		assertTrue(childNodes.contains("Maccagno"));
+		assertTrue(childNodes.contains(NODE_LUINO_DESCRIPTION));
+		assertTrue(childNodes.contains(NODE_LAVENA_DESCRIPTION));
+		assertTrue(childNodes.contains(NODE_MACCAGNO_DESCRIPTION));
 	}
 
 	@Test
 	public void verify_luino_has_parent_varese_by_method() throws TerritoriesException, CsvParserException,
 			URISyntaxException {
 		getSut(dbMemoryStorageType);
-		Vertex vertexLuino = sut.getVertexByNodeId("6540157");
+		Vertex vertexLuino = sut.getVertexByNodeId(NODE_LUINO_NODEID);
 		Vertex vertexParent = sut.getParentNodeOf(vertexLuino.getProperty(GraphDatabaseConfiguration.NODE_ID
 				.toString())
 				.toString());
 		String vertexParentDesc = vertexParent.getProperty(GraphDatabaseConfiguration.NODE_DESC.toString());
-		assertTrue(vertexParentDesc.contains("Varese"));
+		assertTrue(vertexParentDesc.contains(NODE_VARESE_DESCRIPTION));
 	}
 
 	@Test
 	public void verify_luino_has_no_childs() throws TerritoriesException, CsvParserException, URISyntaxException {
 		getSut(dbMemoryStorageType);
-		Vertex vertexLuino = sut.getVertexByNodeId("6540157");
+		Vertex vertexLuino = sut.getVertexByNodeId(NODE_LUINO_NODEID);
 		List<Vertex> childNodesOfLuino = sut.getChildNodesOf(vertexLuino.getProperty(GraphDatabaseConfiguration.NODE_ID
 				.toString())
 				.toString());
@@ -101,14 +106,16 @@ public class TestImplOrient {
 	}
 
 	@Test
-	public void export_the_database() throws TerritoriesException, CsvParserException, URISyntaxException, IOException {
+	public void export_the_database() throws TerritoriesException, CsvParserException, URISyntaxException,
+			IOException {
 		getSut(dbDiskStorageType);
 		sut.exportDatabase(exportFileName);
 		assertTrue(exportFile.exists());
 	}
 
 	@Test
-	public void backup_the_database() throws TerritoriesException, CsvParserException, URISyntaxException, IOException {
+	public void backup_the_database() throws TerritoriesException, CsvParserException, URISyntaxException,
+			IOException {
 		getSut(dbDiskStorageType);
 		if (dbDiskStorageType.equals(GraphDatabaseConfiguration.DB_ORIENT_STORAGE_DISK.toString())) {
 			sut.backupDatabase(backupFileName);
@@ -117,14 +124,15 @@ public class TestImplOrient {
 	}
 
 	@Test(expected = UnsupportedOperationException.class)
-	public void dont_backup_database_in_memory() throws TerritoriesException, CsvParserException, URISyntaxException, IOException {
+	public void dont_backup_database_in_memory() throws TerritoriesException, CsvParserException, URISyntaxException,
+			IOException {
 		getSut(dbMemoryStorageType);
 		sut.backupDatabase(backupFileName);
 		assertFalse(backupFile.exists());
 	}
 
 	private void getSut(final String storageType) throws URISyntaxException, CsvParserException, TerritoriesException {
-		URL myTestURL = ClassLoader.getSystemResource("geonames_it_SMALL.csv");
+		URL myTestURL = ClassLoader.getSystemResource(TEST_FILE_PATH);
 		File myFile = new File(myTestURL.toURI());
 		sut = new DatabaseImplOrient();
 		sut.initialSetup(dbName, storageType);

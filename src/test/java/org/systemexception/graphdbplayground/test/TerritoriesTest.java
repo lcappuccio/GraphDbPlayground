@@ -14,13 +14,14 @@ import static org.junit.Assert.assertTrue;
  */
 public class TerritoriesTest {
 
+	private final String territory = "Territory";
 	private Territories sut;
 	private Territory territoryA, territoryB;
 
 	@Before
 	public void setUp() {
-		territoryA = new Territory("0", "1", "TerritoryA", "Territory");
-		territoryB = new Territory("0", "2", "TerritoryB", "Territory");
+		territoryA = new Territory("0", "1", "TerritoryA", territory);
+		territoryB = new Territory("0", "2", "TerritoryB", territory);
 	}
 
 	@Test
@@ -35,7 +36,7 @@ public class TerritoriesTest {
 	public void add_duplicate_territory() throws TerritoriesException {
 		sut = new Territories();
 		sut.addTerritory(territoryA);
-		Territory badTerritory = new Territory("0", "1", "TerritoryBad", "Territory");
+		Territory badTerritory = new Territory("0", "1", "TerritoryBad", territory);
 		sut.addTerritory(badTerritory);
 	}
 }
